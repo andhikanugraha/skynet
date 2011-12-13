@@ -1,8 +1,0 @@
-Helium
-http://github.com/andhika/helium/
-
-An MVC framework for PHP
-
-Don't change anything in helium/
-Application files are in app/
-Application config is in app/config.php
