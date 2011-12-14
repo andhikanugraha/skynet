@@ -1,35 +1,52 @@
 <?php
 
-// Project Gatotkaca
-// Model: Applicant
-
+/**
+ * Applicant
+ *
+ * @author Andhika Nugraha <andhika.nugraha@gmail.com>
+ * @package applicant
+ */
 class Applicant extends HeliumPartitionedRecord {
-
-	public $id;
-	public $user_id = 0;
-	public $application_stage = '';
-	public $finalized = false;
-	public $submitted = false;
-	public $expires_on = '';
-
 	public function defaults() {
 		$this->expires_on = new HeliumDateTime;
+		$this->confirmed = false;
+		$this->finalized = false;
 	}
 
 	public function init() {
 		$this->belongs_to('user');
-		$this->has_one('applicant_detail');
+
 		$this->has_one('picture');
-		$this->has_one('active_applicant');
+
+		$this->has_many('active_applicant');
+		$this->has_many('applicant_siblings');
+		$this->has_many('applicant_organizations');
+		$this->has_many('applicant_sports_achievements');
+		$this->has_many('applicant_arts_achievements');
+		$this->has_many('applicant_work_experiences');
 		
-		$this->add_vertical_partition('applicant_test');
+		$this->add_vertical_partition('applicant_activities');
+		$this->add_vertical_partition('applicant_contact_info');
+		$this->add_vertical_partition('applicant_details');
+		$this->add_vertical_partition('applicant_education');
+		$this->add_vertical_partition('applicant_fathers');
+		$this->add_vertical_partition('applicant_guardians');
+		$this->add_vertical_partition('applicant_high_schools');
+		$this->add_vertical_partition('applicant_mothers');
+		$this->add_vertical_partition('applicant_other_achievements');
+		$this->add_vertical_partition('applicant_personal_details');
+		$this->add_vertical_partition('applicant_personality');
+		$this->add_vertical_partition('applicant_primary_school_grade_history');
+		$this->add_vertical_partition('applicant_program_choices');
+		$this->add_vertical_partition('applicant_recommendations');
+		$this->add_vertical_partition('applicant_referral');
+		$this->add_vertical_partition('applicant_secondary_school_grade_history');
+		$this->add_vertical_partition('applicant_selection_progress');
+		$this->add_vertical_partition('applicant_telkomsel');
+		$this->add_vertical_partition('applicant_travel_history');
 	}
 
-	public function rebuild() {
-		if ($this->submitted)
-			$this->has_one('active_applicant');
-	}
-
+	/*
 	public function find_by_user($user_id) {
 		if (is_object($user_id))
 			$user_id = $user_id->id;
@@ -126,4 +143,6 @@ class Applicant extends HeliumPartitionedRecord {
 
 		return compact('controller', 'action');
 	}
+	
+	*/
 }
