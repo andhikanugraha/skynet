@@ -3,27 +3,50 @@
 class HomeController extends GatotkacaController {
 
 	public function index() {
-		echo '<pre>';
+		header('Content-type: text/plain');
 		
 		$db = Helium::db();
 		
-		$tables = $db->get_col("SHOW TABLES FROM skynet LIKE 'applicant_%'");
-		foreach ($tables as $tab)
-			echo '$this->add_vertical_partition(\'' . $tab .'\');' . "\n";
-		print_r($tables);
-		
-		
-		/* test partitions */
-		$app = new Applicant;
-		print_r($app->_columns());
-		
-		for ($g = 1; $g <= 10; $g++) {
-		
-		echo "`grades_y{$g}t1_rank` VARCHAR(6) NULL , \n";
-		echo "`grades_y{$g}t1_total` VARCHAR(6) NULL , \n";
-		echo "`grades_y{$g}t2_rank` VARCHAR(6) NULL , \n";
-		echo "`grades_y{$g}t2_total` VARCHAR(6) NULL , \n";
-		
+		$tables = $db->get_col('SHOW TABLES FROM skynet');
+
+		foreach ($tables as $tab) {
+			if (strpos($tab, 'applicant') !== false)
+				continue;
+
+			$class = Inflector::classify($tab);
+			$text = <<<EOF
+<?php
+
+/**
+ * $class
+ *
+ * @author Andhika Nugraha <andhika.nugraha@gmail.com>
+ * @package applicant
+ */
+class $class extends HeliumRecord {
+
+EOF;
+
+			$cols = $db->get_col('SHOW COLUMNS IN ' . $tab);
+			foreach ($cols as $col) {
+				$text .= "	public \$$col;\n";
+			}
+
+		$text .= <<<EOF
+
+	// public init() {
+	// 	\$this->belongs_to('applicant');
+	// }
+}
+
+
+EOF;
+			$file = HELIUM_APP_PATH . '/models/' . Inflector::singularize($tab) . '.php';
+			// 
+			if (!file_exists($file)) {
+				file_put_contents($file, $text);
+				echo "$file:\n$text\n";
+			}
 		}
 		
 		exit;
