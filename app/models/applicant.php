@@ -24,16 +24,15 @@ class Applicant extends HeliumPartitionedRecord {
 		$this->has_many('applicant_sports_achievements');
 		$this->has_many('applicant_arts_achievements');
 		$this->has_many('applicant_work_experiences');
+		$this->has_many('applicant_other_achievements');
 		
 		$this->add_vertical_partition('applicant_activities');
 		$this->add_vertical_partition('applicant_contact_info');
-		$this->add_vertical_partition('applicant_details');
 		$this->add_vertical_partition('applicant_education');
 		$this->add_vertical_partition('applicant_fathers');
 		$this->add_vertical_partition('applicant_guardians');
 		$this->add_vertical_partition('applicant_high_schools');
 		$this->add_vertical_partition('applicant_mothers');
-		$this->add_vertical_partition('applicant_other_achievements');
 		$this->add_vertical_partition('applicant_personal_details');
 		$this->add_vertical_partition('applicant_personality');
 		$this->add_vertical_partition('applicant_primary_school_grade_history');
