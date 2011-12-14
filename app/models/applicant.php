@@ -18,7 +18,6 @@ class Applicant extends HeliumPartitionedRecord {
 
 		$this->has_one('picture');
 
-		$this->has_many('active_applicant');
 		$this->has_many('applicant_siblings');
 		$this->has_many('applicant_organizations');
 		$this->has_many('applicant_sports_achievements');
