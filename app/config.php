@@ -9,7 +9,7 @@ class HeliumConfiguration extends HeliumDefaults {
 
 	/* Application configuration */
 	public $app_name = 'gatotkaca';	// name of application
-	public $production = true;		// set to true to disable debugging
+	public $production = false;		// set to true to disable debugging
 	// public $enable_reactor = false;	// true to enable Reactor
 	
 	public $base_uri = 'http://skynet.bina-antarbudaya.info';
