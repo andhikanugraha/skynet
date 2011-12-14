@@ -1,0 +1,10 @@
+@import url(forms.css);
+
+#token {
+	width: 17ex;
+	font-size: 60px;
+	font-family: Consolas, Courier, monospace;
+	font-weight: bold;
+	text-transform: uppercase;
+	letter-spacing: 10px;
+}

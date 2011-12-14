@@ -1,0 +1,39 @@
+@import url(forms.css);
+
+body {
+	background: #000;
+}
+.user-create-wrapper {
+	text-align: center;
+	margin-bottom: 80px;
+	width: auto;
+}
+p.instruction {
+	text-align: center;
+	padding: 0;
+	color: #999;
+}
+.stage-title {
+	background: transparent;
+	border-bottom: none;
+	text-align: center;
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
+.stage-title h1 {
+	color: #999;
+	text-shadow: none;
+}
+.stage-title h2 {
+	color: #fff;
+	text-shadow: none;
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
+.pic-container {
+	margin: 20px 0;
+	text-align: center;
+}
+button {
+	font-size: 20px;
+}

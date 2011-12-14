@@ -1,0 +1,108 @@
+.context {
+	display: block;
+}
+.context.jsenabled {
+	position: relative;
+	padding-top: 60px;
+}
+.context > section > header {
+	font-size: 20px;
+	margin-bottom: 20px;
+}
+.jsenabled > section > header {
+	position: absolute;
+	top: 0;
+	width: 460px;
+	text-align: center;
+	text-transform: uppercase;
+	cursor: pointer;
+}
+.jsenabled section#english > header {
+	left: 460px;
+}
+article {
+	border-top: 1px solid #eee;
+	margin-bottom: 40px;
+}
+article header {
+	float: left;
+	width: 160px;
+	color: #999;
+	line-height: 1;
+	padding-top: 20px;
+	padding-left: 20px;
+}
+article header strong {
+	display: block;
+	font-weight: normal;
+	font-size: 60px;
+	color: #000;
+	margin-left: -.1em;
+	letter-spacing: -.1em;
+}
+article table {
+	margin: 0;
+	width: 740px;
+}
+td.order {
+	color: #666;
+	font-weight: bold;
+	padding-left: 20px;
+	width: 10px;
+}
+td.applicant_id {
+	width: 122px;
+	color: #000;
+}
+td.applicant_id span {
+	color: #999;
+}
+td.full_name {
+	color: #000;
+	font-weight: bold;
+}
+td.checkbox {
+	width: 80px;
+	color: #999;
+}
+td.checkbox label {
+	cursor: pointer;
+}
+
+section.hidden .chambers {
+	display: none;
+}
+section.hidden > header {
+	color: #bbb;
+}
+
+.save-refresh {
+	padding-left: 722px;
+	left: 0;
+}
+.save-refresh button {
+	padding-top: 2px;
+	padding-bottom: 2px;
+	font-size: 12px;
+}
+
+.notice {
+	margin-left: -20px;
+	margin-right: -20px;
+	padding: 20px;
+	-moz-border-radius: 0 0 10px 10px;
+	border-radius: 0 0 10px 10px;
+	position: relative;
+	z-index: 2;
+	background: #ffc;
+}
+#notice {
+	position: absolute;
+	width: 920px;
+	text-align: center;
+	top: -40px;
+	font-size: 20px;
+	padding: 40px 20px 20px;
+	text-transform: uppercase;
+	background: rgba(255, 255, 204, 0.6);
+}

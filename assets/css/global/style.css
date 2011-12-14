@@ -1,0 +1,128 @@
+@import url('reset.css');
+@import url('http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic');
+
+body {
+	font-family: PT Sans, 'Segoe UI', 'Tahoma', sans-serif;
+	font-size: 13px;
+	line-height: 1.3;
+	color: #666;
+}
+header, h1, h2, h3, h4, h5, h6, strong, em {
+	color: #000;
+}
+a {
+	color: #0054a7;
+	text-decoration: none;
+}
+.masthead {
+	float: left;
+	width: 100%;
+}
+.global-nav {
+	float: left;
+	width: 100%;
+	background: #0054a7 url(grad.png) bottom repeat-x;
+	color: #ccdded;
+	text-shadow: 1px 1px 0 #003b73;
+}
+.global-nav a {
+	color: #fff;
+	color: rgba(255, 255, 255, 0.8);
+}
+.global-nav a:hover {
+	color: #fff;
+}
+.user-controls a {
+	margin-left: 7px;
+}
+.global-nav .expires_on {
+	color: #fff;
+}
+.binabud-logo {
+	float: left;
+	margin-left: 30px;
+}
+.binabud-logo a {
+	display: block;
+	padding: 10px 50px 10px 15px;
+	width: 208px;
+	height: 40px;
+}
+.binabud-logo a:hover {
+	background: rgba(0, 0, 0, 0.2);
+}
+.binabud-logo img {
+	display: block;
+}
+.user-controls {
+	float: right;
+	font-size: 13px;
+	padding: 20px 50px;
+}
+span.username {
+	font-weight: bold;
+	color: white;
+}
+strong.activate-link {
+	margin-right: 10px;
+}
+strong.activate-link a {
+	padding: 5px 5px 2px 5px;
+	border: 1px solid #ccdded;
+	border-radius: 3px;
+}
+strong.activate-link a:active {
+	position: relative;
+	top: 1px;
+	left: 1px;
+}
+
+.content {
+	float: left;
+	width: 100%;
+}
+
+i, em {
+	font-style: italic;
+}
+b, strong {
+	font-weight: bold;
+}
+
+.content ul {
+	list-style: disc;
+	padding-left: 1.5em;
+}
+.content p {
+	margin: 1em 0;
+}
+
+button {
+	font-size: 13px;
+	padding: 5px 12px 4px;
+	background: #0054a7 url(buttongrad.png) center repeat-x;
+	color: white;
+	border: none;
+	border-radius: .5em;
+	box-shadow: 0 .2em .0 #002a52;
+	text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
+	cursor: pointer;
+}
+button:active {
+	background: #002a52 url(buttongrad-dark.png) center repeat-x;
+	position: relative;
+	color: rgba(255, 255, 255, 0.7);
+	top: .2em;
+	box-shadow: none;
+}
+
+.global-footer {
+	border-top: 1px solid #eee;
+	clear: both;
+	width: 100%;
+/*	position: absolute;*/
+/*	bottom: 0;*/
+	padding: 10px 0;
+	text-align: center;
+	background: white;
+}

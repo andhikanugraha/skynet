@@ -1,0 +1,68 @@
+.container,
+.stage-title h1,
+.stage-title h2 {
+	width: 640px;
+}
+.stage-title {
+	margin-bottom: 0;
+}
+.applicant_id_box {
+	width: 320px;
+	height: 20em;
+	font: Menu;
+	padding: 10px;
+}
+.chamber_count {
+	width: 4em;
+	font-size: 18px;
+	margin-bottom: 20px;
+}
+.input_table {
+	width: 640px;
+}
+.input_table td {
+	width: 300px;
+	padding-right: 20px;
+}
+.container h2 {
+	font-size: 22px;
+	margin: 40px 0 20px;
+}
+.container p {
+	color: #666;
+}
+.applicant_list {
+	width: 640px;
+}
+.applicant_list td.id {
+	color: #666;
+	width: 10%;
+}
+.applicant_list td.id span {
+	color: #bbb;
+}
+.applicant_list td.name {
+	font-weight: bold;
+}
+.plan_summary strong {
+	font-size: 18px;
+}
+
+.notice {
+	margin-left: -20px;
+	margin-right: -20px;
+	padding: 20px;
+	-moz-border-radius: 0 0 10px 10px;
+	border-radius: 0 0 10px 10px;
+	position: relative;
+	z-index: 2;
+	background: #ffc;
+}
+.notice.errors {
+	z-index: 6;
+	color: #000;
+	background: #fcc;
+}
+.notice.errors a {
+	color: #a00;
+}

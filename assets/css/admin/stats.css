@@ -1,0 +1,50 @@
+/* */
+
+.stage-title h1,
+.stage-title h2,
+.container {
+	width: 640px;
+}
+
+.statbox {
+	margin-bottom: 40px;
+}
+
+.statbox header {
+	margin: 0 0 10px;
+	font-size: 24px;
+}
+
+.statbox table {
+	width: 640px;
+}
+
+table.tree {
+	border-top: 1px solid #bbb;
+}
+table.tree td {
+	padding: 7px 5px 3px 5px;
+	border-bottom-color: #f6f6f6;
+	color: #999;
+}
+table.tree strong {
+	font-size: 15px;
+	letter-spacing: -.05em;
+}
+table.tree td.active {
+	border-bottom-color: #bbb;
+	vertical-align: middle;
+}
+
+td.rank {
+	color: #999;
+	width: 1%;
+	text-align: right;
+}
+td.rank .repeat {
+	color: #eee;
+}
+
+.application_stage strong {
+	width: 3em;
+}

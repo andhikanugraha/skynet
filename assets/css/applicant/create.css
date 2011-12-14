@@ -1,0 +1,7 @@
+@import url('forms.css');
+
+form p.pw {
+	float: left;
+	width: 320px;
+	height: 6em;
+}

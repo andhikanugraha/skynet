@@ -1,0 +1,69 @@
+.user-prefs-wrapper {
+	width: 600px;
+	margin: 0 auto;
+}
+.content {
+	padding-bottom: 80px;
+}
+
+/* stage-title III */
+.stage-title {
+	width: 100%;
+	left: 0;
+	padding-top: 80px;
+	padding-bottom: 10px;
+	margin-bottom: 40px;
+	font-size: 40px;
+	background: -webkit-linear-gradient(#fff, #f6f6f6);
+	background: -moz-linear-gradient(#fff, #f6f6f6);
+	border-bottom: 1px solid #eee;
+}
+.stage-title h1 {
+	width: 600px;
+	margin: 0 auto;
+	font-size: 12px;
+	color: #999;
+	text-shadow: 1px 1px 0 #fff;
+}
+.stage-title h2 {
+	width: 600px;
+	margin: 0 auto;
+	font-size: 44px;
+	letter-spacing: -.05em;
+	text-shadow: 1px 1px 0 #fff;
+}
+
+form h1 {
+	font-size: 18px;
+	margin: 1em 0 1em;
+}
+
+label {
+	display: block;
+	color: #666;
+	margin-bottom: 5px;
+}
+span.description {
+	display: block;
+	font-size: 12px;
+	margin-top: 5px;
+	color: #999;
+}
+input {
+	display: block;
+	font-size: 16px;
+}
+
+.errors, .success {
+	width: 100%;
+	background: #fcc;
+	padding: 5px 10px;
+	margin-left: -10px;
+	color: #000;
+}
+.success {
+	background: #cfc;
+}
+.errors li {
+	margin-top: 5px;
+}

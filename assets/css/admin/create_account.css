@@ -1,0 +1,7 @@
+@import url('../applicant/forms.css');
+
+.container,
+.stage-title h1,
+.stage-title h2 {
+	width: 400px;
+}

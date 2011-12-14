@@ -1,0 +1,13 @@
+.content {
+	padding: 5% 0;
+	float: none;
+	clear: both;
+}
+.global-footer {
+	position: absolute;
+	bottom: 0;
+}
+.home-index-wrapper {
+	width: 600px;
+	margin: 0 auto;
+}
