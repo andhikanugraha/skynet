@@ -1,21 +1,27 @@
 <?php
 
-// Model: Registration Code
 
+/**
+ * RegistrationCode
+ *
+ * @author Andhika Nugraha <andhika.nugraha@gmail.com>
+ * @package chapter
+ */
 class RegistrationCode extends HeliumRecord {
 
-	public $token = '';
-	public $expires_on;
-	public $availability = true;
-	public $user_id = 0;
+	const token_length = 8;
 
 	public $lifetime = '8 days';
-	public $validation_error = '';
-
-	public $source;
-	public $updated_at;
-
-	const token_length = 8;
+	
+	public $id;
+	public $token;
+	public $expires_on;
+	public $availability;
+	public $applicant_id;
+	public $created_at;
+	public $program_year;
+	public $chapter_id;
+	public $generated_by;
 
 	public function init() {
 		// $this->belongs_to('user');
@@ -24,9 +30,11 @@ class RegistrationCode extends HeliumRecord {
 	public function defaults() {
 		$this->token = $this->generate_token();
 		$this->expires_on = new HeliumDateTime;
+
 		$lifetime = Helium::conf('registration_code_lifetime');
 		if (!$lifetime)
 			$lifetime = $this->lifetime;
+	
 		$this->expires_on->modify('+' . $lifetime);
 	}
 
@@ -50,6 +58,8 @@ class RegistrationCode extends HeliumRecord {
 	}
 
 	public static function find_by_token($token) {
+		// Possible hashing algorithm going on here
+
 		$find = RegistrationCode::find(compact('token'));
 		return $find->first();
 	}
@@ -59,6 +69,21 @@ class RegistrationCode extends HeliumRecord {
 		$this->save();
 	}
 
+	public function is_available() {
+		return $this->availability;
+	}
+	
+	public function is_expired() {
+		return !$this->expires_on->later_than('now');
+	}
+	
+	public function is_valid() {
+		return $this->is_available() && !$this->is_expired();
+	}
+
+	/**
+	 * @deprecated
+	 */
 	public function validate() {
 		if (!$this->availability) {
 			$this->validation_error = 'token_unavailable';
