@@ -7,14 +7,44 @@
  * @package applicant
  */
 class Applicant extends HeliumPartitionedRecord {
+	/**
+	 * Record properties
+	 */
+	public $id;
+	public $user_id;
+	public $chapter_id;
+	public $local_id;
+	public $test_id;
+	public $program_year;
+	public $confirmed;
+	public $finalized;
+	public $expires_on;
+	public $sanitized_full_name;
+	public $sanitized_high_school_name;
+	public $place_of_birth;
+	public $date_of_birth;
+	
+	/**
+	 * Validation properties
+	 */
+	public $validation_errors = array();
+	public $incomplete_fields = array();
+	
+	/**
+	 * Default values
+	 */
 	public function defaults() {
 		$this->expires_on = new HeliumDateTime;
 		$this->confirmed = false;
 		$this->finalized = false;
 	}
 
+	/**
+	 * Associations and partitions
+	 */
 	public function init() {
 		$this->belongs_to('user');
+		$this->belongs_to('chapter');
 
 		$this->has_one('picture');
 
@@ -44,7 +74,169 @@ class Applicant extends HeliumPartitionedRecord {
 		$this->add_vertical_partition('applicant_travel_history');
 	}
 
-	/*
+	/**
+	 * Default values
+	 */
+	public function before_save() {
+		// Sanitized entries
+		$this->sanitized_full_name = self::sanitize_name($this->full_name);
+		$this->sanitized_high_school_name = self::sanitize_school($this->high_school_name);
+		
+		if (!$this->finalized && !$this->test_id)
+			$this->test_id = $this->generate_test_id();
+	}
+
+	/**
+	 * Finalize applicant if form is valid
+	 */
+	public function finalize() {
+		if ($this->validate()) {
+			$this->finalized = true;
+			$this->local_id = $this->generate_local_id();
+			$this->test_id = $this->generate_test_id();
+			return true;
+		}
+		else
+			return false;
+	}
+
+	/**
+	 * Confirm applicant re-registration if has been finalized
+	 */
+	public function confirm() {
+		if ($this->finalized) {
+			$this->confirmed = true;
+			return true;
+		}
+		else
+			return false;
+	}
+
+	/**
+	 * Generate local ID based on chapter
+	 */
+	public function generate_local_id() {
+		$db = Helium::db();
+		$local_id = (int) $db->get_var("SELECT local_id FROM applicants WHERE chapter_id='{$this->chapter_id}' ORDER BY local_id DESC LIMIT 0,1");
+		
+		return $local_id + 1;
+	}
+
+	/**
+	 * Generate test ID based on chapter
+	 *
+	 * Generates a temporary test ID if not finalized yet.
+	 */
+	public function generate_test_id() {
+		$chapter_code = $this->chapter->chapter_code;
+		if ($this->finalized) {
+			$base = "INAYPsc/'%s-'%s/%s/%s";
+			$program_year = 2014;
+			$start_year = $program_year - 1;
+			$ycl = substr($start_year, 2);
+			$ycr = substr($program_year, 2);
+			return sprintf($base, $ycl, $ycr, $chapter_code, str_pad($this->local_id, 4, '0', STR_PAD_LEFT));
+		}
+		else
+			return "U/$chapter_code/" . strtoupper(substr(sha1(time()), 0, 8));
+	}
+
+	/**
+	 * Sanitize name
+	 */
+	public static function sanitize_name($name) {
+		$name = trim($name);
+		$name = strtolower($name);
+		$name = ucwords($name);
+
+		foreach (array('-', ' \'', 'O\'') as $delimiter) {
+	    	if (strpos($name, $delimiter)!==false) {
+	    		$name = implode($delimiter, array_map('ucfirst', explode($delimiter, $name)));
+	    	}
+	    }
+
+		return $name;
+	}
+
+	/**
+	 * Sanitize school name
+	 */
+	public static function sanitize_school($school) {
+		// sanitize school name
+		// use last school if multiple schools were used
+		if ($slash = strpos($school, '/'))
+			$school = substr($school, $slash + 1);
+		// trim
+		$school = trim($school);
+
+		// sanitize the casing
+		$school = self::sanitize_name($school);
+		
+		// sanitize misspellings
+		$mispell = array(
+			'/Negri/i' => 'Negeri',
+			// '/Alfa Centaury/i' => 'Alfa Centauri',
+			'/\s+/' => ' ',
+			'/[.,]/' => '',
+		);
+		
+		$chapters = Chapter::find('all');
+		foreach ($chapters as $chapter) {
+			$pattern = "/{$chapter->chapter_code}/i";
+			$mispell[$pattern] = $chapter->chapter_name;
+		}
+
+		// do replacing here as it will affect subsequent patterns
+		$school = preg_replace(array_keys($mispell), $mispell, $school);
+		
+		// sanitize SMAN -> SMA Negeri, etc.
+		$uniform = array(
+			'/\s+/' => ' ',
+			'/^SM(A|K|P)N\s/i' => 'SM$1 Negeri ',
+			'/^SM(A|P)K\s/i' => 'SM$1 Kristen ',
+			'/^SM(A|P)T\s/i' => 'SM$1 Terpadu ',
+			'/^M(A|Ts)N\s/i' => 'M$1 Negeri ',
+			'/Sekolah Menengah Atas/i' => 'SMA',
+			'/Sekolah Menengah Kejuruan/i' => 'SMK',
+			'/^Madrasah Aliyah\s/' => 'MA ',
+			'/^Madrasah Tsanawiyah\s/' => 'MTs ',
+			'/\sKota\s/i' => ' ',
+			'/\sSwasta\s/i' => ' ',
+			'/Kab\s/i' => 'Kabupaten ',
+			'/([0-9])([a-z])/i' => '$1 $2',
+		);
+		$school = preg_replace(array_keys($uniform), $uniform, $school);
+
+		// sanitize specific school names
+		$specific = array(
+			// '/^SM(A|P) Taruna Bakti.*/i' => 'SM$1 Taruna Bakti Bandung',
+			// '/^SM(A|P).*Yahya$/i' => 'SM$1 Kristen Yahya Bandung',
+			// '/^SM(A|P).*Yahya Bandung$/i' => 'SM$1 Kristen Yahya Bandung',
+			// '/^SMA.*Alfa Centauri$/i' => 'SMA Alfa Centauri Bandung',
+			// '/Sukamanah$/' => 'Sukamanah Tasikmalaya',
+			// '/^.*Darul Arqam.+$/i' => 'MA Darul Arqam Muhammadiyah Daerah Garut',
+			// '/^.*Pribadi.+$/i' => 'Pribadi Bilingual Boarding School Bandung',
+			// '/^.*Muthahhari$/i' => 'SMA Plus Muthahhari Bandung',
+			// '/^(.*Margahayu)( Bandung)?$/i' => '$1 Kabupaten Bandung',
+			// '/^SMA Terpadu Baiturrahman$/i' => 'SMA Terpadu Baiturrahman Kabupaten Bandung'
+		);
+		
+		if ($this && $this->chapter) {
+			$specific['/([0-9])$/'] = '$1 ' . $this->chapter->chapter_name;
+		}
+		
+		$school = preg_replace(array_keys($specific), $specific, $school);
+
+		// revert abbreviations
+		$abbreviations = array('SMA ', 'SMK ', 'SMP ', 'SD ', 'MA ', 'MTs ', 'MI ', 'BPK ', 'BPI ', 'IBS ', 'ITUS ');
+		$school = str_ireplace($abbreviations, $abbreviations, $school);
+
+		return $school;
+	}
+
+	/**
+	 * Find by user
+	 */
 	public function find_by_user($user_id) {
 		if (is_object($user_id))
 			$user_id = $user_id->id;
@@ -53,11 +245,13 @@ class Applicant extends HeliumPartitionedRecord {
 
 		return $try->first();
 	}
-
-	public $validation_errors = array();
-	public $incomplete_fields = array();
 	
-	public function validate_form() {
+	/**
+	 * Validate details
+	 *
+	 * Make sure all the required fields are filled in.
+	 */
+	public function validate() {
 		$check = $errors = array();
 
 		$applicant_id = $this->id;
@@ -94,53 +288,12 @@ class Applicant extends HeliumPartitionedRecord {
 			if (!$v)
 				$errors[] = $c;
 		}
-		
+
 		$this->validation_errors = $errors;
 		
-		if (!$errors)
+		if ($errors)
+			return false;
+		else
 			return true;
 	}
-	
-	public function finalize() {
-		if (!$this->validate_form())
-			return false;
-
-		$this->finalized = true;
-		$this->save();
-
-		return true;
-	}
-	
-	public static function get_test_id($id = 0) {
-		$id = $this ? $this->id : $id;
-		$code = Helium::conf('applicant_prefix') . str_pad($id, 4, '0', STR_PAD_LEFT);
-		return $code;
-	}
-
-	public function confirm() {
-		$this->submitted = true;
-		$this->application_stage = 'before_selection_1';
-		$this->save();
-	}
-	
-	public function get_landing_page() {
-		$controller = 'applicant';
-		$action = '';
-
-		if ($this->submitted) {
-			// determine stage of application here - TODO
-			$controller = 'selection';
-			$action = 'index';
-		}	
-		elseif ($this->expires_on->earlier_than('now'))
-			$action = 'expired';
-		elseif ($this->finalized)
-			$action = 'finalized';
-		else
-			$action = 'form';
-
-		return compact('controller', 'action');
-	}
-	
-	*/
 }
