@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * @deprecated
+ */
 class Selection1Chamber extends HeliumRecord {
 	public $id;
 	public $chamber_name; // name of chamber, i.e. XII IPA 4

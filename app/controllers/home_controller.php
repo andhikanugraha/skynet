@@ -7,13 +7,30 @@ class HomeController extends GatotkacaController {
 		
 		$db = Helium::db();
 		
+		$app = new Applicant;
+		$app->chapter_id = 1;
+		$app->user_id = rand();
+		$app->finalize();
+		$app->save();
+		
 		$tables = $db->get_col('SHOW TABLES FROM skynet');
 
 		foreach ($tables as $tab) {
-			if (strpos($tab, 'applicant') !== false)
-				continue;
+			if (strpos($tab, 'applicant') !== false) {
+				// $db->query('TRUNCATE ' . $tab);
+			 	continue;
+			}
 
 			$class = Inflector::classify($tab);
+			
+			$text = '';
+			$cols = $db->get_col('SHOW COLUMNS IN ' . $tab);
+			foreach ($cols as $col) {
+				$text .= "	public \$$col;\n";
+			}
+			echo "$tab\n$text\n\n";
+			continue;
+			
 			$text = <<<EOF
 <?php
 

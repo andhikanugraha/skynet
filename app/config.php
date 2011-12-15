@@ -22,6 +22,8 @@ class HeliumConfiguration extends HeliumDefaults {
 	
 	public $applicant_prefix = "INAYPSc/12-13/";
 	
+	public $program_year = 2014;
+	
 	public $dates = array(
 		'registration_deadline' => '2011-04-24',
 		'selection_1' => '2011-05-01',

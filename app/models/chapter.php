@@ -4,7 +4,7 @@
  * Chapter
  *
  * @author Andhika Nugraha <andhika.nugraha@gmail.com>
- * @package applicant
+ * @package chapter
  */
 class Chapter extends HeliumRecord {
 	public $id;

@@ -9,7 +9,8 @@ class ApplicantController extends GatotkacaController {
 	public function init() {
 		if ($this->is_logged_in()) {
 			$user_id = $this->session->user->id;
-			$this->applicant = Applicant::find_by_user($user_id);
+			$this->applicant = $this->session->user->applicant;
+			// $this->applicant = Applicant::find_by_user($user_id);
 		}
 	}
 
@@ -217,7 +218,7 @@ class ApplicantController extends GatotkacaController {
 			$this->require_role('applicant');
 			$form = $this['form'] = new GatotkacaFormOutput;
 			$user_id = $this->session->user->id;
-			$applicant = Applicant::find_by_user($user_id);
+			$applicant = $this->session->user->applicant;
 
 			if ($applicant->finalized)
 				$this->auth->land();

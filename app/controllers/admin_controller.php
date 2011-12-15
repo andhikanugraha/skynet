@@ -344,7 +344,7 @@ class AdminController extends GatotkacaController {
 
 	public function is_migratable() {
 		$db = Helium::db();
-		$count = $db->get_var('SELECT COUNT(*) FROM active_applicants');
+		// $count = $db->get_var('SELECT COUNT(*) FROM active_applicants');
 		if ($count)
 			return false;
 		else
