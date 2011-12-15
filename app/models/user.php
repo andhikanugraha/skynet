@@ -1,36 +1,59 @@
 <?php
 
-// Project Gatotkaca
-// Model: User
-
+/**
+ * User
+ *
+ * @author Andhika Nugraha <andhika.nugraha@gmail.com>
+ * @package auth
+ */
 class User extends HeliumRecord {
 
 	public $id;
 	public $username;
 	public $password_hash;
 	public $email;
-	public $role; // either 'applicant', 'volunteer' or 'admin'
-
-	public static $roles = array('applicant', 'volunteer', 'admin', 'sponsors.telkomsel');
+	public $role;	// now an integer
+	public $chapter_id;
+	public $email_verified;
 
 	public function rebuild() {
-		if ($this->capable_of('applicant'))
+		if ($this->role == 0)
 			$this->has_one('applicant');
 	}
 
-	public function capable_of($role) {
+	public function capable_of($role, $chapter_id = 0) {
 		switch ($role) {
-			case 'volunteer':
-				return ($this->role == $role) || ($this->role == 'admin');
-				break;
-			case 'sponsors.telkomsel':
 			case 'applicant':
+				$min = 0;
+				break;
+			case 'volunteer':
+				$min = 2;
+				break;
+			case 'chapter':
+				$min = 3;
+				break;
+			case 'chadmin':
+				$min = 4;
+				break;
+			case 'nadmin':
 			case 'admin':
 			default:
-				return ($this->role == $role);
+				$min = 5;
 		}
+
+		if ($chapter_id) {
+			if ($this->role >= 5)
+				return true;
+			else
+				return $this->role >= $min && $this->chapter_id = $chapter_id;
+		}
+		else
+			return $this->role >= $min;
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public function get_landing_page() {
 		switch ($this->role) {
 			case 'applicant':
