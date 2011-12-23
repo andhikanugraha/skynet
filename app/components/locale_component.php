@@ -44,10 +44,10 @@ class LocaleComponent extends HeliumComponent {
 		HeliumDateTime::set_default_timezone(Helium::conf('site_timezone'));
 
 		foreach ($translations as $k => $v) {
-			FormDisplay::$strings[$k] = $v;
+			FormDisplay::$translations[$k] = $v;
 		}
 		
-		FormDisplay::$provinces = array(
+		FormDisplay::$address_states = array(
 			'Nangroe Aceh Darussalam',
 			'Sumatera Utara',
 			'Sumatera Barat',
