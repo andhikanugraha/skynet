@@ -9,7 +9,7 @@
  * @package locale
  */
 class LocaleComponent extends HeliumComponent {
-	$translations = array(
+	public $translations = array(
 		'Monday' => 'Senin',
 		'Tuesday' => 'Selasa',
 		'Wednesday' => 'Rabu',
@@ -30,7 +30,7 @@ class LocaleComponent extends HeliumComponent {
 		'(Month)' => '(Bulan)',
 		'(Year)' => '(Tahun)',
 		'Town' => 'Kota',
-		'State/Province' => 'Provinsi'
+		'State/Province' => 'Provinsi',
 		'Postcode' => 'Kode Pos',
 		'Mobile Phone' => 'HP',
 		'Home Phone' => 'Telepon',
