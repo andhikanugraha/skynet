@@ -1,21 +1,21 @@
 <?php
 
-// Project Gatotkaca
-// Model: Session
-//
-// Session data is accessed as an array of a Session object.
-//
-
+/**
+ * Session
+ *
+ * @author Andhika Nugraha <andhika.nugraha@gmail.com>
+ * @package auth
+ */
 class Session extends HeliumRecord implements ArrayAccess {
 
 	public $id;
-	public $user_id;
 	public $token = '';
 	public $data = array();
-	public $is_persistent = false;
+	public $is_persistent = false; // false: delete on browser exit
 	public $expires_on;
 	public $user_agent;
 	public $ip_address;
+	public $user_id;
 	public $user_password_hash;
 
 	public $check_password_hash;

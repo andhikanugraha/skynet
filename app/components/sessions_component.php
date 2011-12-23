@@ -1,23 +1,27 @@
 <?php
 
-// Project Gatotkaca
-// Component: Sessions
-
-// 'persistent' means 'renew every visit'.
-// if a session is not persistent, its cookie is deleted on browser close.
-
+/**
+ * SessionsComponent
+ *
+ * @author Andhika Nugraha <andhika.nugraha@gmail.com>
+ * @package auth
+ */
 class SessionsComponent extends HeliumComponent {
+	public $prerequisite_components = array('cookies');
+
 	public $session = array();
-	public $cookie_name = 'gatotkaca';
+	public $cookie_name = 'session';
+
+	private $cookies;
 
 	// callbacks/events
 	public $on_cookie_fail;
 
-	public function __construct() {
-		$this->cookie_name = Helium::conf('session_cookie_name');
-	}
-
 	public function init($controller) {
+		$this->cookies = $controller->cookies;
+
+		$this->cookie_name = Helium::conf('session_cookie_name');
+
 		$this->session = $this->fetch_session();
 
 		$controller->session = &$this->session;
@@ -59,7 +63,7 @@ class SessionsComponent extends HeliumComponent {
 		$value = $session_object->token;
 		$expire = $session_object->is_persistent ? $session_object->expires_on : 0;
 
-		$try = Gatotkaca::setcookie($name, $value, $expire);
+		$try = $this->cookies->set_cookie($name, $value, $expire);
 
 		if (!$try)
 			call_user_func($this->on_cookie_fail);
@@ -95,13 +99,6 @@ class SessionsComponent extends HeliumComponent {
 		$this->session->is_persistent = true;
 		$this->session->save();
 		$this->renew_cookie();
-	}
-
-	public function flash($var_name) {
-		$return = $this->session[$var_name];
-		unset($this->session[$var_name]);
-
-		return $return;
 	}
 
 	public function __destruct() {
