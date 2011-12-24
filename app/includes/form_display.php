@@ -149,13 +149,18 @@ class FormDisplay {
 				$label );
 	}
 
-	public function text($name, $length = 'medium', $maxlength = false, $required = false, $type = 'text') {
+	public function text($name, $length = 'medium', $maxlength = false, $required = false, $default = '', $type = 'text') {
+		if ($default && !$this->values[$name])
+			$value = $default;
+		else
+			$value = $this->get_escaped_value($name);
+
 		printf(	'<input type="%s" name="%s" id="%s" class="%s" value="%s"',
 				$type,
 				$name,
 				$this->name_to_id($name),
 				$length,
-				$this->get_escaped_value($name) );
+				$value );
 
 		if ($maxlength)
 			echo ' maxlength="' . $maxlength . '"';
@@ -166,20 +171,20 @@ class FormDisplay {
 		echo '>';
 	}
 
-	public function number($name, $length = 'medium', $maxlength = false, $required = false) {
-		$this->text($name, $length, $maxlength, $required, 'number');
+	public function number($name, $length = 'medium', $maxlength = false, $required = false, $default = '') {
+		$this->text($name, $length, $maxlength, $required, $default, 'number');
 	}
 
-	public function tel($name, $length = 'medium', $maxlength = false, $required = false) {
-		$this->text($name, $length, $maxlength, $required, 'tel');
+	public function tel($name, $length = 'medium', $maxlength = false, $required = false, $default = '') {
+		$this->text($name, $length, $maxlength, $required, $default, 'tel');
 	}
 
-	public function email($name, $length = 'medium', $maxlength = false, $required = false) {
-		$this->text($name, $length, $maxlength, $required, 'email');
+	public function email($name, $length = 'medium', $maxlength = false, $required = false, $default = '') {
+		$this->text($name, $length, $maxlength, $required, $default, 'email');
 	}
 
 	public function textarea($name, $size = 'large') {
-		printf(	'<textarea name="%s" id="%s", class="%s">%s</textarea>',
+		printf(	'<textarea name="%s" id="%s" class="%s">%s</textarea>',
 				$name,
 				$this->name_to_id($name),
 				$size,
