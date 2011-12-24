@@ -28,4 +28,9 @@ abstract class AppController extends HeliumController {
 		}
 
 	}
+	
+	protected function actions_nav(array $actions = array()) {
+		$this['actions'] = $actions;
+		$this->render('global/actions_nav');
+	}
 }

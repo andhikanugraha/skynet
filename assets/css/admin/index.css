@@ -3,12 +3,6 @@ p.option {
 	letter-spacing: -.05em;
 }
 
-.stage-title h1,
-.stage-title h2,
-.container {
-	width: 320px;
-}
-
 hr {
 	border: none;
 	border-top: 1px solid #eee;

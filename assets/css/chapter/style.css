@@ -1,0 +1,26 @@
+.page-title h1,
+.container,
+.actions-nav ul {
+/*	width: 640px;*/
+}
+
+.form-table {
+	width: 640px;
+}
+.form-table td {
+	border-top: 1px solid #eee;
+	padding: 10px 10px 10px 0;
+	vertical-align: top;
+}
+td.label {
+	width: 30%;
+}
+td.field {
+	width: 70%;
+}
+
+legend {
+	color: #000;
+	font-size: 20px;
+	margin-bottom: 10px;
+}

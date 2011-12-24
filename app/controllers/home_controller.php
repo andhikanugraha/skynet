@@ -2,75 +2,19 @@
 
 class HomeController extends GatotkacaController {
 
-	public function index() {
-		header('Content-type: text/plain');
-		
-		$db = Helium::db();
-		
-		$app = new Applicant;
-		$app->chapter_id = 1;
-		$app->user_id = rand();
-		$app->finalize();
-		$app->save();
-		
-		$tables = $db->get_col('SHOW TABLES FROM skynet');
-
-		foreach ($tables as $tab) {
-			if (strpos($tab, 'applicant') !== false) {
-				// $db->query('TRUNCATE ' . $tab);
-			 	continue;
-			}
-
-			$class = Inflector::classify($tab);
-			
-			$text = '';
-			$cols = $db->get_col('SHOW COLUMNS IN ' . $tab);
-			foreach ($cols as $col) {
-				$text .= "	public \$$col;\n";
-			}
-			echo "$tab\n$text\n\n";
-			continue;
-			
-			$text = <<<EOF
-<?php
-
-/**
- * $class
- *
- * @author Andhika Nugraha <andhika.nugraha@gmail.com>
- * @package applicant
- */
-class $class extends HeliumRecord {
-
-EOF;
-
-			$cols = $db->get_col('SHOW COLUMNS IN ' . $tab);
-			foreach ($cols as $col) {
-				$text .= "	public \$$col;\n";
-			}
-
-		$text .= <<<EOF
-
-	// public init() {
-	// 	\$this->belongs_to('applicant');
-	// }
-}
-
-
-EOF;
-			$file = HELIUM_APP_PATH . '/models/' . Inflector::singularize($tab) . '.php';
-			// 
-			if (!file_exists($file)) {
-				file_put_contents($file, $text);
-				echo "$file:\n$text\n";
-			}
+	public function firstrun_check() {
+		$check = User::find()->count_all();
+		if (!$check) {
+			// First Run!
+			$user = new User;
+			$user->username = 'admin';
+			$user->set_password('admin');
+			$user->role = 5;
+			$user->save();
 		}
-		
-		exit;
-		// if ($this->is_logged_in())
-		// 	$this->auth->land();
-		// else
-		// 	$this->auth->redirect_to_login_page();
+	}
+
+	public function index() {
 	}
 
 }

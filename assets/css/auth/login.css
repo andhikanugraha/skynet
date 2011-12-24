@@ -1,30 +1,35 @@
+body {
+	background: url('../global/bg_top_blue.jpg') left top repeat-x;
+}
+
 .container {
 	width: 320px;
 	margin: 120px auto 200px;
 }
-header {
+.content header {
 	font-size: 60px;
 	letter-spacing: -.09em;
 	margin-left: -20px;
-	border-bottom: 1px solid #eee;
+	border-bottom: 1px solid #b6cee5;
 	width: 320px;
 	padding: 0 20px 20px 20px;
 	margin-bottom: 20px;
 }
-header h1 {
+.content  header h1 {
 	margin: 0;
 	line-height: 0.5;
 	margin-left: -.05em;
+	color: #0054a5;
 }
 .content header p {
-	margin: 10px 0 0 0;
+	margin: 20px 0 0 0;
 	display: block;
-	font-size: 13px;
-	color: #999;
+	font-size: 12px;
+	color: #b6cee5;
 	letter-spacing: 0;
 }
 .content header p strong {
-	color: #333;
+	color: #0054a5;
 }
 
 form {
@@ -39,7 +44,7 @@ label {
 	display: block;
 	color: #666;
 	margin-bottom: 5px;
-	font-size: 13px;
+	font-size: 12px;
 }
 span.description {
 	display: block;

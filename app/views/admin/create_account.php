@@ -18,7 +18,7 @@
 		<form action="<?php L($this->params) ?>" method="POST">
 			<p>
 				<label for="username">Username</label>
-				<input type="text" name="username" id="username" value="<?php echo $this->sessions->flash('username'); ?>" autofocus required>
+				<input type="text" name="username" id="username" value="<?php echo $this->session->flash('username'); ?>" autofocus required>
 			</p>
 			<p class="pw">
 				<label for="password">Password</label>
@@ -26,7 +26,7 @@
 			</p>
 			<p>
 				<label for="email">E-mail address</label>
-				<input type="email" name="email" id="email" value="<?php echo $this->sessions->flash('email'); ?>" required>
+				<input type="email" name="email" id="email" value="<?php echo $this->session->flash('email'); ?>" required>
 			</p>
 			<p>
 				<label for="role">Role</label>

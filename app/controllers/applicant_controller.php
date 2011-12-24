@@ -282,10 +282,10 @@ EOD;
 		
 		// END */
 
-		$this['new'] = $this->sessions->flash('just_logged_in');
-		$this['errors'] = $this->sessions->flash('form_errors');
-		$this['incomplete'] = $this->sessions->flash('incomplete');
-		$this['notice'] = $this->sessions->flash('notice');
+		$this['new'] = $this->session->flash('just_logged_in');
+		$this['errors'] = $this->session->flash('form_errors');
+		$this['incomplete'] = $this->session->flash('incomplete');
+		$this['notice'] = $this->session->flash('notice');
 
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			// store the form values in the DB

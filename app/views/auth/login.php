@@ -30,7 +30,7 @@ if (!$destination_title)
 	<form action="<?php L(array('controller' => 'auth', 'action' => 'login')) ?>" method="POST" class="auth-login-form">
 		<p>
 			<label for="username">Nama pengguna</label>
-			<input type="text" name="username" id="username" value="<?php echo $this->sessions->flash('username'); ?>" autofocus required>
+			<input type="text" name="username" id="username" value="<?php echo $this->session->flash('username'); ?>" autofocus required>
 		</p>
 		<p>
 			<label for="password">Sandi</label>

@@ -34,7 +34,7 @@ $error_messages = array('username_availability' => 'Nama pengguna yang Adik pili
 	<form action="<?php L(array('controller' => 'applicant', 'action' => 'create')) ?>" method="POST" class="user-create-form">
 		<p>
 			<label for="username">Nama pengguna</label>
-			<input type="text" name="username" id="username" value="<?php echo $this->sessions->flash('username'); ?>" autofocus required>
+			<input type="text" name="username" id="username" value="<?php echo $this->session->flash('username'); ?>" autofocus required>
 			<span class="description">Nama pengguna hanya boleh terdiri dari huruf, angka, dan garis bawah. <strong>Tidak boleh menggunakan spasi.</strong></span>
 		</p>
 		<p class="pw">
@@ -48,7 +48,7 @@ $error_messages = array('username_availability' => 'Nama pengguna yang Adik pili
 		</p>
 		<p>
 			<label for="email">Alamat surel (e-mail)</label>
-			<input type="email" name="email" id="email" value="<?php echo $this->sessions->flash('email'); ?>" required>
+			<input type="email" name="email" id="email" value="<?php echo $this->session->flash('email'); ?>" required>
 		</p>
 		<p>
 			<button type="submit">Buat</button>

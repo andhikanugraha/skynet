@@ -24,11 +24,12 @@ $action_css = $controller . '/' . $this->_action();
 		<?php if ($css = $this['additional_css']): foreach ($css as $s): ?>
 		<link rel="stylesheet" href="<?php L('/assets/' . $s . '.css'); ?>">
 		<?php endforeach; endif; ?>
+
 	</head>
 
 	<body>
 		<nav class="global-nav">
-			<p class="binabud-logo"><a href="<?php L(); ?>"><img src="<?php L('/assets/binabudbdg-logo-small.png'); ?>" alt="Bina Antarbudaya"></a></p>
+			<header class="masthead"><a href="<?php L(); ?>"><img src="<?php L('/assets/css/global/masthead.png'); ?>" alt="Bina Antarbudaya"></a></header>
 			<?php if ($this->is_logged_in()): ?>
 			<p class="user-controls">
 				<span class="username"><?php echo $this->session->user->username; ?></span>
@@ -46,5 +47,3 @@ $action_css = $controller . '/' . $this->_action();
 			</p>
 			<?php endif; ?>
 		</nav>
-
-		<div class="content">
