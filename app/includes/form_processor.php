@@ -33,8 +33,10 @@ class FormProcessor {
 	public function associate(HeliumRecord $associated_object) {
 		$this->associated_object = $associated_object;
 
-		if ($associated_object->_is_vertically_partitioned)
+		if ($associated_object->_is_vertically_partitioned) {
+			$associated_object->map_vertical_partitions();
 			$this->column_types = array_merge($associated_object->_column_types, $associated_object->_vertical_partition_column_types);
+		}
 		else
 			$this->column_types = $associated_object->_column_types;
 	}

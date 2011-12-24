@@ -20,7 +20,7 @@ class AuthComponent extends HeliumComponent {
 
 		$controller->_alias_method(array($this, 'require_authentication'));
 		$controller->_alias_method(array($this, 'require_role'));
-		
+
 		$auth = $this;
 		$controller->is_logged_in = function() use ($auth) { return $auth->is_logged_in(); };
 		$controller->require_authentication = function() use ($auth) { return $auth->require_authentication(); };
@@ -33,6 +33,7 @@ class AuthComponent extends HeliumComponent {
 			$this->session->user_password_hash = $user->password_hash;
 			$this->session->user = $user;
 			$this->session->save();
+			$this->session['timezone'] = $user->chapter->chapter_timezone;
 			return true;
 		}
 		else

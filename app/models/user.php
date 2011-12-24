@@ -16,6 +16,10 @@ class User extends HeliumRecord {
 	public $chapter_id;
 	public $email_verified;
 
+	public function init() {
+		$this->belongs_to('chapter');
+	}
+
 	public function rebuild() {
 		if ($this->role == 0)
 			$this->has_one('applicant');
@@ -62,7 +66,7 @@ class User extends HeliumRecord {
 			case 'volunteer':
 				$land = array('controller' => 'volunteer');
 				break;
-			case 'admin':
+			case 5:
 				$land = array('controller' => 'admin');
 				break;
 			case 'sponsors.telkomsel':

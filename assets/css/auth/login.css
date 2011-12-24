@@ -4,18 +4,18 @@ body {
 
 .container {
 	width: 320px;
-	margin: 120px auto 200px;
+	margin: 0 auto 200px;
+	padding: 200px 0 0;
 }
 .content header {
-	font-size: 60px;
 	letter-spacing: -.09em;
 	margin-left: -20px;
-	border-bottom: 1px solid #b6cee5;
-	width: 320px;
+	border-bottom: 1px solid rgba(0, 72, 142, 0.3);
+	width: 300px;
 	padding: 0 20px 20px 20px;
 	margin-bottom: 20px;
 }
-.content  header h1 {
+.content header h1 {
 	margin: 0;
 	line-height: 0.5;
 	margin-left: -.05em;
@@ -42,7 +42,6 @@ form p {
 
 label {
 	display: block;
-	color: #666;
 	margin-bottom: 5px;
 	font-size: 12px;
 }
@@ -54,8 +53,8 @@ span.description {
 }
 input {
 	display: block;
-	font-size: 16px;
-	width: 200px;
+	width: 240px;
+	font-size: 14px;
 }
 input[type=checkbox] {
 	float: left;
@@ -64,7 +63,7 @@ input[type=checkbox] {
 	vertical-align: middle;
 }
 button {
-	font-size: 16px;
+	font-size: 14px;
 }
 
 .errors {

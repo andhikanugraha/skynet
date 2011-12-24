@@ -182,6 +182,10 @@ class FormDisplay {
 	public function email($name, $length = 'medium', $maxlength = false, $required = false, $default = '') {
 		$this->text($name, $length, $maxlength, $required, $default, 'email');
 	}
+	
+	public function password($name, $length = 'medium', $maxlength = false, $required = false, $default = '') {
+		$this->text($name, $length, $maxlength, $required, $default, 'password');
+	}
 
 	public function textarea($name, $size = 'large') {
 		printf(	'<textarea name="%s" id="%s" class="%s">%s</textarea>',
@@ -253,7 +257,7 @@ class FormDisplay {
 		$this->select_year($name . '[year]', $start, $end);
 	}
 
-	public function checkbox($name, $value) {
+	public function checkbox($name, $value = '1') {
 		$checked = (bool) $this->values[$name];
 
 		printf(	'<input type="checkbox" name="%s" id="%s" value="%s"%s><input type="hidden" name="_checkboxes[]" value="%1$s">',
@@ -273,6 +277,15 @@ class FormDisplay {
 				$value,
 				$checked ? ' checked' : '' );
 	}
+	
+	public function province($name, $length = 'medium', $placeholder = '') {
+		$states = array('' => $placeholder);
+		foreach (self::$address_states as $state) {
+			$states[$state] = $state;
+		}
+
+		$this->select($name, $states, $length);
+	}
 
 	public function address($name, $kota = true, $provinsi = true, $kodepos = true, $telepon = true, $hp = true, $fax = true, $email = true) {
 		?>
@@ -287,7 +300,7 @@ class FormDisplay {
 		?>
 		<br>
 		<?php $this->label($name . '_address_province', 'State/Province', 'subpoint') ?>
-		<?php $this->select($name . '_address_province', self::$address_states, 'medium') ?>
+		<?php $this->province($name . '_address_province', 'medium') ?>
 		<?php
 		endif;
 		if ($kodepos):

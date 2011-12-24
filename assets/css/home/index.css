@@ -1,3 +1,7 @@
+body {
+	background: url('../global/bg_top_blue.jpg') left top repeat-x;
+}
+
 .content {
 	padding: 5% 0;
 	float: none;

@@ -41,7 +41,7 @@ class LocaleComponent extends HeliumComponent {
 		$translations = $this->translations;
 
 		HeliumDateTime::add_locale('id', $translations);
-		HeliumDateTime::set_default_timezone(Helium::conf('site_timezone'));
+		self::set_timezone(Helium::conf('site_timezone'));
 
 		foreach ($translations as $k => $v) {
 			FormDisplay::$translations[$k] = $v;
@@ -84,4 +84,7 @@ class LocaleComponent extends HeliumComponent {
 		);
 	}
 	
+	public static function set_timezone($timezone) {
+		HeliumDateTime::set_default_timezone($timezone);
+	}
 }
