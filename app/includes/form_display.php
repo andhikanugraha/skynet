@@ -203,7 +203,7 @@ class FormDisplay {
 <select name="<?php echo $name ?>" id="<?php echo $id ?>" class="<?php echo $length ?>">
 <?php
 	foreach ($options as $k => $v):
-		$is_selected = ((!$current_value && $k === $current_value) || ($value && $k == $value));
+		$is_selected = ((!$current_value && $k === $current_value) || ($current_value && $k == $current_value));
 		$selected = $is_selected ? ' selected' : '';
 ?>
 	<option value="<?php echo $k; ?>"<?php echo $selected; ?>><?php echo $v; ?></option>
