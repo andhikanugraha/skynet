@@ -34,7 +34,6 @@ class LocaleComponent extends HeliumComponent {
 		'Postcode' => 'Kode Pos',
 		'Mobile Phone' => 'HP',
 		'Home Phone' => 'Telepon',
-		'Fax' => 'Faks'
 		'Fax' => 'Faks',
 		'Asia/Jakarta' => 'WIB',
 		'Asia/Ujung_Pandang' => 'WITA',
@@ -42,7 +41,6 @@ class LocaleComponent extends HeliumComponent {
 	);
 	
 	public function init() {
-		$translations = $this->translations;
 		$translations = self::$translations;
 
 		HeliumDateTime::add_locale('id', $translations);
