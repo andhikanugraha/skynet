@@ -1,29 +1,31 @@
+<?php
+if (!function_exists('L')) {
+	function L($u) {
+		echo Helium::conf('base_uri') . $u;
+	}
+}
+?>
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="id">
+
 	<head>
-		<title>Error</title>
-		<style type="text/css">
-			body { position: fixed; }
-			#exception { position:fixed; overflow: auto; top: 0; left: 0; width: 100%; height: 100%; font-family: 'Lucida Grande', 'Tahoma', sans-serif; text-align: center; white-space: normal; background: white; }
-			h1 { font-size: 96pt; margin-top: 20%; margin-bottom: 0; letter-spacing: -.1em }
-			p { font-size: 13px; color: #333; }
-			a { color: blue; text-decoration: none ;}
-			a:hover { text-decoration: underline; }
-			footer { display: block; margin-top: 40px; color: #999; font-size: 10px;}
-			footer a { color: #666; }
-				</style>
+		<meta charset="utf-8">
+		<title>Pendaftaran Seleksi Bina Antarbudaya</title>
+		<link rel="stylesheet" href="<?php L('/assets/css/global/style.css'); ?>">
+		<link rel="stylesheet" href="<?php L('/assets/css/global/error.css'); ?>">
 	</head>
 
 	<body>
-		<div id="exception">
-
-						<h1>Epic fail</h1>
-			<p>Something went wrong. Perhaps you should go <a href="">back</a>.</p>
-						<footer>
-				<a href="http://github.com/andhikanugraha/helium/">Project Skynet</a> by <a href="http://github.com/andhikanugraha/">Bina Antarbudaya</a>
-			</footer>
-
+		<nav class="global-nav">
+			<header class="masthead"><a href="<?php L('/'); ?>"><img src="<?php L('/assets/css/global/masthead.png'); ?>" alt="Bina Antarbudaya"></a></header>
+		</nav>
+		<div class="content">
+			<header class="page-title">
+				<h1>:o</h1>
+			</header>
+			<p>Terjadi sebuah kesalahan teknis. Kami akan segera memeriksanya.</p>
+			<p><strong><a href="<?php echo $_SERVER['HTTP_REFERER'] ?>">Kembali ke halaman sebelumnya</a></strong></p>
 		</div>
 	</body>
 </html>
