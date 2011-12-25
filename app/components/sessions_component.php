@@ -25,9 +25,6 @@ class SessionsComponent extends HeliumComponent {
 		$this->session = $this->fetch_session();
 
 		$controller->session = &$this->session;
-		
-		if ($this->session['timezone'])
-			LocaleComponent::set_timezone($this->session['timezone']);
 
 		if ($this->session->is_persistent)
 			$this->renew_cookie();

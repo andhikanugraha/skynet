@@ -33,7 +33,6 @@ class AuthComponent extends HeliumComponent {
 			$this->session->user_password_hash = $user->password_hash;
 			$this->session->user = $user;
 			$this->session->save();
-			$this->session['timezone'] = $user->chapter->chapter_timezone;
 			return true;
 		}
 		else
