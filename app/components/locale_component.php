@@ -10,6 +10,7 @@
  */
 class LocaleComponent extends HeliumComponent {
 	public $translations = array(
+	public static $translations = array(
 		'Monday' => 'Senin',
 		'Tuesday' => 'Selasa',
 		'Wednesday' => 'Rabu',
@@ -39,6 +40,7 @@ class LocaleComponent extends HeliumComponent {
 	
 	public function init() {
 		$translations = $this->translations;
+		$translations = self::$translations;
 
 		HeliumDateTime::add_locale('id', $translations);
 		self::set_timezone(Helium::conf('site_timezone'));
@@ -82,6 +84,12 @@ class LocaleComponent extends HeliumComponent {
 			'Papua Barat',
 			'Papua'
 		);
+		
+		function __($string) {
+			return	LocaleComponent::$translations[$string] ?
+					LocaleComponent::$translations[$string] :
+					$string;
+		}
 	}
 	
 	public static function set_timezone($timezone) {
