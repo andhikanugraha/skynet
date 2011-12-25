@@ -8,7 +8,7 @@ define('PICTURE_UPLOAD_PATH', HELIUM_PARENT_PATH . '/uploads');
 class HeliumConfiguration extends HeliumDefaults {
 
 	/* Application configuration */
-	public $app_name = 'gatotkaca';	// name of application
+	public $app_name = 'skynet';	// name of application
 	public $production = false;		// set to true to disable debugging
 	// public $enable_reactor = false;	// true to enable Reactor
 	
