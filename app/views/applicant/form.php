@@ -1,8 +1,8 @@
 <?php $this->header('Formulir Pendaftaran'); ?>
-<script>document.write('<style>.global-nav, .content {display: none}</style>');</script>
+<?php if ($new) { ?><script>document.write('<style>.global-nav, .content {display: none}</style>');</script><?php } ?>
 <script src="<?php L('/assets/js/jquery-1.6.2.min.js') ?>"></script>
 <header class="page-title">
-	<p>Tahap 3/5</p>
+	<p>Tahap 3 dari 5</p>
 	<h1>Formulir Pendaftaran</h1>
 </header>
 <nav class="actions-nav">
@@ -47,6 +47,12 @@
 
 <form action="<?php L($this->params) ?>" enctype="multipart/form-data" method="POST">
 
+<nav class="form-page-nav above">
+	<p class="prev"><a href="#_prev">Halaman sebelumnya</a></p>
+	<p class="save"><button type="submit">Simpan<?php if (!$admin): ?> Sementara<?php endif; ?></button></p>
+	<p class="next"><a href="#_next">Halaman berikutnya</a></p>
+</nav>
+
 <nav class="form-nav">
 	<header>
 		<h1>Pilih Halaman</h1>
@@ -57,25 +63,18 @@
 		<li><a href="#keluarga">Keluarga</a></li>
 		<li><a href="#pendidikan">Pendidikan</a></li>
 		<li><a href="#kegiatan">Kegiatan</a></li>
-		<li><a href="#kepribadian">Kepribadian</a></li>
-		<li><a href="#referensi">Referensi</a></li>
+		<li><a href="#personality">Kepribadian</a></li>
+		<li><a href="#travel">Riwayat Perjalanan</a></li>
+		<li><a href="#reference">Referensi</a></li>
 		<li><a href="#rekomendasi">Rekomendasi</a></li>
 		<li><a href="#foto">Foto</a></li>
-		<?php if (!$readonly): ?>
+		<?php if (!$readonly && false): ?>
 		<li class="finalize"><strong><a href="#finalisasi">Finalisasi</a></strong></li>
 		<?php endif; ?>
 	</ol>
 </nav>
 
 <div class="form-fields">
-
-
-<?php if (!$readonly): ?>
-<p class="save-button">	
-	<input type="hidden" name="last_pane" id="lastpane" value="#pribadi">
-	<button type="submit">Simpan<?php if (!$admin): ?> Sementara<?php endif; ?></button>
-</p>
-<?php endif; ?>
 
 <!-- begin form -->
 
@@ -317,7 +316,7 @@
 	</table>
 	<?php endforeach; ?>
 
-	<h1>Saudara</h1>
+	<h1>Saudara Kandung</h1>
 	<table class="form-table siblings">
 		<tr>
 			<td class="label noc"><?php $form->label('number_of_children_in_family', 'Jumlah anak dalam keluarga', 'required') ?></td>
@@ -325,596 +324,587 @@
 			<td class="label nth"><?php $form->label('nth_child', 'Adik anak nomor', 'required') ?></td>
 			<td class="field nth"><?php $form->number('nth_child', 'very-short'); ?></td>
 		</tr>
-		<tr>
-			<td colspan="4" class="combined">
-				<span>Nama, umur, dan sekolah/pekerjaan saudara kandung (selain Adik sendiri)</span>
-				<br>
-				<table class="siblings-table">
-					<thead>
-						<tr>
-							<th>Nama Lengkap</th>
-							<th>Tanggal Lahir</th>
-							<th>Sekolah/Pekerjaan</th>
-						</tr>
-					</thead>
-					<tbody>
-						<?php
-						foreach ($sibling_forms as $s):
-						?>
-						<tr>
-							<td class="sibling-name"><?php $s->text('full_name', 'short') ?></td>
-							<td class="sibling-dob"><?php $s->date('date_of_birth', 50) ?></td>
-							<td class="sibling-job"><?php $s->text('occupation', 'short') ?></td>
-						</tr>
-						<?php endforeach; ?>
-						<?php $s = new FormDisplay; $s->make_subform('siblings[#]'); ?>
-						<tr class="prototype">
-							<td class="sibling-name"><?php $s->text('full_name', 'short') ?></td>
-							<td class="sibling-dob"><?php $s->date('date_of_birth', 50) ?></td>
-							<td class="sibling-job"><?php $s->text('occupation', 'short') ?></td>
-						</tr>
-					</tbody>
-				</table>
-<script>
-	$(document).ready(function() {
-		fac = function() {
-			$('td.sibling-name input').each(function() {
-				t = $(this);
-				if (!t.parent().parent().hasClass('prototype')) {
-					if (t.val())
-						t.parent().parent().removeClass('engineered').addClass('notempty');
-					else
-						t.parent().parent().addClass('engineered').removeClass('notempty');
-				}
-			})
-			
-			v = parseInt($(this).val());
-			o = $('.siblings-table tbody tr').length - 1;
-			if (v > o) {
-				d = v - o - 1;
-				for (i=0; i<d; i++) {
-					$('.siblings-table tbody').append($('.prototype').clone().removeClass('prototype'));
-				}
-			}
-			if (v <= o) {
-				d = o - v + 1;
-				for (i=0; i<d; i++) {
-					$('tr.engineered').first().detach();
-				}
-			}
-		}
-		$('#number_of_children_in_family').click(fac);
-		$('#number_of_children_in_family').change(fac);
-		$('#number_of_children_in_family').keyup(fac);
-	})
-</script>
-			</td>
-		</tr>
 	</table>
+	<table class="siblings-table subform">
+		<caption>
+			<span>Nama, umur, dan sekolah/pekerjaan saudara kandung (selain Adik sendiri)</span>
+		</caption>
+		<thead>
+			<tr>
+				<th>Nama Lengkap</th>
+				<th>Tanggal Lahir</th>
+				<th>Sekolah/Pekerjaan</th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php
+			foreach ($sibling_forms as $s):
+			?>
+			<tr>
+				<td class="sibling-name"><?php $s->text('full_name', 'short') ?></td>
+				<td class="sibling-dob"><?php $s->date('date_of_birth', 50) ?></td>
+				<td class="sibling-job"><?php $s->text('occupation', 'short') ?></td>
+			</tr>
+			<?php endforeach; ?>
+			<?php $s = new FormDisplay; $s->make_subform('siblings[#]'); ?>
+			<tr class="prototype">
+				<td class="sibling-name"><?php $s->text('full_name', 'short') ?></td>
+				<td class="sibling-dob"><?php $s->date('date_of_birth', 50) ?></td>
+				<td class="sibling-job"><?php $s->text('occupation', 'short') ?></td>
+			</tr>
+		</tbody>
+	</table>
+	<script>
+		$(document).ready(function() {
+			fac = function() {
+				$('td.sibling-name input').each(function() {
+					t = $(this);
+					if (!t.parent().parent().hasClass('prototype')) {
+						if (t.val())
+							t.parent().parent().removeClass('engineered').addClass('notempty');
+						else
+							t.parent().parent().addClass('engineered').removeClass('notempty');
+					}
+				})
+
+				v = parseInt($(this).val());
+				o = $('.siblings-table tbody tr').length - 1;
+				if (v > o) {
+					d = v - o - 1;
+					for (i=0; i<d; i++) {
+						$('.siblings-table tbody').append($('.prototype').clone().removeClass('prototype'));
+					}
+				}
+				if (v <= o) {
+					d = o - v + 1;
+					for (i=0; i<d; i++) {
+						$('tr.engineered').first().detach();
+					}
+				}
+			}
+			$('#number_of_children_in_family').click(fac);
+			$('#number_of_children_in_family').change(fac);
+			$('#number_of_children_in_family').keyup(fac);
+		})
+	</script>
 </fieldset>
 
 <fieldset class="pane" id="pendidikan">
 	<legend>Pendidikan</legend>
 	<!-- <p>Seluruh kolom pada halaman ini <strong>wajib diisi</strong>.</p> -->
 	<!-- poin 12–14 -->
-	<h1>SD/MI</h1>
-	<ol>
-		<li>
-			<label for="pendidikan_sd_nama_sekolah" class="main-point">Nama Sekolah</label>
-			<?php $form->text('pendidikan_sd_nama_sekolah', 'long'); ?>
-			<br>
-			<span class="instruction">Cantumkan kota. Misal: SD Bina Antarbudaya <u>Bandung</u></span>
-			<span class="instruction">Jika Adik pernah berpindah sekolah (mutasi), tuliskan secara berurutan nama masing-masing sekolah yang pernah Adik masuki dengan memisahkannya dengan garis miring (/).</span>
-		</li>
-		<li>
-			<label for="pendidikan_sd-tahun_ijazah" class="main-point">Tahun Ijazah</label>
-			<?php $form->select_year('pendidikan_sd_tahun_ijazah', 2009, 2005); ?>
-		</li>
-		<li>
-			<label class="main-point">Data Prestasi <strong>(wajib diisi seluruhnya)</strong></label>
-			<table class="academics sd">
-				<thead>
-					<tr>
-						<th rowspan="2" width="60" class="grade">Kelas</th>
-						<th width="180" class="term-first">Cawu/Semester I</th>
-						<th width="180" class="term-middle">Cawu/Semester II</th>
-						<th width="180" class="term-final">Cawu III</th>
-					</tr>
-					<tr>
-						<th colspan="3">Ranking ke ... dari ... siswa <strong>atau Rata-Rata Nilai (jika tidak ada ranking)</strong></th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php
-					$phase = 'sd';
-					$grades = explode(' ', 'I II III IV V VI');
-					foreach($grades as $i => $g): $i++; ?>
-					<tr>
-						<td class="grade"><?php echo $g; ?></td>
-						<td class="term-first">
-							<?php $form->number('pendidikan_' . $phase . '_prestasi[' . $i . '][i][rank]', 'very-short l') ?> /
-							<?php $form->number('pendidikan_' . $phase . '_prestasi[' . $i . '][i][total]', 'very-short r') ?>
-						</td>
-						<td class="term-middle">
-							<?php $form->number('pendidikan_' . $phase . '_prestasi[' . $i . '][ii][rank]', 'very-short l') ?> /
-							<?php $form->number('pendidikan_' . $phase . '_prestasi[' . $i . '][ii][total]', 'very-short r') ?>
-						</td>
-						<td class="term-final">
-							<?php $form->number('pendidikan_' . $phase . '_prestasi[' . $i . '][iii][rank]', 'very-short l') ?> /
-							<?php $form->number('pendidikan_' . $phase . '_prestasi[' . $i . '][iii][total]', 'very-short r') ?>
-						</td>
-					</tr>
-					<?php endforeach; ?>
-				</tbody>
-			</table>
-		</li>
-	</ol>
-	<h1>SMP/MTs</h1>
-	<ol>
-		<li>
-			<label for="pendidikan_smp_nama_sekolah" class="main-point">Nama Sekolah</label>
-			<?php $form->text('pendidikan_smp_nama_sekolah', 'long'); ?>
-			<br>
-			<span class="instruction">Cantumkan kota. Misal: SMP <u>Negeri</u> 70 <u>Bandung</u>.</span>
-			<span class="instruction">Jika Adik pernah berpindah sekolah (mutasi), tuliskan secara berurutan nama masing-masing sekolah yang pernah Adik masuki dengan memisahkannya dengan garis miring (/).</span>			
-		</li>
-		<li>
-			<label for="pendidikan_smp-tahun_ijazah" class="main-point">Tahun Ijazah</label>
-			<?php $form->select_year('pendidikan_smp_tahun_ijazah', 2010, 2008); ?>
-		</li>
-		<li>
-			<label class="main-point">Data Prestasi <strong>(wajib diisi seluruhnya)</strong></label>
-			<table class="academics smp">
-				<thead>
-					<tr>
-						<th rowspan="2" width="60" class="grade">Kelas</th>
-						<th width="270" class="term-first">Semester I</th>
-						<th width="270" class="term-final">Semester II</th>
-					</tr>
-					<tr>
-						<th colspan="3">Ranking ke ... dari ... siswa <strong>atau Rata-Rata Nilai (jika tidak ada ranking)</strong></th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php
-					$phase = 'smp';
-					$grades = explode(' ', 'VII VIII IX');
-					foreach($grades as $i => $g): $i++; ?>
-					<tr>
-						<td class="grade"><?php echo $g; ?></td>
-						<td class="term-first">
-							<?php $form->number('pendidikan_' . $phase . '_prestasi[' . $i . '][i][rank]', 'very-short l') ?> /
-							<?php $form->number('pendidikan_' . $phase . '_prestasi[' . $i . '][i][total]', 'very-short r') ?>
-						</td>
-						<td class="term-final">
-							<?php $form->number('pendidikan_' . $phase . '_prestasi[' . $i . '][ii][rank]', 'very-short l') ?> /
-							<?php $form->number('pendidikan_' . $phase . '_prestasi[' . $i . '][ii][total]', 'very-short r') ?>
-						</td>
-					</tr>
-					<?php endforeach; ?>
-				</tbody>
-			</table>
-		</li>
-	</ol>
+
 	<h1>SMA/SMK/MA</h1>
-	<ol>
-		<li>
-			<label for="pendidikan_sma_nama_sekolah" class="main-point">Nama Sekolah</label>
-			<?php $form->text('pendidikan_sma_nama_sekolah', 'long'); ?><br>
-			<span class="instruction">Cantumkan kota. Misal: SMA <u>Negeri</u> 70 <u>Bandung</u></span>
-			<span class="instruction">Jika Adik pernah berpindah sekolah (mutasi), tuliskan secara berurutan nama masing-masing sekolah yang pernah Adik masuki dengan memisahkannya dengan garis miring (/).</span>	
-		</li>
-		<li>
-			<?php $form->checkbox('pesantren') ?> Sekolah saya adalah Pesantren/Madrasah
-		</li>
-		<li>
-			<?php $form->checkbox('akselerasi') ?> Saya adalah siswa kelas Akselerasi
-			<br>
-			<span class="instruction"><strong>Jika iya</strong>, pastikan kamu mengisi Surat Pernyataan Siswa Akselerasi yang dapat diunduh di halaman <a href="<?php L(array('controller'=>'applicant', 'action'=>'guide')); ?>">Panduan</a>.</span>
-		</li>
-		<li>
-			<label for="pendidikan_sma-alamat_sekolah-alamat" class="main-point">Alamat Sekolah</label>
-			<?php $form->address('pendidikan_sma_alamat_sekolah', false, false, false, $telepon = true, $hp = false, $fax = true, $email = false); ?>
-		</li>
-		<li>
-			<label for="pendidikan_sma_nama_kepala_sekolah" class="main-point">Nama Kepala Sekolah</label>
-			<?php $form->text('pendidikan_sma_nama_kepala_sekolah', 'medium'); ?>
-		</li>
-		<li>
-			<label for="pendidikan_sma-tahun_masuk" class="main-point">Masuk SLTA tahun</label>
-			<?php $form->select_year('pendidikan_sma_tahun_masuk', 2010, 2008); ?>
-		</li>
-		<li>
-			<label for="pendidikan_sma-bulan_keluar" class="main-point">Akan menamatkan SLTA bulan</label>
+	<table class="form-table">
+		<tr>
+			<td class="label"><?php $form->label('high_school_name', 'Nama Sekolah', 'required') ?></td>
+			<td class="field">
+				<?php $form->text('high_school_name', 'long'); ?><br>
+				<span class="instruction">Cantumkan kota. Misal: SMA <u>Negeri</u> 70 <u>Bandung</u></span>
+				<span class="instruction">Jika Adik pernah berpindah sekolah (mutasi), tuliskan secara berurutan nama masing-masing sekolah yang pernah Adik masuki dengan memisahkannya dengan garis miring (/).</span>	
+			</td>
+			<tr>
+				<td class="label"></td>
+				<td class="field">
+					<?php $form->checkbox('in_pesantren') ?> Sekolah saya adalah Pesantren/Madrasah
+				</td>
+			</tr>
+			<tr>
+				<td class="label"></td>
+				<td class="field">
+					<?php $form->checkbox('is_acceleration_class') ?> Saya adalah siswa kelas Akselerasi
+					<br>
+					<span class="instruction" id="acceleration-instruction"><strong>Jika iya</strong>, pastikan kamu mengisi Surat Pernyataan Siswa Akselerasi yang dapat diunduh di halaman <a href="<?php L(array('controller'=>'applicant', 'action'=>'guide')); ?>">Panduan</a>.</span>
+				</td>
+			</tr>
+			<tr>
+				<td class="label"><?php $form->label('high_school_address_street', 'Alamat Sekolah') ?></td>
+				<td class="field"><?php $form->address('high_school', false, false, false, true, false, true, false); ?></td>
+			</tr>
+			<tr>
+				<td class="label"><?php $form->label('high_school_admission_year', 'Tahun Masuk', 'required') ?></td>
+				<td class="field"><?php $form->select_year('high_school_admission_year', date('Y') - 2, date('Y') - 1, false); ?></td>
+			</tr>
+			<tr>
+				<td class="label"><?php $form->label('high_school_graduation_month', 'Bulan Keluar') ?></td>
+				<td class="field"><?php $form->select_month('high_school_graduation_month'); ?>
+				<?php $form->select_year('high_school_graduation_year', date('Y') + 1, date('Y') + 2); ?></td>
+			</tr>
+		</tr>
+	</table>
+	
+	<table class="academics sma subform">
+		<caption>
+			<?php $form->label('grades_y10t1_rank', 'Data prestasi', 'required') ?>
+		</caption>
+		<thead>
+			<tr>
+				<th rowspan="2" class="grade">Kelas</th>
+				<th>Ranking ke ... dari ... siswa <strong>atau Rata-Rata Nilai (jika tidak ada ranking)</strong></th>
+			</tr>
+			<tr>
+				<th class="term-first">Semester I</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td class="grade">X</td>
+				<td class="term-first">
+					<?php $form->number('grades_y10t1_rank', 'very-short l') ?>
+					dari
+					<?php $form->number('grades_y10t1_total', 'very-short r') ?>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<h1>SMP/MTs</h1>
+	<table class="form-table">
+		<tr>
+			<td class="label"><?php $form->label('junior_high_school_name', 'Nama Sekolah') ?></td>
+			<td class="field">
+				<?php $form->text('junior_high_school_name', 'long'); ?><br>
+				<span class="instruction">Cantumkan kota. Misal: SMP <u>Negeri</u> 70 <u>Bandung</u></span>
+				<span class="instruction">Jika Adik pernah berpindah sekolah (mutasi), tuliskan secara berurutan nama masing-masing sekolah yang pernah Adik masuki dengan memisahkannya dengan garis miring (/).</span>	
+			</td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label('junior_high_school_graduation_year', 'Tahun Ijazah') ?></td>
+			<td class="field"><?php $form->select_year('junior_high_school_graduation_year', date('Y') - 2, date('Y') - 1); ?></td>
+		</tr>
+	</table>
+
+	<table class="academics smp subform">
+		<caption>
+			<?php $form->label('grades_y7t1_rank', 'Data prestasi', 'required') ?>
+		</caption>
+		<thead>
+			<tr>
+				<th rowspan="2" width="60" class="grade">Kelas</th>
+				<th colspan="2">Ranking ke ... dari ... siswa <strong>atau Rata-Rata Nilai (jika tidak ada ranking)</strong></th>
+			</tr>
+			<tr>
+				<th class="term-first">Semester I</th>
+				<th class="term-final">Semester II</th>
+			</tr>
+		</thead>
+		<tbody>
 			<?php
-			$form->select_month('pendidikan_sma_bulan_keluar');
-			?>
-			<label for="pendidikan_sma-tahun_keluar" class="inline-point">tahun</label>
-			<?php $form->select_year('pendidikan_sma_tahun_keluar', 2014, 2011); ?>
-		</li>
-		<li>
-			<label class="main-point">Data Prestasi <strong>(wajib diisi seluruhnya)</strong></label>
-			<table class="academics sma">
-				<thead>
-					<tr>
-						<th rowspan="2" width="60" class="grade">Kelas</th>
-						<th width="270" class="term-first">Semester I</th>
-						<th width="270" class="term-final">Semester II</th>
-					</tr>
-					<tr>
-						<th colspan="3">Ranking ke ... dari ... siswa <strong>atau Rata-Rata Nilai (jika tidak ada ranking)</strong></th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php
-					$phase = 'sma';
-					$grades = explode(' ', 'X');
-					foreach($grades as $i => $g): $i++; ?>
-					<tr>
-						<td class="grade"><?php echo $g; ?></td>
-						<td class="term-first">
-							<?php $form->number('pendidikan_' . $phase . '_prestasi[' . $i . '][i][rank]', 'very-short l') ?> /
-							<?php $form->number('pendidikan_' . $phase . '_prestasi[' . $i . '][i][total]', 'very-short r') ?>
-						</td>
-						<!-- <td class="term-final">
-													<?php $form->number('pendidikan_' . $phase . '_prestasi[' . $i . '][ii][rank]', 'very-short l') ?> /
-													<?php $form->number('pendidikan_' . $phase . '_prestasi[' . $i . '][ii][total]', 'very-short r') ?>
-												</td> -->
-					</tr>
-					<?php endforeach; ?>
-				</tbody>
-			</table>
-		</li>
-	</ol>
+			$grades = array(7 => 'VII', 8 => 'VIII', 9 => 'IX');
+			foreach($grades as $i => $g): ?>
+			<tr>
+				<td class="grade"><?php echo $g; ?></td>
+				<td class="term-first">
+					<?php $form->number('grades_y' . $i . 't1_rank', 'very-short l') ?> dari
+					<?php $form->number('grades_y' . $i . 't1_total', 'very-short r') ?>
+				</td>
+				<td class="term-final">
+					<?php $form->number('grades_y' . $i . 't2_rank', 'very-short l') ?> dari
+					<?php $form->number('grades_y' . $i . 't2_total', 'very-short r') ?>
+				</td>
+			</tr>
+			<?php endforeach; ?>
+		</tbody>
+	</table>
+	
+	<h1>SD/MI</h1>
+	<table class="form-table">
+		<tr>
+			<td class="label"><?php $form->label('elementary_school_name', 'Nama Sekolah') ?></td>
+			<td class="field">
+				<?php $form->text('elementary_school_name', 'long'); ?><br>
+				<span class="instruction">Cantumkan kota. Misal: SD <u>Negeri</u> 70 <u>Bandung</u></span>
+				<span class="instruction">Jika Adik pernah berpindah sekolah (mutasi), tuliskan secara berurutan nama masing-masing sekolah yang pernah Adik masuki dengan memisahkannya dengan garis miring (/).</span>	
+			</td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label('elementary_graduation_year', 'Tahun Ijazah') ?></td>
+			<td class="field"><?php $form->select_year('elementary_graduation_year', date('Y') - 2, date('Y') - 1); ?></td>
+		</tr>
+	</table>
+
+	<table class="academics sd subform">
+		<caption>
+			<?php $form->label('grades_y1t1_rank', 'Data prestasi', 'required') ?>
+		</caption>
+		<thead>
+			<tr>
+				<th rowspan="2" width="60" class="grade">Kelas</th>
+				<th colspan="2">Ranking ke ... dari ... siswa <strong>atau Rata-Rata Nilai (jika tidak ada ranking)</strong></th>
+			</tr>
+			<tr>
+				<th class="term-first">Semester I</th>
+				<th class="term-final">Semester II</th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php
+			$grades = array(1 => 'I', 2 => 'II', 3 => 'III', 4 => 'IV', 5 => 'V', 6 => 'VI');
+			foreach($grades as $i => $g): ?>
+			<tr>
+				<td class="grade"><?php echo $g; ?></td>
+				<td class="term-first">
+					<?php $form->number('grades_y' . $i . 't1_rank', 'very-short l') ?> dari
+					<?php $form->number('grades_y' . $i . 't1_total', 'very-short r') ?>
+				</td>
+				<td class="term-final">
+					<?php $form->number('grades_y' . $i . 't2_rank', 'very-short l') ?> dari
+					<?php $form->number('grades_y' . $i . 't2_total', 'very-short r') ?>
+				</td>
+			</tr>
+			<?php endforeach; ?>
+		</tbody>
+	</table>
+
 	<h1>Pengetahuan Bahasa</h1>
-	<ol>
-		<li>
-			<label class="main-point" for="pengetahuan_bahasa_inggris_berapa_lama">Sudah berapa lama Adik belajar Bahasa Inggris?</label>
-			<?php $form->text('pengetahuan_bahasa_inggris_berapa_lama', 'short') ?>
-		</li>
-		<li>
-			<label class="main-point" for="pengetahuan_bahasa_lain_apa">Bahasa lain yang Adik kuasai/pelajari</label>
-			<?php $form->text('pengetahuan_bahasa_lain_apa', 'short') ?>
-			<label class="inline-point" for="pengetahuan_bahasa_lain_berapa_lama">Berapa lama?</label>
-			<?php $form->text('pengetahuan_bahasa_lain_berapa_lama', 'short') ?>
-		</li>
-	</ol>
-	<h1>Pelajaran Favorit &amp; Cita-Cita</h1>
-	<ol>
-		<li>
-			<label class="main-point" for="mata_pelajaran_favorit">Mata pelajaran favorit</label>
-			<?php $form->text('mata_pelajaran_favorit', 'medium') ?>
-		</li>
-		<li>
-			<label class="main-point" for="cita_cita">Cita-cita</label>
-			<?php $form->text('cita_cita', 'medium') ?>
-		</li>
-	</ol>
+	<table class="form-table">
+		<tr>
+			<td class="label"><?php $form->label('years_speaking_english', 'Sudah berapa lama Adik belajar Bahasa Inggris?') ?></td>
+			<td class="field"><?php $form->text('years_speaking_english', 'long') ?></td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label('other_languages', 'Bahasa lain yang Adik kuasai/pelajari') ?></td>
+			<td class="field"><?php $form->text('other_languages', 'long') ?></td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label('years_speaking_other_languages', 'Berapa lama?') ?></td>
+			<td class="field"><?php $form->text('years_speaking_other_languages', 'long') ?></td>
+		</tr>
+	</table>
+	<h1>Pelajaran Favorit dan Cita-Cita</h1>
+	<table class="form-table">
+		<tr>
+			<td class="label"><?php $form->label('favorite_subject', 'Mata pelajaran favorit') ?></td>
+			<td class="field"><?php $form->text('favorite_subject', 'long') ?></td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label('dream', 'Cita-cita') ?></td>
+			<td class="field"><?php $form->text('dream', 'long') ?></td>
+		</tr>
+	</table>
 </fieldset>
 
 <fieldset class="pane" id="kegiatan">
 	<legend>Kegiatan</legend>
 	<!-- poin 15-19 -->
 	<h1>Organisasi</h1>
-	<ol>
-		<li>
-			<label class="main-point">Organisasi yang pernah diikuti, baik di lingkungan sekolah maupun di luar lingkungan sekolah</label>
-			<table class="activities" width="620">
-				<thead>
-					<tr>
-						<th width="20">No</th>
-						<th width="180">Nama Organisasi</th>
-						<th width="180">Jenis Kegiatan</th>
-						<th width="180">Jabatan</th>
-						<th width="40">Tahun</th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php for($i=1; $i<=7; $i++): ?>
-					<tr>
-						<td><?php echo $i ?></td>
-						<td><?php $form->text('organisasi[' . $i . '][nama_organisasi]', 'short') ?></td>
-						<td><?php $form->text('organisasi[' . $i . '][jenis_kegiatan]', 'short') ?></td>
-						<td><?php $form->text('organisasi[' . $i . '][jabatan]', 'short') ?></td>
-						<td><?php $form->select_year('organisasi[' . $i . '][tahun]', 2011, 1996) ?></td>
-					</tr>
-					<?php endfor; ?>
-				</tbody>
-			</table>
-		</li>
-	</ol>
+	<table class="organizations subform">
+		<caption>Organisasi yang pernah diikuti, baik di lingkungan sekolah maupun di luar lingkungan sekolah</caption>
+		<thead>
+			<tr>
+				<th width="180">Nama Organisasi</th>
+				<th width="180">Jenis Kegiatan</th>
+				<th width="180">Jabatan</th>
+				<th width="40">Tahun</th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php for($i=1; $i<=7; $i++): ?>
+			<tr>
+				<td><?php $form->text('organisasi[' . $i . '][nama_organisasi]', 'short') ?></td>
+				<td><?php $form->text('organisasi[' . $i . '][jenis_kegiatan]', 'short') ?></td>
+				<td><?php $form->text('organisasi[' . $i . '][jabatan]', 'short') ?></td>
+				<td><?php $form->select_year('organisasi[' . $i . '][tahun]', 2011, 1996) ?></td>
+			</tr>
+			<?php endfor; ?>
+		</tbody>
+	</table>
 	<h1>Kesenian <span>(seni suara, seni musik, tari, teater, dll.)</span></h1>
 	<?php $phase = 'kesenian'; ?>
-	<ol>
-		<li>
-			<label class="main-point" for="<?php echo $phase ?>_sekedar_hobi">Sekedar hobi</label>
-			<?php $form->text($phase . '_sekedar_hobi', 'long') ?>
-		</li>		
-		<li>
-			<label class="main-point" for="<?php echo $phase ?>_ikut_perkumpulan">Ikut perkumpulan</label>
-			<?php $form->text($phase . '_ikut_perkumpulan', 'long') ?>
-		</li>
-		<li>
-			<label class="main-point">Prestasi</label>
-			<table class="activities" width="620">
-				<thead>
-					<tr>
-						<th width="20">No</th>
-						<th width="180">Jenis</th>
-						<th width="180">Kejuaraan</th>
-						<th width="180">Prestasi</th>
-						<th width="40">Tahun</th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php for($i=1; $i<=7; $i++): ?>
-					<tr>
-						<td><?php echo $i ?></td>
-						<td><?php $form->text($phase . '_prestasi[' . $i . '][jenis]', 'short') ?></td>
-						<td><?php $form->text($phase . '_prestasi[' . $i . '][kejuaraan]', 'short') ?></td>
-						<td><?php $form->text($phase . '_prestasi[' . $i . '][prestasi]', 'short') ?></td>
-						<td><?php $form->select_year($phase . '_prestasi[' . $i . '][tahun]', 2011, 1996) ?></td>
-					</tr>
-					<?php endfor; ?>
-				</tbody>
-			</table>
-		</li>
-	</ol>
+	<table class="form-table">
+		<tr>
+			<td class="label"><?php $form->label('arts_hobby', 'Sekedar hobi') ?></td>
+			<td class="field"><?php $form->text('arts_hobby', 'long') ?></td>
+		</tr>		
+		<tr>
+			<td class="label"><?php $form->label('arts_organized', 'Ikut perkumpulan') ?></td>
+			<td class="field"><?php $form->text('arts_organized', 'long') ?></td>
+		</tr>
+	</table>
+
+	<table class="achievements subform" width="620">
+		<caption>Prestasi</caption>
+		<thead>
+			<tr>
+				<th width="180">Jenis</th>
+				<th width="180">Kejuaraan</th>
+				<th width="180">Prestasi</th>
+				<th width="40">Tahun</th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php for($i=1; $i<=7; $i++): ?>
+			<tr>
+				<td><?php $form->text($phase . '_prestasi[' . $i . '][jenis]', 'short') ?></td>
+				<td><?php $form->text($phase . '_prestasi[' . $i . '][kejuaraan]', 'short') ?></td>
+				<td><?php $form->text($phase . '_prestasi[' . $i . '][prestasi]', 'short') ?></td>
+				<td><?php $form->select_year($phase . '_prestasi[' . $i . '][tahun]', 2011, 1996) ?></td>
+			</tr>
+			<?php endfor; ?>
+		</tbody>
+	</table>
+
 	<h1>Olahraga</h1>
 	<?php $phase = 'olahraga'; ?>
-	<ol>
-		<li>
-			<label class="main-point" for="<?php echo $phase ?>_sekedar_hobi">Sekedar hobi</label>
-			<?php $form->text($phase . '_sekedar_hobi', 'long') ?>
-		</li>		
-		<li>
-			<label class="main-point" for="<?php echo $phase ?>_ikut_perkumpulan">Ikut perkumpulan</label>
-			<?php $form->text($phase . '_ikut_perkumpulan', 'long') ?>
-		</li>
-		<li>
-			<label class="main-point">Prestasi</label>
-			<table class="activities" width="620">
-				<thead>
-					<tr>
-						<th width="20">No</th>
-						<th width="360">Kejuaraan</th>
-						<th width="180">Pencapaian</th>
-						<th width="40">Tahun</th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php for($i=1; $i<=7; $i++): ?>
-					<tr>
-						<td><?php echo $i ?></td>
-						<td><?php $form->text($phase . '_prestasi[' . $i . '][kejuaraan]', 'medium') ?></td>
-						<td><?php $form->text($phase . '_prestasi[' . $i . '][pencapaian]', 'short') ?></td>
-						<td><?php $form->select_year($phase . '_prestasi[' . $i . '][tahun]', 2011, 1996) ?></td>
-					</tr>
-					<?php endfor; ?>
-				</tbody>
-			</table>
-		</li>
-	</ol>
+	<table class="form-table">
+		<tr>
+			<td class="label"><?php $form->label('sports_hobby', 'Sekedar hobi') ?></td>
+			<td class="field"><?php $form->text('sports_hobby', 'long') ?></td>
+		</tr>		
+		<tr>
+			<td class="label"><?php $form->label('sports_organized', 'Ikut perkumpulan') ?></td>
+			<td class="field"><?php $form->text('sports_organized', 'long') ?></td>
+		</tr>
+	</table>
+	<table class="achievements subform" width="620">
+		<caption>Prestasi</caption>
+		<thead>
+			<tr>
+				<th width="360">Kejuaraan</th>
+				<th width="180">Pencapaian</th>
+				<th width="40">Tahun</th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php for($i=1; $i<=7; $i++): ?>
+			<tr>
+				<td><?php $form->text($phase . '_prestasi[' . $i . '][kejuaraan]', 'medium') ?></td>
+				<td><?php $form->text($phase . '_prestasi[' . $i . '][pencapaian]', 'short') ?></td>
+				<td><?php $form->select_year($phase . '_prestasi[' . $i . '][tahun]', 2011, 1996) ?></td>
+			</tr>
+			<?php endfor; ?>
+		</tbody>
+	</table>
+
+	<h1>Lain-lain</h1>
 	<?php $phase = 'kegiatan_lain_lain'; ?>
-	<ol>
-		<li>
-			<label class="main-point">Kegiatan lain di luar olahraga dan kesenian</label>
-			<table class="activities" width="620">
-				<thead>
-					<tr>
-						<th width="20">No</th>
-						<th width="360">Kegiatan</th>
-						<th width="180">Prestasi</th>
-						<th width="40">Tahun</th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php for($i=1; $i<=7; $i++): ?>
-					<tr>
-						<td><?php echo $i ?></td>
-						<td><?php $form->text($phase . '[' . $i . '][kegiatan]', 'medium') ?></td>
-						<td><?php $form->text($phase . '[' . $i . '][prestasi]', 'short') ?></td>
-						<td><?php $form->select_year($phase . '[' . $i . '][tahun]', 2011, 1996) ?></td>
-					</tr>
-					<?php endfor; ?>
-				</tbody>
-			</table>
-		</li>
-		<?php $phase = 'pengalaman_kerja'; ?>
-		<li>
-			<label class="main-point">Pengalaman kerja sosial/magang/bekerja (di LSM, Yayasan, kantor, sekolah, koperasi, usaha, dll)</label>
-			<table class="activities" width="620">
-				<thead>
-					<tr>
-						<th width="20">No</th>
-						<th width="240">Nama dan bidang tempat bekerja/magang</th>
-						<th width="240">Tugas dan tanggung jawab yang dijalankan</th>
-						<th width="100">Tahun dan lama&nbsp;bekerja</th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php for($i=1; $i<=7; $i++): ?>
-					<tr>
-						<td><?php echo $i ?></td>
-						<td><?php $form->text($phase . '[' . $i . '][kegiatan]', 'institution') ?></td>
-						<td><?php $form->text($phase . '[' . $i . '][prestasi]', ' position') ?></td>
-						<td><?php $form->text($phase . '[' . $i . '][tahun]', ' duration') ?></td>
-					</tr>
-					<?php endfor; ?>
-				</tbody>
-			</table>
-		</li>
-	</ol>
+	<table class="activities subform">
+		<caption>Kegiatan lain di luar olahraga dan kesenian</caption>
+		<thead>
+			<tr>
+				<th width="360">Kegiatan</th>
+				<th width="180">Prestasi</th>
+				<th width="40">Tahun</th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php for($i=1; $i<=7; $i++): ?>
+			<tr>
+				<td><?php $form->text($phase . '[' . $i . '][kegiatan]', 'medium') ?></td>
+				<td><?php $form->text($phase . '[' . $i . '][prestasi]', 'short') ?></td>
+				<td><?php $form->select_year($phase . '[' . $i . '][tahun]', 2011, 1996) ?></td>
+			</tr>
+			<?php endfor; ?>
+		</tbody>
+	</table>
+
+	<?php $phase = 'pengalaman_kerja'; ?>
+	<table class="activities subform">
+		<caption>Pengalaman kerja sosial/magang/bekerja (di LSM, Yayasan, kantor, sekolah, koperasi, usaha, dll)</caption>
+		<thead>
+			<tr>
+				<th width="240">Nama dan bidang tempat bekerja/magang</th>
+				<th width="240">Tugas dan tanggung jawab yang dijalankan</th>
+				<th width="100">Tahun dan lama&nbsp;bekerja</th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php for($i=1; $i<=7; $i++): ?>
+			<tr>
+				<td><?php $form->text($phase . '[' . $i . '][kegiatan]', 'institution') ?></td>
+				<td><?php $form->text($phase . '[' . $i . '][prestasi]', ' position') ?></td>
+				<td><?php $form->text($phase . '[' . $i . '][tahun]', ' duration') ?></td>
+			</tr>
+			<?php endfor; ?>
+		</tbody>
+	</table>
 </fieldset>
 
-<fieldset class="pane" id="referensi">
+<fieldset class="pane" id="travel">
+	<legend>Riwayat Perjalanan</legend>
+	<h1>Pernahkah Adik melawat/berpergian dalam jangka pendek ke luar negeri?</h1>
+	<table class="form-table">
+		<tr>
+			<td class="label"><?php $form->label('short_term_travel_destination', 'Jika pernah, ke mana?') ?></td>
+			<td class="field"><?php $form->text('short_term_travel_destination', 'long') ?></td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label('short_term_travel_when', 'Kapan?') ?></td>
+			<td class="field"><?php $form->text('short_term_travel_when', 'long') ?></td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label('short_term_travel_purpose', 'Dalam rangka apa?') ?></td>
+			<td class="field"><?php $form->text('short_term_travel_purpose', 'long') ?></td>
+		</tr>
+	</table>
+	<h1>Pernahkah Adik melawat/berpergian dalam jangka panjang ke luar negeri?</h1>
+	<table class="form-table">
+		<tr>
+			<td class="label"><?php $form->label('long_term_travel_destination', 'Jika pernah, ke mana?') ?></td>
+			<td class="field"><?php $form->text('long_term_travel_destination', 'long') ?></td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label('long_term_travel_when', 'Kapan dan berapa lama?') ?></td>
+			<td class="field"><?php $form->text('long_term_travel_when', 'long') ?></td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label('long_term_travel_purpose', 'Dalam rangka apa?') ?></td>
+			<td class="field"><?php $form->text('long_term_travel_purpose', 'long') ?></td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label('long_term_travel_activities', 'Kegiatan Adik selama di sana?') ?></td>
+			<td class="field"><?php $form->text('long_term_travel_activities', 'long') ?></td>
+		</tr>
+	</table>
+</fieldset>
+
+<fieldset class="pane" id="reference">
 	<legend>Referensi</legend>
-	<ol>
-		<li>
-			<label class="main-point" for="pernah_pergi_jangka_pendek">Pernahkah Adik melawat/berpergian dalam jangka pendek ke luar negeri?</label>
-			<?php // $form->select('pernah_pergi_jangka_pendek', array('Tidak pernah', 'Pernah'), 'medium-short') ?>
-			<br>
-			<label class="main-point" for="tujuan_pergi_jangka_pendek">Jika pernah, ke mana?</label>
-			<?php $form->text('tujuan_pergi_jangka_pendek', 'medium') ?>
-			<br>
-			<label class="main-point" for="kapan_pergi_jangka_pendek">Kapan?</label>
-			<?php $form->text('kapan_pergi_jangka_pendek', 'medium') ?>
-			<br>
-			<label class="main-point" for="rangka_pergi_jangka_pendek">Dalam rangka apa?</label>
-			<?php $form->text('rangka_pergi_jangka_pendek', 'medium') ?>
-		</li>		
-		<li>
-			<label class="main-point" for="pernah_pergi_jangka_panjang">Pernahkah Adik melawat/berpergian dalam jangka panjang ke luar negeri?</label>
-			<?php // $form->select('pernah_pergi_jangka_panjang', array('Tidak pernah', 'Pernah'), 'medium-short') ?>
-			<br>
-			<label class="main-point" for="tujuan_pergi_jangka_panjang">Jika pernah, ke mana?</label>
-			<?php $form->text('tujuan_pergi_jangka_panjang', 'medium') ?>
-			<br>
-			<label class="main-point" for="kapan_pergi_jangka_panjang">Kapan dan berapa lama?</label>
-			<?php $form->text('kapan_pergi_jangka_panjang', 'medium') ?>
-			<br>
-			<label class="main-point" for="rangka_pergi_jangka_panjang">Dalam rangka apa?</label>
-			<?php $form->text('rangka_pergi_jangka_panjang', 'medium') ?>
-			<br>
-			<label class="main-point" for="kegiatan_pergi_jangka_panjang">Kegiatan Adik selama di sana?</label>
-			<?php $form->text('kegiatan_pergi_jangka_panjang', 'medium') ?>
-		</li>
-		<li>
-			<label class="main-point descriptive">Adakah di antara keluarga besar Adik yang pernah mengikuti program pertukaran yang diselenggarakan oleh Bina Antarbudaya/AFS? Jika iya:</label>
-			<br clear="all">
-			<label class="main-point" for="nama_relasi_pernah_ikut">Nama</label>
-			<?php $form->text('nama_relasi_pernah_ikut', 'medium') ?>
-			<br>
-			<label class="main-point" for="hubungan_relasi_pernah_ikut">Hubungan dengan Adik</label>
-			<?php $form->text('hubungan_relasi_pernah_ikut', 'medium') ?>
-			<br>
-			<label class="main-point" for="program_relasi_pernah_ikut">Program</label>
-			<?php $form->text('program_relasi_pernah_ikut', 'medium-short') ?>
-			<?php $form->select('program_relasi_pernah_ikut_jenisnya', array('sending' => 'Sending', 'hosting' => 'Hosting'), 'short') ?>
-			<br>
-			<label class="main-point" for="tujuan_relasi_pernah_ikut">Tujuan (sending)/Asal (hosting)</label>
-			<?php $form->text('tujuan_relasi_pernah_ikut', 'medium') ?>
-			<br>
-			<label class="main-point" for="alamat_relasi_pernah_ikut">Alamat sekarang</label>
-			<?php $form->textarea('alamat_relasi_pernah_ikut')?>
-		</li>
-		<li>
-			<label class="main-point">Pernahkah Adik/keluarga turut berpartisipasi dalam kegiatan Bina Antarbudaya/AFS?</label>
-			<br clear="all">
-			<label class="main-point" for="nama_kegiatan_yba_pernah_diikuti">Kegiatan</label>
-			<?php $form->text('nama_kegiatan_yba_pernah_diikuti', 'medium') ?>
-			<br>
-			<label class="main-point" for="tahun_kegiatan_yba_pernah_diikuti">Tahun</label>
-			<?php $form->select_year('tahun_kegiatan_yba_pernah_diikuti', 2011, 1970) ?>
-		</li>
-		<li>
-			<label class="main-point" for="referral">Dari mana Adik mengetahui program kami?</label>
-			<br>
-			<?php $form->textarea('referral'); ?>
-		</li>
-		<li>
-			<label class="main-point" for="motivasi">Apa motivasi Adik mengikuti seleksi dan program Bina Antarbudaya?</label>
-			<br>
-			<?php $form->textarea('motivasi'); ?>
-		</li>
-		<li>
-			<label class="main-point" for="harapan_ikut_binabud">Apa yang diharapkan Adik dengan keikutsertaan Adik dalam seleksi dan program Bina Antarbudaya?</label>
-			<br>
-			<?php $form->textarea('harapan_ikut_binabud'); ?>
-		</li>
-	</ol>
+	<h1>Adakah di antara keluarga besar Adik yang pernah mengikuti program pertukaran yang diselenggarakan oleh Bina Antarbudaya/AFS?</h1>
+	<table class="form-table">
+		<tr>
+			<td class="label"><?php $form->label('relative_returnee_name', 'Nama') ?></td>
+			<td class="field"><?php $form->text('relative_returnee_name', 'long') ?></td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label('relative_returnee_relationship', 'Hubungan dengan Adik') ?></td>
+			<td class="field"><?php $form->text('relative_returnee_relationship', 'long') ?></td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label('relative_returnee_program', 'Program') ?></td>
+			<td class="field">
+			<?php $form->text('relative_returnee_program', 'medium');
+			$form->select('relative_returnee_program_type', array('sending' => 'Sending', 'hosting' => 'Hosting'), 'short') ?></td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label('relative_returnee_destination', 'Tujuan (sending)/Asal (hosting)') ?></td>
+			<td class="field"><?php $form->text('relative_returnee_destination', 'long')  ?></td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label('relative_returnee_address_street', 'Alamat sekarang') ?></td>
+			<td class="field"><?php $form->address('relative_returnee', true, false, false, false, false, false, true) ?></td>
+		</tr>
+	</table>
+	<h1>Pernahkah Adik atau keluarga Adik berpartisipasi dalam kegiatan Bina Antarbudaya/AFS sebelumnya?</h1>
+	<table class="form-table">
+		<tr>
+			<td class="label"><?php $form->label('past_binabud_activities', 'Kegiatan') ?></td>
+			<td class="field"><?php $form->text('past_binabud_activities', 'long')  ?></td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label('past_binabud_activities_year', 'Tahun') ?></td>
+			<td class="field"><?php $form->select_year('past_binabud_activities_year', date('Y') - 50, date('Y'))  ?></td>
+		</tr>
+	</table>
+	
+	<h1>Referensi</h1>
+	<p class="field">
+		<?php $form->label('referrer', 'Dari mana Adik mengetahui program kami?') ?><br>
+		<?php $form->textarea('referrer');  ?>
+	</p>
+	<p class="field">
+		<?php $form->label('motivation', 'Apa motivasi Adik mengikuti seleksi dan program Bina Antarbudaya?', 'required') ?><br>
+		<?php $form->textarea('motivation', 'extra-large');  ?>
+	</p>
+	<p class="field">
+		<?php $form->label('hopes', 'Apa yang diharapkan Adik dengan keikutsertaan Adik dalam seleksi dan program Bina Antarbudaya?', 'required') ?><br>
+		<?php $form->textarea('hopes', 'extra-large');  ?>
+	</p>
 </fieldset>
 
 <fieldset class="pane" id="rekomendasi">
 	<legend>Rekomendasi</legend>
-	<p>Sebutkan nama 3 (tiga) orang <strong>di luar keluarga</strong> Adik yang mengenal diri Adik secara pribadi untuk menuliskan surat rekomendasi bagi Adik. Diharapkan nama orang-orang tersebut tidak akan berganti pada saat Adik harus memintakan rekomendasi dari mereka. <i>Surat rekomendasi tidak perlu dikumpulkan pada saat pendaftaran seleksi.</i></p>
+	<p>Sebutkan nama 3 (tiga) orang <em>di luar keluarga</em> Adik yang mengenal diri Adik secara pribadi untuk menuliskan surat rekomendasi bagi Adik. Diharapkan nama orang-orang tersebut tidak akan berganti pada saat Adik harus memintakan rekomendasi dari mereka. <i>Surat rekomendasi tidak perlu dikumpulkan pada saat pendaftaran seleksi.</i></p>
 	<h1>Lingkungan sekolah (Guru atau Kepala Sekolah) <span>(minimal berusia 21 tahun)</span></h1>
-	<ol>
-		<li>
-			<label class="main-point" for="rekomendasi_lingkungan_sekolah_nama">Nama</label>
-			<?php $form->text('rekomendasi_lingkungan_sekolah_nama'); ?>
-		</li>
-		<li>
-			<label class="main-point" for="rekomendasi_lingkungan_sekolah_alamat">Alamat/Telepon</label>
-			<?php $form->text('rekomendasi_lingkungan_sekolah_alamat'); ?>
-		</li>
-		<li>
-			<label class="main-point" for="rekomendasi_lingkungan_sekolah_occupation">Pekerjaan</label>
-			<?php $form->text('rekomendasi_lingkungan_sekolah_occupation'); ?>
-		</li>
-		<li>
-			<label class="main-point" for="rekomendasi_lingkungan_sekolah_alamat_occupation">Alamat pekerjaan</label>
-			<?php $form->textarea('rekomendasi_lingkungan_sekolah_alamat_occupation'); ?>
-		</li>
-		<li>
-			<label class="main-point" for="rekomendasi_lingkungan_sekolah_hubungan">Hubungan</label>
-			<?php $form->text('rekomendasi_lingkungan_sekolah_hubungan'); ?>
-		</li>
-	</ol>
+	<table class="form-table">
+		<tr>
+			<td class="label"><?php $form->label('recommendations_school_name', 'Nama', 'required') ?></td>
+			<td class="field"><?php $form->text('recommendations_school_name', 'long') ?></td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label('recommendations_school_address', 'Alamat/Telepon', 'required') ?></td>
+			<td class="field"><?php $form->textarea('recommendations_school_address') ?></td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label('recommendations_school_occupation', 'Pekerjaan', 'required') ?></td>
+			<td class="field"><?php $form->text('recommendations_school_occupation', 'long') ?></td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label('recommendations_school_work_address', 'Alamat pekerjaan', 'required') ?></td>
+			<td class="field"><?php $form->textarea('recommendations_school_work_address') ?></td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label('recommendations_school_relationship', 'Hubungan', 'required') ?></td>
+			<td class="field"><?php $form->text('recommendations_school_relationship', 'long') ?></td>
+		</tr>
+	</table>
 	<h1>Lingkungan rumah/organisasi di luar sekolah <span>(<strong>bukan keluarga,</strong> minimal berusia 21 tahun)</span></h1>
-	<ol>
-		<li>
-			<label class="main-point" for="rekomendasi_lingkungan_luar_sekolah_nama">Nama</label>
-			<?php $form->text('rekomendasi_lingkungan_luar_sekolah_nama'); ?>
-		</li>
-		<li>
-			<label class="main-point" for="rekomendasi_lingkungan_luar_sekolah_alamat">Alamat/Telepon</label>
-			<?php $form->text('rekomendasi_lingkungan_luar_sekolah_alamat'); ?>
-		</li>
-		<li>
-			<label class="main-point" for="rekomendasi_lingkungan_luar_sekolah_occupation">Pekerjaan</label>
-			<?php $form->text('rekomendasi_lingkungan_luar_sekolah_occupation'); ?>
-		</li>
-		<li>
-			<label class="main-point" for="rekomendasi_lingkungan_luar_sekolah_alamat_occupation">Alamat pekerjaan</label>
-			<?php $form->textarea('rekomendasi_lingkungan_luar_sekolah_alamat_occupation'); ?>
-		</li>
-		<li>
-			<label class="main-point" for="rekomendasi_lingkungan_luar_sekolah_hubungan">Hubungan</label>
-			<?php $form->text('rekomendasi_lingkungan_luar_sekolah_hubungan'); ?>
-		</li>
-	</ol>
+	<table class="form-table">
+		<tr>
+			<td class="label"><?php $form->label('recommendations_nonschool_name', 'Nama', 'required') ?></td>
+			<td class="field"><?php $form->text('recommendations_nonschool_name', 'long') ?></td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label('recommendations_nonschool_address', 'Alamat/Telepon', 'required') ?></td>
+			<td class="field"><?php $form->textarea('recommendations_nonschool_address') ?></td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label('recommendations_nonschool_occupation', 'Pekerjaan', 'required') ?></td>
+			<td class="field"><?php $form->text('recommendations_nonschool_occupation', 'long') ?></td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label('recommendations_nonschool_work_address', 'Alamat pekerjaan', 'required') ?></td>
+			<td class="field"><?php $form->textarea('recommendations_nonschool_work_address') ?></td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label('recommendations_nonschool_relationship', 'Hubungan', 'required') ?></td>
+			<td class="field"><?php $form->text('recommendations_nonschool_relationship', 'long') ?></td>
+		</tr>
+	</table>
 	<h1>Teman dekat</h1>
-	<ol>
-		<li>
-			<label class="main-point" for="rekomendasi_teman_dekat_nama">Nama</label>
-			<?php $form->text('rekomendasi_teman_dekat_nama'); ?>
-		</li>
-		<li>
-			<label class="main-point" for="rekomendasi_teman_dekat_alamat">Alamat/Telepon</label>
-			<?php $form->text('rekomendasi_teman_dekat_alamat'); ?>
-		</li>
-		<li>
-			<label class="main-point" for="rekomendasi_teman_dekat_hubungan">Hubungan</label>
-			<?php $form->text('rekomendasi_teman_dekat_hubungan'); ?>
-		</li>
-	</ol>
+	<table class="form-table">
+		<tr>
+			<td class="label"><?php $form->label('recommendations_close_friend_name', 'Nama', 'required') ?></td>
+			<td class="field"><?php $form->text('recommendations_close_friend_name', 'long') ?></td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label('recommendations_close_friend_address', 'Alamat/Telepon', 'required') ?></td>
+			<td class="field"><?php $form->textarea('recommendations_close_friend_address') ?></td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label('recommendations_close_friend_relationship', 'Hubungan', 'required') ?></td>
+			<td class="field"><?php $form->text('recommendations_close_friend_relationship', 'long') ?></td>
+		</tr>
+	</table>
 </fieldset>
 
-<fieldset class="pane" id="kepribadian">
+<fieldset class="pane" id="personality">
 	<legend>Kepribadian</legend>
-	<ol>
-		<li>
-			<label class="main-point" for="kepribadian_sifat_dan_kepribadian">Menurut Adik, seperti apakah sifat dan kepribadian adik?</label>
-			<?php $form->textarea('kepribadian_sifat_dan_kepribadian', 'extra-large') ?>
-		</li>
-		<li>
-			<label class="main-point" for="kepribadian_kelebihan_dan_kekurangan">Apakah kelebihan/kekurangan Adik?</label>
-			<?php $form->textarea('kepribadian_kelebihan_dan_kekurangan', 'extra-large') ?>
-		</li>
-		<li>
-			<label class="main-point" for="kepribadian_kondisi_membuat_tertekan">Hal-hal apakah yang sering membuat Adik merasa tertekan?</label>
-			<?php $form->textarea('kepribadian_kondisi_membuat_tertekan', 'extra-large') ?>
-		</li>
-		<li>
-			<label class="main-point" for="kepribadian_masalah_terberat">Masalah terberat apakah yang pernah Adik hadapi? Bagaimana Adik menyelesaikannya?</label>
-			<?php $form->textarea('kepribadian_masalah_terberat', 'extra-large') ?>
-		</li>
-		<li>
-			<label class="main-point" for="kepribadian_rencana">Apakah rencana Adik berkaitan dengan pendidikan dan karir di masa depan?</label>
-			<?php $form->textarea('kepribadian_rencana', 'extra-large') ?>
-		</li>
-	</ol>
+	<p class="field">
+		<?php $form->label('personality', 'Menurut Adik, seperti apakah sifat dan kepribadian adik?', 'required') ?>
+		<br>
+		<?php $form->textarea('personality', 'extra-large') ?>
+	</p>
+	<p class="field">
+		<?php $form->label('strengths_and_weaknesses', 'Apakah kelebihan/kekurangan Adik?', 'required') ?>
+		<br>
+		<?php $form->textarea('strengths_and_weaknesses', 'extra-large') ?>
+	</p>
+	<p class="field">
+		<?php $form->label('stressful_conditions', 'Hal-hal apakah yang sering membuat Adik merasa tertekan?', 'required') ?>
+		<br>
+		<?php $form->textarea('stressful_conditions', 'extra-large') ?>
+	</p>
+	<p class="field">
+		<?php $form->label('biggest_life_problem', 'Masalah terberat apakah yang pernah Adik hadapi? Bagaimana Adik menyelesaikannya?', 'required') ?>
+		<br>
+		<?php $form->textarea('biggest_life_problem', 'extra-large') ?>
+	</p>
+	<p class="field">
+		<?php $form->label('plans', 'Apakah rencana Adik berkaitan dengan pendidikan dan karir di masa depan?', 'required') ?>
+		<br>
+		<?php $form->textarea('plans', 'extra-large') ?>
+	</p>
 </fieldset>
 
 <!-- end form -->
@@ -925,19 +915,25 @@
 	<div class="picture-container"><img src="<?php echo $picture->get_cropped_url(); ?>" width="300" height="400"></div>
 	<?php endif; ?>
 	<?php if (!$admin): ?>
-	<ol>
-		<li>
-			<label class="main-point" for="picture">Unggah foto baru</label>
-			<input type="hidden" name="MAX_FILE_SIZE" value="2048000">
-			<input type="file" name="picture" id="picture" class="medium">
-			Maksimal 2MB
-			<br>
-			<span class="instruction">Gunakan <strong>pas foto</strong>. Foto jenis lain tidak akan kami terima.</span>
-		</li>
-		<li>
-			<button type="submit">Unggah</button>
-		</li>
-	</ol>
+	<table class="form-table">
+		<tr>
+			<td class="label"><?php $form->label('picture', 'Unggah foto baru') ?></td>
+			<td class="field">
+				<input type="hidden" name="MAX_FILE_SIZE" value="2048000">
+				<input type="file" name="picture" id="picture" class="medium">
+				<br>
+				<span class="instruction">Maksimal 2MB</span>
+				<br>
+				<span class="instruction">Gunakan <strong>pas foto</strong>. Foto jenis lain tidak akan kami terima.</span>
+			</td>
+		</tr>
+		<tr>
+			<td class="label"></td>
+			<td class="field">
+				<button type="submit">Unggah</button>
+			</td>
+		</tr>
+	</table>
 	<?php endif; ?>
 </fieldset>
 <?php if (!$admin): ?>
@@ -960,8 +956,9 @@
 <script>
 
 $(document).ready(function(){
-	$('span.phone-number input').focus(function(){$(this.parentNode).addClass('focus')});
-	$('span.phone-number input').blur(function(){$(this.parentNode).removeClass('focus')});
+	$('span.phone-number input, span.number input')
+		.focus(function(){$(this.parentNode).addClass('focus')})
+		.blur(function(){$(this.parentNode).removeClass('focus')});
 
 	uv = function() {
 		if ($('#finalize').attr('checked')) {
@@ -975,6 +972,8 @@ $(document).ready(function(){
 	uv();
 	
 	function switchToTab(activeTab, direct) {
+		if (!activeTab)
+			activeTab = '#pribadi';
 		if ($(activeTab).hasClass('pane')) {
 			$(".form-nav li a").removeClass("active"); //Remove any "active" class
 			$(".form-nav li a[href='" + activeTab + "']").addClass("active"); //Add "active" class to selected tab
@@ -993,9 +992,26 @@ $(document).ready(function(){
 			if (direct)
 				$(activeTab).addClass('active').show();
 			else
-				$(activeTab).addClass('active').fadeIn('medium'); //Fade in the active ID content
+				$(activeTab).addClass('active').fadeIn('medium', function() { $('.form-page-nav').focus() }); //Fade in the active ID content
 		}
 	}
+	
+	function getNextTab() {
+		return $(".form-nav a.active").parent().closest('li').next().children().first().attr('href');
+	}
+	function getPrevTab() {
+		return $(".form-nav a.active").parent().closest('li').prev().children().first().attr('href');
+	}
+	
+	$("a[href='#_next']").click(function(e) {
+		e.preventDefault();
+		switchToTab(getNextTab());
+	})
+	
+	$("a[href='#_prev']").click(function(e) {
+		e.preventDefault();
+		switchToTab(getPrevTab());
+	})
 
 	<?php if (!$last_pane) $last_pane = 'pribadi'; ?>
 
@@ -1028,7 +1044,7 @@ $(document).ready(function(){
 	$('.message').hide();
 	$('.global-nav').slideDown('slow', function() {$('.content').fadeIn('slow', function() { $('.message').slideDown() })});
 	<?php else: ?>
-	$('.global-nav, .content').fadeIn('fast', function() { $('.message').slideDown() })
+	// $('.global-nav, .content').fadeIn('fast', function() { $('.message').slideDown() })
 	<?php endif; ?>
 	
 	<?php if ($incomplete): ?>
@@ -1040,6 +1056,12 @@ $(document).ready(function(){
 
 });
 </script>
+
+<nav class="form-page-nav below">
+	<p class="prev"><a href="#_prev">Halaman sebelumnya</a></p>
+	<p class="save"><input type="hidden" name="last_pane" id="lastpane" value="#pribadi"><button type="submit">Simpan<?php if (!$admin): ?> Sementara<?php endif; ?></button></p>
+	<p class="next"><a href="#_next">Halaman berikutnya</a></p>
+</nav>
 
 </div>
 

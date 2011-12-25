@@ -282,13 +282,15 @@ class ApplicantController extends AppController {
 			$new_siblings = $_POST['siblings'];
 			if ($new_siblings) {
 				foreach ($new_siblings as $sib) {
-					$sp = new FormProcessor($sib);
-					$sb = new ApplicantSibling;
-					$sb->applicant_id = $applicant->id;
-					$sp->add_uneditables('id', 'applicant_id');
-					$sp->associate($sb);
-					$sp->commit();
-					$sb->save();
+					if ($sib['full_name']) {
+						$sp = new FormProcessor($sib);
+						$sb = new ApplicantSibling;
+						$sb->applicant_id = $applicant->id;
+						$sp->add_uneditables('id', 'applicant_id');
+						$sp->associate($sb);
+						$sp->commit();
+						$sb->save();
+					}
 				}
 			}
 
@@ -330,7 +332,7 @@ class ApplicantController extends AppController {
 			// 				}
 			// 			}
 
-			$this->http_redirect($this->params);
+			@header('Location: ' . PathsComponent::build_url($this->params) . $_POST['last_pane']);
 		}
 
 		$form = new FormDisplay;
@@ -354,14 +356,13 @@ class ApplicantController extends AppController {
 			$i++;
 			$sforms[] = $d;
 		}
-		if (count($sforms) < $applicant->number_of_children_in_family) {
-			for ($i = count($sforms); $i < $applicant->number_of_children_in_family; $i++) {
-				$d = new FormDisplay;
-				$d->make_subform("siblings[$i]");
-				$sforms[] = $d;
-			}
+		while ($i < ($applicant->number_of_children_in_family - 1)) {
+			$d = new FormDisplay;
+			$d->make_subform("siblings[$i]");
+			$i++;
+			$sforms[] = $d;
 		}
-		
+
 		$this['sibling_forms'] = $sforms;
 	}
 

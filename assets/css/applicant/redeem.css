@@ -2,18 +2,21 @@
 	display: block;
 	border: 1px solid #B6CEE5;
 	vertical-align: middle;
-	width: 400px;
+	width: 440px;
+}
+.token-box.focus {
+	border-color: #0054a5;
 }
 .token-box input {
 	display: block;
 	float: left;
-	width: 300px;
+	width: 340px;
 	border: none;
 	font-size: 20px;
 	padding: 0 10px 0;
 	font-weight: bold;
 	text-transform: uppercase;
-	letter-spacing: 5px;
+	letter-spacing: 2px;
 	line-height: 20px;
 }
 .token-box input:focus {
@@ -28,8 +31,9 @@ button {
 label {
 	display: block;
 	color: #000;
-	margin-bottom: 5px;
+	margin-bottom: 10px;
 	letter-spacing: -.05em;
+	font-size: 15px;
 }
 
 .token-entry {

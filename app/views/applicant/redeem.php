@@ -62,7 +62,7 @@
 		</header>
 		<dl>
 			<?php foreach ($chapters as $c): ?>
-			<dt><?php if (!$c->is_national_office()) { echo 'Chapter '; } else { $c->site_url = 'http://bina-antarbudaya.info/'; $c->save(); } echo $c->chapter_name ?></dt>
+			<dt><?php if (!$c->is_national_office()) { echo 'Chapter '; } echo $c->chapter_name ?></dt>
 			<dd>
 				<ul>
 					<li><?php echo nl2br($c->chapter_address) ?></li>
@@ -74,4 +74,8 @@
 		</dl>
 	</section>
 </div>
+<script>
+	$('.token-box input').focus(function(){$(this).parent().addClass('focus')})
+	$('.token-box input').blur(function(){$(this).parent().removeClass('focus')})
+</script>
 <?php $this->footer(); ?>

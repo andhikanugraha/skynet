@@ -68,11 +68,12 @@ class User extends HeliumRecord {
 					$land = array();
 				else
 					$land = array('controller' => 'applicant', 'action' => 'form');
-				$land = array('controller' => 'applicant', 'action' => 'form', 'id' => $this->applicant->finalized);
+
 				break;
 			case 'volunteer':
 				$land = array('controller' => 'volunteer');
 				break;
+			case 4:
 			case 5:
 				$land = array('controller' => 'admin');
 				break;

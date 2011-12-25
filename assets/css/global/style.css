@@ -128,16 +128,20 @@ button:active {
 	width: 960px;
 	margin: 0 auto;
 	font-size: 12px;
-	color: #999;
-	text-shadow: 1px 1px 0 #fff;
+	color: #000;
+	text-transform: uppercase;
+	color: inherit;
+	letter-spacing: -.05em;
 }
 .page-title h1 {
 	color: #0054a5;
 	width: 960px;
 	margin: 0 auto;
 	font-size: 34px;
-	letter-spacing: -.05em;
+	letter-spacing: -.1em;
+	font-weight: bold;
 }
+
 
 .actions-nav {
 	margin: -40px 0 20px;
@@ -304,7 +308,7 @@ input, textarea, select {
 }
 td.label {
 	width: 30%;
-	padding-top: 13px;
+	padding-top: 14px;
 }
 td.field {
 	width: 70%;

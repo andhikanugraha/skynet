@@ -212,7 +212,9 @@ class FormDisplay {
 	}
 
 	public function number($name, $length = 'medium', $maxlength = false, $required = false, $default = '') {
+		echo '<span class="number">';
 		$this->text($name, $length, $maxlength, $required, $default, 'number');
+		echo '</span>';
 	}
 
 	public function tel($name, $length = 'medium', $maxlength = false, $required = false, $default = '') {
@@ -309,8 +311,12 @@ class FormDisplay {
 		$this->select($name, $months, 'short date-m');
 	}
 
-	public function select_year($name, $start, $end) {
-		$years = array('' => $this->__('(Tahun)'));
+	public function select_year($name, $start, $end, $placeholder = true) {
+		if ($placeholder)
+			$years = array('' => $this->__('(Tahun)'));
+		else
+			$years = array();
+
 		for ($i = $end; $i >= $start; $i--)
 			$years[$i] = $i;
 

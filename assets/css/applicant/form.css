@@ -16,7 +16,7 @@ body {
 
 .form-nav {
 	text-align: right;
-	width: 210px;
+	width: 220px;
 	float: left;
 	padding-top: 20px;
 	padding-bottom: 40px;
@@ -47,7 +47,7 @@ body {
 }
 .form-nav li a {
 	border-top: 1px solid transparent;
-	border-left: 1px solid transparent;
+/*	border-left: 1px solid transparent;*/
 	border-bottom: 1px solid transparent;
 	display: block;
 	color: #6698C9;
@@ -65,7 +65,7 @@ body {
 
 .form-fields {
 	width: 710px;
-	padding-left: 19px;
+	padding-left: 25px;
 	padding-bottom: 100px;
 	float: left;
 	border-left: 1px solid #D9E5F1;
@@ -76,8 +76,32 @@ body {
 	width: 710px;
 }
 
+.form-table td table,
+.subform {
+	width: 710px;
+}
+.form-table td table td,
+.subform td {
+	padding: 5px 0 0;
+	border: none;
+}
+.form-table td table th,
+.subform th {
+	text-align: left;
+	font-size: 11px;
+	color: #8fa2b6;
+}
+
+.subform caption,
+.form-table caption {
+	border-top: 1px solid #D9E5F1;
+	padding: 10px 0;
+	text-align: left;
+}
+
 .form-table.siblings td.label {
 	width: 30%;
+	vertical-align: middle;
 }
 .form-table.siblings td.field {
 	width: 20%;
@@ -86,22 +110,7 @@ body {
 	border-right: 1px solid #b6cee5;
 }
 .form-table.siblings td.label.nth {
-	width: 30%;
 	padding-left: 20px;
-}
-
-.siblings-table {
-	width: 100%;
-	margin-top: 10px;
-}
-.siblings-table td {
-	padding: 5px 0;
-	border: none;
-}
-.siblings-table th {
-	text-align: left;
-	font-size: 11px;
-	color: #8fa2b6;
 }
 .sibling-name {
 	width: 40%;
@@ -158,6 +167,26 @@ body {
 	border-left: 1px solid #b6cee5;
 }
 
+span.number {
+	display: inline-block;
+	padding: 0 0 0 3px;
+	color: #b6cee5;
+	background: #fff;
+	border: 1px solid;
+	line-height: 1;
+	margin: 1px 0;
+}
+span.number.focus {
+	color: #0054A5;
+}
+span.number.focus input {
+	border-color: #0054A5;
+}
+span.number input {
+	border: none;
+	margin: 0;
+}
+
 label.inline {
 	display: inline-block;
 	width: 400px;
@@ -166,15 +195,19 @@ label.inline {
 
 table.form-table tr td.combined {
 	width: 100%;
+	padding: 10px 0;
 }
 
-
-legend {
+.container fieldset legend {
 	color: #000;
-	padding-top: 40px;
-	margin-bottom: 20px;
+	font-size: 24px;
+	padding-top: 20px;
+	margin-bottom: 40px;
 	float: left;
 	width: 100%;
+}
+.content legend + p {
+	margin-top: 0;
 }
 
 .container fieldset legend + h1 {
@@ -183,7 +216,8 @@ legend {
 
 .container fieldset h1 {
 	font-size: 15px;
-	margin-top: 20px;
+	margin-top: 40px;
+	margin-bottom: 20px;
 }
 fieldset h1 span {
 	font-size: 12px;
@@ -220,7 +254,7 @@ fieldset h1 span {
 .programs-table .program-name td {
 /*	font-size: 14px;*/
 	color: #000;
-	font-weight: bold;
+	font-size: 15px;
 	letter-spacing: -.05em;
 }
 .programs-table .program-length td {
@@ -242,16 +276,38 @@ fieldset h1 span {
 	font-size: 11px;
 }
 
+#reference h1 {
+	margin-bottom: 20px;
+}
+p.field {
+	margin: 0 0 20px;
+}
+p.field textarea {
+	width: 600px;
+	max-width: 600px;
+	padding: 10px;
+	display: block;
+	margin-top: 5px;
+}
+
+#personality p label {
+	font-size: 15px;
+	color: #000;
+}
+#personality p textarea {
+	margin-top: 10px;
+}
+
+.achievements td input,
+.organizations td input,
+.activities td input {
+	width: 97%;
+}
+.activities {
+	margin-bottom: 20px;
+}
 
 /*** OLD STUFF BELOW ***/
-.save-button {
-	float: right;
-	position: absolute;
-	z-index: 5;
-	right: 0;
-	top: 19px;
-	text-align: right;
-}
 /*.save-button button {
 	font-size: 12px;
 	background: #D9E5F1;
@@ -274,15 +330,9 @@ fieldset h1 span {
 #finalisasi button {
 	font-size: 24px;
 }
-#finalisasi li,
-#kepribadian li {
+#finalisasi li {
 	padding-left: 40px;
 	width: 600px;
-}
-#kepribadian li label {
-	float: none;
-/*	display: inline;*/
-	margin: 0;
 }
 #finalisasi li label.main-point {
 	line-height: 1.5;
@@ -306,53 +356,13 @@ fieldset h1 span {
 #finalisasi button:disabled {
 	visibility: hidden;
 }
-#kepribadian li label {
-	color: #333;
-	font-size: 13.5px;
-}
-#kepribadian textarea {
-	width: 500px;
-	padding: 9px;
-	margin-left: -10px;
-}
-#kepribadian span.eq {
-	display: block;
-	clear: left;
-	width: 600px;
-}
 
-fieldset {
-}
-
-fieldset > ol {
-	clear: left;
-	list-style: none;
-	margin-bottom: 30px;
-	line-height: 2;
-}
-fieldset > ol > li {
-	width: 420px;
-	padding-top: 10px;
-	margin-top: 10px;
-	padding-left: 200px;
-	border-top: 1px solid #D9E5F1;
-}
-
-label.main-point {
-	display: block;
-	float: left;
-	margin-left: -200px;
-	padding-right: 20px;
-}
 label.subpoint {
 	display: block;
 	display: inline-block;
 	width: 100px;
 }
-label.inline-point {
-	padding-left: 65px;
-	padding-right: 20px;
-}
+
 fieldset p {
 	line-height: 1.5;
 }
@@ -376,74 +386,47 @@ label.descriptive {
 	margin-bottom: 5px;
 	clear: right;
 }
-/*
-fieldset table {
-	display: block;
-	clear: left;
-	margin-left: -200px;
-	width: 620px;
-	border-bottom: 1px dotted #D9E5F1;
-	text-align: center;
-}
-fieldset table td {
-	padding: 5px 0;
-}
-fieldset table thead {
-	font-size: 12px;
-	font-style: italic;
-	border-bottom: 1px dotted #D9E5F1;
-}
-fieldset table th {
-	padding-top: 5px;
-	vertical-align: middle;
-}
-fieldset table input,
-fieldset table select,
-fieldset table button {
-	font-size: 11px;
-}*/
 
-
-
-.academics .grade,
-.academics .term-first,
-.academics .term-middle {
+.academics {
+	margin-top: 0;
+	border-collapse: collapse;
+	border-top: 1px solid #D9E5F1;
+	border-bottom: 1px solid #D9E5F1;
+	width: 710px;
+}
+.academics .grade {
 	border-right: 1px solid #D9E5F1;
 }
-.academics th.term-first,
-.academics th.term-middle,
-.academics th.term-final {
-	border-bottom: 1px solid #D9E5F1;
+.academics .term-final {
+	border-left: 1px solid #D9E5F1;
 }
-.academics td {
+.academics th strong {
+	color: inherit;
+	font-weight: normal;
+	text-decoration: underline;
+}
+.academics th.term-first,
+.academics th.term-final {
+	border-top: 1px solid #D9E5F1;
+}
+.form-table table.academics th,
+.subform.academics th {
+	padding: 5px;
+	text-align: center;
+	vertical-align: middle;
+}
+.academics td,
+.academics input {
+	font-size: 12px;
+	line-height: 14px;
+	vertical-align: middle;
 	text-align: center;
 }
-.academics .l {
-	text-align: right;
+.academics td {
+	padding: 5px 0;
 }
 .academics tbody tr:nth-child(odd) td {
 	background: #f6f6f6;
-}
-
-.activities th {
-	line-height: 1.3;
-}
-.activities .short {
-	width: 165px;
-}
-.activities .institution {
-	width: 230px;
-}
-.activities .position {
-	width: 230px;
-}
-.activities .duration {
-	width: 90px;
-}
-
-span.eq {
-	font-weight: bold;
-	color: #000;
 }
 
 .picture-container {
@@ -454,4 +437,48 @@ span.eq {
 }
 .picture-container img {
 	vertical-align: middle;
+}
+
+.form-page-nav.above {
+	float: left;
+	width: 100%;
+	border-bottom: 1px solid #d9e5f1;
+	padding: 5px 0;
+}
+.form-page-nav.below {
+	float: left;
+	width: 100%;
+	margin-top: 40px;
+	padding: 5px 0;
+}
+.form-page-nav p {
+	margin: 0;
+	width: 240px;
+	float: left;
+	vertical-align: middle;
+	line-height: 20px;
+}
+.form-page-nav a {
+	color: #6698C9;
+}
+.form-page-nav a:hover {
+	color: #0054A5;
+}
+.form-page-nav p.prev {
+	text-align: right;
+	width: 200px;
+	padding-right: 40px;
+	padding-top: 4px;
+}
+.form-page-nav p.next {
+	float: right;
+	text-align: right;
+	width: 200px;
+	padding-top: 4px;
+}
+.form-page-nav .save-button {
+	margin: 0;
+}
+.form-page-nav.below p.prev {
+	margin-left: -245px;
 }

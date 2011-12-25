@@ -33,7 +33,7 @@ $action_css = $controller . '/' . $this->_action();
 			<?php if ($this->is_logged_in()): ?>
 			<p class="user-controls">
 				<span class="username"><?php echo $this->session->user->username; ?></span>
-				<span class="chapter"><?php echo $this->session->user->chapter->chapter_name; ?></span>
+				<a href="<?php L($this->is_logged_in() ? $this->session->user->get_landing_page() : ''); ?>"><?php if (!$this->session->user->chapter->is_national_office()) echo 'Chapter '; echo $this->session->user->chapter->chapter_name ?></a>
 				<?php if ($this->session->user->role == ('applicant')): $applicant = Applicant::find_by_user($this->session->user); if (!$applicant->submitted): ?>
 				<a href="<?php L(array('controller' => 'applicant', 'action' => 'guide')); ?>">Panduan</a>
 				<?php endif; endif; ?>

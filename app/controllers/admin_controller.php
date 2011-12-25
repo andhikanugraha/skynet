@@ -5,7 +5,7 @@ class AdminController extends GatotkacaController {
 		$action = $this->_action();
 		$sorta_public = array('stats', 'unfinalizer', 'applicant_list', 'view_selection_2_assignments');
 		if (!in_array($action, $sorta_public))
-			$this->require_role('admin');
+			$this->require_role('chadmin');
 		else
 			$this->require_role('volunteer');
 	}
