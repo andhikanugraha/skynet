@@ -156,7 +156,8 @@ button:active {
 	margin-right: 20px;
 }
 .actions-nav li a {
-	color: #b6cee5;
+/*	color: #b6cee5;*/
+	color: #6698c9;
 }
 .actions-nav li a.active {
 	font-weight: bold;
@@ -170,10 +171,10 @@ button:active {
 }
 
 .global-footer {
-	display: none;
+	visibility: hidden;
 	clear: both;
 	width: 100%;
-	padding: 10px 0;
+	padding: 40px 0;
 	text-align: center;
 	background: white;
 }
@@ -184,7 +185,7 @@ button:active {
 
 .message {
 	margin: 1px -20px 20px;
-	padding: 5px 20px 10px;
+	padding: 5px 20px;
 	background: #fffbeb;
 	border-bottom: 1px solid #ffd333;
 	color: #665414;
@@ -196,18 +197,26 @@ button:active {
 .actions-nav + div .message {
 	margin-top: -19px;
 }
-
-.message header {
+.message p {
+	margin: 10px 0 5px;
+	line-height: 1.5;
+	max-width: 60em;
+}
+.message header,
+.message header h1 {
 	font-size: 14px;
 	color: #665414;
-	margin-top: 10px;
+	margin: 5px 0;
+	letter-spacing: 0;
+	line-height: 1;
 }
 .message.error {
 	background-color: #ffeeeb;
 	border-bottom-color: #ff5432;
 	color: #662214;
 }
-.message.error header {
+.message.error header,
+.message.error header h1 {
 	color: #a00;
 }
 .message .close {
@@ -225,6 +234,23 @@ button:active {
  * Forms
  */
 
+input[type=text],
+input[type=password],
+input[type=email],
+input[type=number],
+input[type=tel],
+input[type=date] {
+	border: 1px solid #b6cee5;
+}
+input[type=text]:focus,
+input[type=password]:focus,
+input[type=email]:focus,
+input[type=number]:focus,
+input[type=tel]:focus,
+input[type=date]:focus {
+	outline: none;
+	border-color: #0054A5;
+}
 label.required:after {
 	content: ' *';
 	color: #a00;
