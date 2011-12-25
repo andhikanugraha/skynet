@@ -61,12 +61,15 @@ class FormDisplay {
 				// this way, we can have fields that aren't stored as dates in MySQL,
 				// as well as true datetime fields
 				$datetime = $associated_object->$col;
-				$dummy = array();
-				$strings = array('year', 'month', 'day', 'hour', 'minute', 'second');
-				foreach ($strings as $string) {
-					$dummy[$string] = $datetime->$string;
+
+				if ($datetime instanceof DateTime) {
+					$dummy = array();
+					$strings = array('year' => 'Y', 'month' => 'm', 'day' => 'd', 'hour' => 'H', 'minute' => 'i', 'second' => 's');
+					foreach ($strings as $string => $f) {
+						$dummy[$string] = $datetime->format($f);
+					}
+					$fields[$col] = $dummy;
 				}
-				$fields[$col] = $dummy;
 			}
 			else
 				$fields[$col] = $associated_object->$col;
