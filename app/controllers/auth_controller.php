@@ -1,6 +1,6 @@
 <?php
 
-class AuthController extends GatotkacaController {
+class AuthController extends AppController {
 
 	public $default_action = 'login';
 

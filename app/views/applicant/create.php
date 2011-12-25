@@ -9,7 +9,7 @@ $error_messages = array('username_availability' => 'Nama pengguna yang Adik pili
 						'recaptcha' => 'Isian reCAPTCHA tidak cocok.')
 
 ?>
-<?php $this->header('Buat Akun'); ?>
+<?php $this->header('Buat Akun'); $this->fx('staggered_load'); ?>
 
 
 <header class="page-title">

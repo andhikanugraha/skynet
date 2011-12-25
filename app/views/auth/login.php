@@ -1,4 +1,4 @@
-<?php $this->header('Masuk'); ?>
+<?php $this->header('Masuk'); $this->fx('staggered_load'); ?>
 <?php
 
 $destination_titles = array(

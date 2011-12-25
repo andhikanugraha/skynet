@@ -1,5 +1,6 @@
-body {
-	background: url('../global/bg_top_blue.jpg') left top repeat-x;
+.content {
+	background: url('../global/bg_top_blue.jpg') left -80px repeat-x;
+	height: 100%;
 }
 
 .container {

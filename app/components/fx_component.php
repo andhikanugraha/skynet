@@ -9,7 +9,7 @@ class FxComponent extends HeliumComponent {
 	public $footers = array();
 
 	public function init() {
-		if (strpos($_SERVER['HTTP_REFERER'], PathsComponent::build_url('')) !== false) {
+		if (strpos($_SERVER['HTTP_REFERER'], PathsComponent::build_url('')) !== false && false) {
 			$headers['staggered_load'] = $headers['fade_all_load'] = <<<'EOS'
 document.write('<style>.content {display: none}</style>');
 
