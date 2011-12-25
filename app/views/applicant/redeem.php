@@ -1,4 +1,4 @@
-<?php $this->header('Aktivasi PIN Pendaftaran'); ?>
+<?php $this->header('Aktivasi PIN Pendaftaran'); $this->fx('staggered_load'); ?>
 
 <header class="page-title">
 	<p>Tahap 1 dari 5</p>

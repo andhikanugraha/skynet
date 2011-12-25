@@ -1,6 +1,6 @@
 <?php
 
-class HomeController extends GatotkacaController {
+class HomeController extends AppController {
 
 	public function firstrun_check() {
 		$check = User::find()->count_all();

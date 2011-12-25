@@ -1,7 +1,7 @@
 <?php
 
 abstract class AppController extends HeliumController {
-	public $components = array('cookies', 'sessions', 'auth', 'links', 'locale', 'paths');
+	public $components = array('cookies', 'sessions', 'auth', 'links', 'locale', 'paths', 'fx');
 
 	protected function header($title = '') {
 		$this['page_title'] = $title;
@@ -17,7 +17,7 @@ abstract class AppController extends HeliumController {
 	}
 
 	protected function footer() {
-		$this->render('global/footer');
+		$this->fx->footer();
 		
 		try {
 			$controller_name = $this->params['controller'];
@@ -27,6 +27,7 @@ abstract class AppController extends HeliumController {
 			// do nothing
 		}
 
+		$this->render('global/footer');
 	}
 	
 	protected function actions_nav(array $actions = array()) {
