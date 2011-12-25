@@ -55,8 +55,8 @@
 						<td class="field"><?php $form->textarea('chapter_address') ?></td>
 					</tr>
 					<tr>
-						<td class="label"><?php $form->label('chapter_email', 'E-mail Chapter', 'required')?></td>
-						<td class="field"><?php $form->email('chapter_email' , 'medium', 45, true) ?></td>
+						<td class="label"><?php $form->label('chapter_email', 'E-mail Chapter')?></td>
+						<td class="field"><?php $form->email('chapter_email' , 'medium') ?></td>
 					</tr>
 					<tr>
 						<td class="label"><?php $form->label('chapter_timezone', 'Zona Waktu Chapter', 'required')?></td>

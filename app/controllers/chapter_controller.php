@@ -23,7 +23,7 @@ class ChapterController extends AppController {
 			
 			// Check 1: Required chapter fields
 			if (!$error) {
-				$required = array('chapter_code', 'chapter_name', 'chapter_email');
+				$required = array('chapter_code', 'chapter_name');
 				foreach ($required as $r) {
 					if (!trim($_POST[$r]) || !trim($_POST['user']['username'])) {
 						$errors = 'incomplete_form';
