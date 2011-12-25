@@ -295,8 +295,11 @@ class FormDisplay {
 		$this->select_year($name . '[year]', $start, $end);
 	}
 
-	public function checkbox($name, $value = '1') {
-		$checked = (bool) $this->values[$name];
+	public function checkbox($name, $value = true) {
+		if (is_bool($value))
+			$checked = (bool) $this->values[$name];
+		else
+			$checked = in_array($value, $this->values[$name]);
 
 		printf(	'<input type="checkbox" name="%s" id="%s" value="%s"%s><input type="hidden" name="_checkboxes[]" value="%1$s">',
 				$name,
