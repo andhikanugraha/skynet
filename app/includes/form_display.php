@@ -216,6 +216,44 @@ class FormDisplay {
 <?php
 	}
 
+	public function select_number($name, $bottom_limit, $upper_limit, $class = 'medium') {
+		$numbers = array('' => ' ');
+
+		if ($bottom_limit < $upper_limit) {
+			for ($i = (int) $bottom_limit; $i <= (int) $upper_limit; $i++)
+				$numbers[$i] = $i;
+		}
+		else {
+			for ($i = (int)$bottom_limit; $i >= (int) $upper_limit; $i--)
+				$numbers[$i] = $i;
+		}
+		if (is_string($bottom_limit)) {
+			$length = strlen($bottom_limit);
+			foreach ($numbers as $v) {
+				$padded = str_pad($v, $length, '0', STR_PAD_LEFT);
+				$numbers[$padded] = $padded;
+			}
+		}
+
+		$this->select($name, $numbers, $class);
+	}
+
+	public function select_second($name) {
+		$this->select_number($name, '00', 60, 'very-short date-s');
+	}
+	
+	public function select_minute($name) {
+		$this->select_number($name, '00', 31, 'very-short date-i');
+	}
+	
+	public function select_hour($name) {
+		$this->select_number($name, '00', 24, 'very-short date-h');
+	}
+
+	public function select_day($name) {
+		$this->select_number($name, 0, 31, 'very-short date-d');
+	}
+
 	public function select_month($name) {
 		$months = array(0 => $this->__('(Month)'),
 						1 => $this->__('January'),
@@ -245,10 +283,7 @@ class FormDisplay {
 	// TODO: Support HTML5 dates
 	public function date($name, $years_ago_start = 70, $years_ago_end = 0) {
 		// Day
-		$days = array(0 => ' ');
-		for ($i = 1; $i <= 31; $i++)
-			$days[$i] = $i;
-		$this->select($name . '[day]', $days, 'very-short date-d');
+		$this->select_day($name . '[day]');
 		
 		// Month
 		$this->select_month($name . '[month]');
