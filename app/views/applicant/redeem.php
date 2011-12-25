@@ -9,11 +9,10 @@ $error_messages = array('token_nonexistent' => 'PIN pendaftaran yang Anda masukk
 ?>
 <?php $this->header('Aktivasi PIN Pendaftaran'); ?>
 
-	<header class="stage-title">
-		<h1>Tahap 1/5</h1>
-		<h2>Aktivasi PIN Pendaftaran</h2>
-	</header>
-<div class="user-create-wrapper">
+<header class="page-title">
+	<h1>Aktifkan PIN Pendaftaran</h1>
+</header>
+<div class="container">
 	<?php if ($errors): ?>
 	<section class="errors">
 		<p><b>Aktivasi PIN pendaftaran Anda gagal karena:</b></p>
