@@ -20,8 +20,10 @@ class RegistrationCodeController extends AppController {
 		$batches = $db->get_results($query);
 
 		array_walk($batches, function (&$el) {
-			$el->expires_on = new HeliumDateTime($el->expires_on);
+			$wib = new HeliumDateTime($el->expires_on);
+			$el->expires_on = clone $wib;
 			$el->expires_on->setTimezone($el->chapter_timezone);
+			$el->view_link = PathsComponent::build_url(array('controller' => 'registration_code', 'action' => 'view', 'chapter_id' => $el->chapter_id, 'expires_on' => (string) $wib));
 		});
 		
 		$this['batches'] = $batches;
@@ -51,7 +53,11 @@ class RegistrationCodeController extends AppController {
 		if (!$error) {
 			$codes = RegistrationCode::find();
 			$codes->narrow(array('chapter_id' => $chapter_id, 'expires_on' => $expires_on));
-			
+			if (!$codes->count_all())
+				$error = 'no_codes_found';
+		}
+		
+		if (!$error) {
 			$this['codes'] = $codes;
 			$this['chapter_name'] = $chapter->chapter_name;
 			$exp = new HeliumDateTime($expires_on);

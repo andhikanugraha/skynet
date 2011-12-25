@@ -13,7 +13,6 @@
 	</div>
 <?php
 
-$expires_on->set_locale('id');
 $exp = $expires_on->format('l, j F Y, H.i.s ') . $timezone;
 
 ?>
