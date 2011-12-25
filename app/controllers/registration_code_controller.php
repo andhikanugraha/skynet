@@ -18,6 +18,8 @@ class RegistrationCodeController extends AppController {
 
 		$query .= " ORDER BY expires_on DESC, chapter_id ASC";
 		$batches = $db->get_results($query);
+		if (!$batches)
+			$batches = array();
 
 		array_walk($batches, function (&$el) {
 			$wib = new HeliumDateTime($el->expires_on);

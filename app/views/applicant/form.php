@@ -1,150 +1,221 @@
 <?php $this->header('Formulir Pendaftaran'); ?>
-<header class="stage-title">
-	<?php if ($admin): ?>
-	<h1>Administrasi</h1>
-	<h2><?php echo $readonly ? 'Lihat' : 'Edit' ?> Formulir Peserta</h2>
-	<?php else: ?>
-	<h1>Tahap 3/5</h1>
-	<h2>Formulir Pendaftaran</h2>
-	<?php endif; ?>
+<script>document.write('<style>.global-nav, .content {display: none}</style>');</script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<header class="page-title">
+	<p>Tahap 3/5</p>
+	<h1>Formulir Pendaftaran</h1>
 </header>
+<nav class="actions-nav">
+	<ul>
+		<li><a href="<?php L(array('action' => 'guide')) ?>">Panduan Pendaftaran</a></li>
+		<li class="expires-on">Batas waktu pendaftaran: <span><?php echo $expires_on->format('l, j F Y') ?></span></li>
+	</ul>
+</nav>
+<div class="container">
 
-<div class="main-form">
+	<?php if ($new): ?>
+	<div class="message extended">
+		<header>
+			<h1>Selamat datang di Formulir Pendaftaran</h1>
+		</header>
+		<p>Formulir ini terdiri atas <strong>sembilan bagian</strong> yang dapat diakses melalui tautan pada menu di sebelah kiri. Isilah seluruh formulir ini dengan <strong>lengkap</strong> dan <strong>teliti</strong>. Gunakan tombol <em>Simpan Sementara</em> di sebelah kanan atas ini untuk menyimpan sementara isian formulir untuk diisi kembali.</p>
+		<?php if (!$admin): ?><p>Setelah Adik selesai mengisi <strong>seluruh</strong> formulir ini, klik 'Finalisasi' di menu sebelah kiri.<br>Ingat, waktu Adik hanya sampai <strong><?php echo $this->applicant->expires_on->format('l, j F Y'); ?></strong>.</p><?php endif; ?>
+		<p><a href="#" onclick="$(this.parentNode.parentNode).slideUp()">Sembunyikan pesan ini</a></p>
+	</div>
+
+	<?php elseif ($errors): ?>
+	<div class="message errors">
+		<p><strong>Finalisasi gagal karena:</strong></p>
+		<ul>
+			<?php foreach ($errors as $error): ?>
+			<li><?php echo $error; ?></li>
+			<?php endforeach; ?>
+		</ul>
+		<p><a href="#" onclick="$(this.parentNode.parentNode).slideUp()">Sembunyikan pesan ini</a></p>
+	</div>
+
+	<?php elseif ($message = $notice): ?>
+	<div class="message">
+		<p><?php echo $message; ?></p>
+		<p><a href="#" onclick="$(this.parentNode.parentNode).slideUp()">Sembunyikan pesan ini</a></p>
+	</div>
+
+	<?php endif; ?>
+
+	<script>document.write('<style>.message {display: none}</style>');</script>
+
 
 <form action="<?php L($this->params) ?>" enctype="multipart/form-data" method="POST">
 
 <nav class="form-nav">
-	<ul>
+	<header>
+		<h1>Pilih Halaman</h1>
+	</header>
+	<ol>
 		<li><a href="#pribadi">Data Pribadi</a></li>
 		<li><a href="#program">Pilihan Program</a></li>
-		<li><a href="#foto">Foto</a></li>
 		<li><a href="#keluarga">Keluarga</a></li>
 		<li><a href="#pendidikan">Pendidikan</a></li>
 		<li><a href="#kegiatan">Kegiatan</a></li>
 		<li><a href="#kepribadian">Kepribadian</a></li>
 		<li><a href="#referensi">Referensi</a></li>
 		<li><a href="#rekomendasi">Rekomendasi</a></li>
+		<li><a href="#foto">Foto</a></li>
 		<?php if (!$readonly): ?>
-		<li><strong><a href="#finalisasi">Finalisasi</a></strong></li>
+		<li class="finalize"><strong><a href="#finalisasi">Finalisasi</a></strong></li>
 		<?php endif; ?>
-	</ul>
+	</ol>
 </nav>
 
 <div class="form-fields">
 
-<script>document.write('<style>.notice {display: none}</style>');</script>
 
 <?php if (!$readonly): ?>
 <p class="save-button">	
+	<input type="hidden" name="last_pane" id="lastpane" value="#pribadi">
 	<button type="submit">Simpan<?php if (!$admin): ?> Sementara<?php endif; ?></button>
 </p>
-<?php endif; ?>
-
-<?php if ($new): ?>
-<div class="notice">
-	<h1>Selamat datang di Formulir Pendaftaran</h1>
-	<p>Formulir ini terdiri atas <strong>sembilan bagian</strong> yang dapat diakses melalui tautan pada menu di sebelah kiri. Isilah seluruh formulir ini dengan <strong>lengkap</strong> dan <strong>teliti</strong>. Gunakan tombol <em>Simpan Sementara</em> di sebelah kanan atas ini untuk menyimpan sementara isian formulir untuk diisi kembali.</p>
-	<?php if (!$admin): ?><p>Setelah Adik selesai mengisi <strong>seluruh</strong> formulir ini, klik 'Finalisasi' di menu sebelah kiri. Ingat, waktu Adik hanya sampai tanggal <strong><?php echo $this->applicant->expires_on->format('d/m/Y'); ?></strong>.</p><?php endif; ?>
-	<p><a href="#" onclick="$(this.parentNode.parentNode).slideUp()">Sembunyikan pesan ini</a></p>
-</div>
-
-<?php elseif ($errors): ?>
-<div class="notice errors">
-	<p><strong>Finalisasi gagal karena:</strong></p>
-	<ul>
-		<?php foreach ($errors as $error): ?>
-		<li><?php echo $error; ?></li>
-		<?php endforeach; ?>
-	</ul>
-	<p><a href="#" onclick="$(this.parentNode.parentNode).slideUp()">Sembunyikan pesan ini</a></p>
-</div>
-
-<?php elseif ($notice): ?>
-<div class="notice">
-	<p><?php echo $notice; ?></p>
-	<p><a href="#" onclick="$(this.parentNode.parentNode).slideUp()">Sembunyikan pesan ini</a></p>
-</div>
-
 <?php endif; ?>
 
 <!-- begin form -->
 
 <fieldset class="pane" id="pribadi">
 	<legend>Data Pribadi</legend>
-	<ol>
-		<li>
-			<label for="full_name" class="main-point">Nama Lengkap</label>
-			<?php $form->text('full_name', 'long'); ?>
-			<br>
-			<span class="instruction">Isi sesuai dengan Akte Kelahiran</span>
-		</li>
-		<li>
-			<?php ?>
-			<label for="alamat_lengkap" class="main-point">Alamat Lengkap</label>
-			<?php $form->address('applicant'); ?>
-			<br>
-			<span class="instruction">Isilah dengan lengkap agar tidak terjadi salah pengiriman surat.</span>
-		</li>
-		<li>
-			<label for="ttl.kota" class="main-point">Tempat &amp; Tanggal Lahir</label>
-			<?php $form->text('place_of_birth', 'medium') ?>
-			<br>
-			<?php $form->date('date_of_birth'); ?>
-			<br>
-			<!-- <span class="instruction">Untuk menjadi peserta Seleksi Bina Antarbudaya YP 2012-2013, tanggal kelahiran Adik harus di antara 1 September 1994 dan 1 April 1996.</span> -->
-		</li>
-		<li>
-			<label for="jenis_kelamin" class="main-point">Jenis Kelamin</label>
-			<?php
-			$form->select('sex', array( 'F' => 'Perempuan', 'M' => 'Laki-laki'), 'medium-short')
-			?>
-		</li>
-		<li>
-			<label for="body_height" class="subpoint">Tinggi Badan</label>
-			<?php $form->number('body_height', 'very-short') ?> cm
-			<br>
-			<label for="body_weight" class="subpoint">Berat Badan</label>
-			<?php $form->number('body_weight', 'very-short') ?> kg
-			<br>
-			<label for="blood_type" class="subpoint">Golongan Darah</label>
-			<?php $form->select('blood_type', array('O' => 'O', 'A' => 'A', 'B' => 'B', 'AB' => 'AB'), 'very-short')?>
-		</li>
-		<li>
-			<label for="kewarganegaraan" class="main-point">Kewarganegaraan</label>
-			<?php $form->text('kewarganegaraan', 'medium') ?>
-			<br>
-			<span class="instruction">Contoh: Indonesia</span>
-		</li>
-		<li>
-			<label for="agama" class="main-point">Agama</label>
-			<?php $form->text('agama', 'medium') ?>
-		</li>		
-		<li>
-			<label class="main-point">Apakah Adik menggunakan nomor Telkomsel (Halo/Simpati/As)?</label>
-			<?php $form->select('telkomsel_menggunakan', array('Tidak', 'Ya'), 'short'); ?>
-		</li>
-		<li>
-			<label class="main-point">Apakah Adik anggota Telkomsel School Community?</label>
-			<?php $form->select('telkomsel_school_community', array('Tidak', 'Ya'), 'short'); ?>
-		</li>
-	</ol>
+	<table class="form-table">
+		<tr>
+			<td class="label"><?php $form->label('full_name', 'Nama Lengkap', 'required') ?></td>
+			<td class="field"><?php $form->text('full_name', 'long'); ?> <span class="instruction">Isi sesuai dengan Akte Kelahiran.</span></td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label('applicant_address_street', 'Alamat Lengkap', 'required') ?></td>
+			<td class="field"><?php $form->address('applicant'); ?> <span class="instruction">Isilah dengan lengkap agar tidak terjadi salah pengiriman surat.</span></td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label('place_of_birth', 'Tempat dan Tanggal Lahir', 'required') ?></td>
+			<td class="field">
+				<?php $form->text('place_of_birth', 'medium') ?>
+				<br>
+				<?php $form->date('date_of_birth'); ?>
+			</td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label('sex', 'Jenis Kelamin', 'required') ?></td>
+			<td class="field">
+				<?php $form->radio('sex', 'F') ?> Perempuan
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+				<?php $form->radio('sex', 'M') ?> Laki-laki
+			</td>
+		</tr>
+		<tr>
+			<td class="label"></td>
+			<td class="field">
+				<?php $form->label('body_height', 'Tinggi Badan', 'subpoint required') ?>
+				<?php $form->number('body_height', 'very-short') ?> cm
+				<br>
+				<?php $form->label('body_weight', 'Berat Badan', 'subpoint required') ?>
+				<?php $form->number('body_weight', 'very-short') ?> kg
+				<br>
+				<?php $form->label('blood_type', 'Gol. Darah', 'subpoint required') ?>
+				<?php $form->select('blood_type', array('O' => 'O', 'A' => 'A', 'B' => 'B', 'AB' => 'AB'), 'very-short')?>
+			</td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label('citizenship', 'Kewarganegaraan', 'required') ?></td>
+			<td class="field">
+				<?php $form->text('citizenship', 'long') ?>
+				<br>
+				<span class="instruction">Contoh: Indonesia</span>
+			</td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label('religion', 'Agama', 'required') ?></td>
+			<td class="field">
+				<?php $form->text('religion', 'long') ?>
+			</td>
+		</tr>
+		<tr>
+			<td class="combined" colspan="2"><?php $form->label('is_telkomsel_customer', 'Apakah Adik menggunakan nomor Telkomsel (Halo/Simpati/As)?', 'inline required') ?> <?php $form->select('is_telkomsel_customer', array('Tidak', 'Ya'), 'short'); ?></td>
+		</tr>
+		<tr>
+			<td class="combined" colspan="2"><?php $form->label('is_telkomsel_school_community_member', 'Apakah Adik anggota Telkomsel School Community?', 'inline required') ?> <?php $form->select('is_telkomsel_school_community_member', array('Tidak', 'Ya'), 'short'); ?></td>
+		</tr>
+		<!--
+		<tr>
+			<td class="label"><?php $form->label('n', 'A', 'required') ?></td>
+			<td class="field">
+				
+			</td>
+		</tr>
+		-->
+	</table>
 </fieldset>
 
 <fieldset class="pane" id="program">
 	<legend>Pilihan Program</legend>
 	<!-- poin 20–26 -->
-	<ol>
-		<li>
-			<label class="main-point">Year Program (1 tahun)</label>
-			<?php $form->checkbox('program_afs', 'afs') ?> AFS
-			<br>
-			<?php $form->checkbox('program_yes', 'yes') ?> YES
-			<br>
-			<?php $form->checkbox('program_jenesys', 'jenesys') ?> JENESYS
-			<br>
-			<span class="instruction">Minimal satu program; maksimal ketiga-tiganya.</span>
-		</li>
-	</ol>
+	<table class="programs-table">
+		<colgroup width="20%">
+		<colgroup width="40%">
+		<colgroup width="40%">
+		<tr class="program-name">
+			<th class="label">Program</th>
+			<td class="afs"><?php $form->checkbox('program_afs') ?> <?php $form->label('program_afs', 'AFS Year Program') ?></td>
+			<td class="yes"><?php $form->checkbox('program_yes') ?> <?php $form->label('program_yes', 'Kennedy-Lugar YES') ?></td>
+		</tr>
+		<tr class="program-length">
+			<th class="label">Lama Program</th>
+			<td class="afs">
+				<span class="length">11 bulan</span>
+				<br>
+				Agustus <?php echo $program_year - 1?> &ndash; Juni <?php echo $program_year ?> (AS, Eropa)
+				<br>
+				Maret <?php echo $program_year - 1?> &ndash; Februari <?php echo $program_year ?> (Jepang)
+			</td>
+			<td class="yes">
+				<span class="length">11 bulan</span>
+				<br>
+				Agustus <?php echo $program_year - 1?> &ndash; Juni <?php echo $program_year ?>
+			</td>
+		</tr>
+		<tr class="program-destination">
+			<th class="label">Negara Tujuan</th>
+			<td class="afs">
+				<ul>
+					<li>Amerika Serikat</li>
+					<li>Belanda</li>
+					<li>Belgia</li>
+					<li>Perancis</li>
+					<li>Jerman</li>
+					<li>Italia</li>
+					<li>Jepang</li>
+					<li>Norwegia</li>
+					<li>Swiss</li>
+				</ul>
+			</td>
+			<td class="yes">
+				<ul>
+					<li>Amerika Serikat</li>
+				</ul>
+			</td>
+		</tr>
+		<tr class="program-info">
+			<th class="label"></th>
+			<td class="afs">
+				<p>For more than 90 years in the world and 55 years in Indonesia, AFS Program has offered young people exciting and dynamic learning opportunities through intercultural programs. At its core are programs that include physical exchanges, service learning, and volunteerism that directly impact youth engagement and create opportunities that build long-lasting understanding and respect for differences.</p>
+				<p>AFS Program gives you opportunities to develop yourself to become young Indonesian future leaders by having a worthwhile exchanges experience in another country, where you would learn about yourselves, learning how we perceive others who are especially different from us, learn how to build a good relationship, positive communication and ability to work together in fostering respect, empathy and understanding towards others.</p>
+				<p>You will experience living with a host family and attend school in a foreign country. Of course, you will definitely experience a totally new way of life, new culture, lifestyle and family values, new language and finally gain intercultural skills.</p>
+				<p>To make the most of your experience, create good relationship with your host family, get involved in the many curricular and extracurricular activities available at your local school and local community. AFS also organizes activities so that you can meet other participants from over 50 AFS countries to provide you with the ultimate intercultural experience!</p>
+				<p>If you are interested in experiencing a “new world”, having an one year experience abroad as a young Indonesian ambassador, sign up for the AFS Year program!</p>
+			</td>
+			<td class="yes">
+				<p>The Kennedy-Lugar Youth Exchange and Study (YES) Program was established in October, 2002 and sponsored by The Bureau of Educational and Cultural Affairs (ECA) to provide scholarships for high school students from countries with significant Muslim populations to spend up to one academic year in the U.S.</p>
+				<p>Students will spend one year in United States of America. Students live with host families, attend high school, and engage in activities to learn about American society and values, acquire leadership skills, and help educate Americans about Indonesia and our cultures.</p>
+				<p>Upon their return the students will apply their leadership skills in Indonesia. In addition, alumni groups will help participants continue to be involved with many community service activities including: mentoring younger children, and much more.</p>
+				<p>YES can support students with disabilities and encourages their participation. The Bureau of Educational and Cultural Affairs (ECA) works with a separate organization to provide students with disabilities with leadership-building workshops and appropriate information and support as needed to enhance their year in the United States.</p>
+				<p>The YES program is administered by the YES Consortium and its partners in each country.</p>
+			</td>
+		</tr>
+	</table>
 </fieldset>
 
 <fieldset class="pane" id="keluarga">
@@ -152,106 +223,174 @@
 	<legend>Keluarga</legend>
 	<?php
 
-	foreach(array('Ayah', 'Ibu') as $parent):
+	foreach(array('father' => 'Ayah', 'mother' => 'Ibu') as $n => $parent):
 		$n = strtolower($parent);
 	?>
 	<h1><?php echo $parent; ?></h1>
-	<ol>
-		<li>
-			<label for="<?php echo $n; ?>_full_name" class="main-point">Nama Lengkap <?php echo $parent; ?></label>
-			<?php $form->text($n . '_full_name', 'long'); ?>
-			<br>
-			<span class="instruction">Isilah dengan nama lengkap.</span>
-		</li>
-		<li>
-			<label for="<?php echo $n; ?>_education" class="main-point">Pendidikan Terakhir</label>
-			<?php $form->text($n . '_education', 'medium') ?>
-		</li>
-		<li>
-			<label for="<?php echo $n; ?>_occupation" class="main-point">Pekerjaan/Jabatan</label>
-			<?php $form->text($n . '_occupation', 'medium') ?>
-			<br>
-			<span class="instruction">Isilah dengan rinci &ndash; bila wiraswasta, cantumkan bidangnya; bila swasta, cantumkan jabatan dan nama perusahaannya.</span>
-		</li>
-		<li>
-			<label for="<?php echo $n; ?>_job_title" class="main-point">Pangkat/Golongan</label>
-			<?php $form->text($n . '_job_title', 'medium') ?>
-		</li>
-		<li>
-			<label for="<?php echo $n; ?>_office_name" class="main-point">Nama &amp; Alamat Kantor</label>
-			<?php $form->text($n . '_office_name', 'long'); ?>
-			<?php $form->address($n . '_office', false, false, false, true, true, true, true) ?>
-		</li>
-	</ol>
+	<table class="form-table">
+		<tr>
+			<td class="label"><?php $form->label($n . '_full_name', "Nama Lengkap $parent", 'required') ?></td>
+			<td class="field">
+				<?php $form->text($n . '_full_name', 'long'); ?>
+				<br>
+				<span class="instruction">Isilah dengan nama lengkap.</span>
+			</td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label($n . '_education', 'Pendidikan Terakhir') ?></td>
+			<td class="field"><?php $form->text($n . '_education', 'long'); ?></td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label($n . '_occupation', 'Pekerjaan/Jabatan') ?></td>
+			<td class="field">
+				<?php $form->text($n . '_occupation', 'long'); ?>
+				<br>
+				<span class="instruction long">Isilah dengan rinci &ndash; bila wiraswasta, cantumkan bidangnya; bila swasta, cantumkan jabatan dan nama perusahaannya.</span>
+			</td>
+		</tr>
+		<!-- Remove Pangkat/Golongan for now; it's a bit absurd -->
+		<!-- <tr>
+			<td class="label"><?php $form->label($n . '_job_title', 'Pangkat/Golongan') ?></td>
+			<td class="field"><?php $form->text($n . '_job_title', 'long'); ?></td>
+		</tr> -->
+		<tr>
+			<td class="label"><?php $form->label($n . '_office_name', 'Nama dan Alamat Kantor') ?></td>
+			<td class="field">
+				<?php $form->text($n . '_office_name', 'long'); ?>
+				<br>
+				<?php $form->address($n . '_office', false, false, false, true, true, true, true) ?>
+			</td>
+		</tr>
+	</table>
 	<?php endforeach; ?>
 
-	<h1>Wali <span>(bilamana orang tua telah wafat atau siswa tinggal terpisah dengan orang tua)</h1>
-	<ol>
-		<li>
-			<label for="guardian_full_name" class="main-point">Nama Lengkap Wali</label>
-			<?php $form->text('nama_lengkap_wali', 'long'); ?>
-			<br>
-			<span class="instruction">Isilah dengan nama lengkap.</span>
-		</li>
-		<li>
-			<label for="guardian_hubungan_dengan" class="main-point">Hubungan dengan Adik</label>
-			<?php $form->text('hubungan_dengan_wali', 'long'); ?>
-		</li>
-		<li>
-			<label for="guardian_alamat_lengkap" class="main-point">Alamat Lengkap</label>
-			<?php $form->address('alamat_lengkap_wali', false, false, false, true, true, false, false) ?>
-		</li>
-		<li>
-			<label for="guardian_occupation" class="main-point">Pekerjaan/Jabatan</label>
-			<?php $form->text('pekerjaan_wali', 'medium'); ?>
-			<br>
-			<span class="instruction">Isilah dengan rinci &ndash; bila wiraswasta, cantumkan bidangnya; bila swasta, cantumkan jabatan dan nama perusahaannya.</span>
-		</li>
-		<li>
-			<label for="guardian_job_title" class="main-point">Pangkat/Golongan</label>
-			<?php $form->text('pangkat_wali', 'medium'); ?>
-		</li>
-		<li>
-			<label for="guardian_office_name" class="main-point">Nama &amp; Alamat Kantor</label>
-			<?php $form->text('nama_kantor_wali', 'long'); ?>
-			<?php $form->address('alamat_kantor_wali', false, false, false, true, false, true, true) ?>
-		</li>
-	</ol>
+	<?php
+
+	foreach(array('guardian' => 'Wali') as $n => $parent):
+		$n = strtolower($parent);
+	?>
+	<h1>Wali <span>(bilamana orang tua telah wafat atau siswa tinggal terpisah dengan orang tua)</span></h1>
+	<table class="form-table">
+		<tr>
+			<td class="label"><?php $form->label('guardian_full_name', "Nama Lengkap $parent", 'required') ?></td>
+			<td class="field">
+				<?php $form->text('guardian_full_name', 'long'); ?>
+				<br>
+				<span class="instruction">Isilah dengan nama lengkap.</span>
+			</td>
+		</tr>
+		
+		<tr>
+			<td class="label"><?php $form->label('guardian_relationship_to_applicant', 'Hubungan dengan Adik') ?></td>
+			<td class="field"><?php $form->text('guardian_relationship_to_applicant', 'long'); ?></td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label('guardian_address_street', 'Pendidikan Terakhir') ?></td>
+			<td class="field"><?php $form->address('guardian', false, false, false, true, true, false, false) ?></td>
+		</tr>
+		<!-- The field below is in the DB schema but not the original form -->
+		<!-- <tr>
+			<td class="label"><?php $form->label('guardian_education', 'Pendidikan Terakhir') ?></td>
+			<td class="field"><?php $form->text('guardian_education', 'long'); ?></td>
+		</tr> -->
+		<tr>
+			<td class="label"><?php $form->label('guardian_occupation', 'Pekerjaan/Jabatan') ?></td>
+			<td class="field">
+				<?php $form->text('guardian_occupation', 'long'); ?>
+				<br>
+				<span class="instruction long">Isilah dengan rinci &ndash; bila wiraswasta, cantumkan bidangnya; bila swasta, cantumkan jabatan dan nama perusahaannya.</span>
+			</td>
+		</tr>
+		<!-- Remove Pangkat/Golongan for now; it's a bit absurd -->
+		<!-- <tr>
+			<td class="label"><?php $form->label('guardian_job_title', 'Pangkat/Golongan') ?></td>
+			<td class="field"><?php $form->text('guardian_job_title', 'long'); ?></td>
+		</tr> -->
+		<tr>
+			<td class="label"><?php $form->label('guardian_office_name', 'Nama dan Alamat Kantor') ?></td>
+			<td class="field">
+				<?php $form->text('guardian_office_name', 'long'); ?>
+				<br>
+				<?php $form->address('guardian_office', false, false, false, true, false, true, true) ?>
+			</td>
+		</tr>
+	</table>
+	<?php endforeach; ?>
+
 	<h1>Saudara</h1>
-	<ol>
-		<li>
-			<label for="number_of_children_in_family" class="main-point">Jumlah anak dalam keluarga</label>
-			<?php $form->text('number_of_children_in_family', 'very-short'); ?>
-			<label for="nth_child" class="inline-point">Adik anak nomor</label>
-			<?php $form->text('nth_child', 'very-short'); ?>
-		</li>
-		<li>
-			<label for="saudara-1--nama" class="main-point">Nama, umur, &amp; sekolah/pekerjaan saudara kandung Adik: (termasuk Adik)</label>
-			<table class="siblings">
-				<thead>
-					<tr>
-						<th width="80">Urutan lahir</th>
-						<th width="160">Nama Lengkap</th>
-						<th width="220">Tanggal Lahir</th>
-						<th width="160">Sekolah/Pekerjaan</th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php
-					foreach (array('Pertama', 'Kedua', 'Ketiga', 'Keempat', 'Kelima', 'Keenam', 'Ketujuh') as $no => $ke):
-						$no++;
-					?>
-					<tr>
-						<td><?php echo $ke; ?></td>
-						<td><?php $form->text('saudara[' . $no . '][nama]', 'short') ?></td>
-						<td><?php $form->date('saudara[' . $no . '][ttl]', true) ?></td>
-						<td><?php $form->text('saudara[' . $no . '][pendidikan]', 'short') ?></td>
-					</tr>
-					<?php endforeach; ?>
-				</tbody>
-			</table>
-		</li>
-	</ol>
+	<table class="form-table siblings">
+		<tr>
+			<td class="label noc"><?php $form->label('number_of_children_in_family', 'Jumlah anak dalam keluarga', 'required') ?></td>
+			<td class="field noc"><?php $form->number('number_of_children_in_family', 'very-short'); ?></td>
+			<td class="label nth"><?php $form->label('nth_child', 'Adik anak nomor', 'required') ?></td>
+			<td class="field nth"><?php $form->number('nth_child', 'very-short'); ?></td>
+		</tr>
+		<tr>
+			<td colspan="4" class="combined">
+				<span>Nama, umur, dan sekolah/pekerjaan saudara kandung (selain Adik sendiri)</span>
+				<br>
+				<table class="siblings-table">
+					<thead>
+						<tr>
+							<th>Nama Lengkap</th>
+							<th>Tanggal Lahir</th>
+							<th>Sekolah/Pekerjaan</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php
+						foreach ($sibling_forms as $s):
+						?>
+						<tr>
+							<td class="sibling-name"><?php $s->text('full_name', 'short') ?></td>
+							<td class="sibling-dob"><?php $s->date('date_of_birth', 50) ?></td>
+							<td class="sibling-job"><?php $s->text('occupation', 'short') ?></td>
+						</tr>
+						<?php endforeach; ?>
+						<?php $s = new FormDisplay; $s->make_subform('siblings[#]'); ?>
+						<tr class="prototype">
+							<td class="sibling-name"><?php $s->text('full_name', 'short') ?></td>
+							<td class="sibling-dob"><?php $s->date('date_of_birth', 50) ?></td>
+							<td class="sibling-job"><?php $s->text('occupation', 'short') ?></td>
+						</tr>
+					</tbody>
+				</table>
+<script>
+	$(document).ready(function() {
+		fac = function() {
+			$('td.sibling-name input').each(function() {
+				t = $(this);
+				if (!t.parent().parent().hasClass('prototype')) {
+					if (t.val())
+						t.parent().parent().removeClass('engineered').addClass('notempty');
+					else
+						t.parent().parent().addClass('engineered').removeClass('notempty');
+				}
+			})
+			
+			v = parseInt($(this).val());
+			o = $('.siblings-table tbody tr').length - 1;
+			if (v > o) {
+				d = v - o - 1;
+				for (i=0; i<d; i++) {
+					$('.siblings-table tbody').append($('.prototype').clone().removeClass('prototype'));
+				}
+			}
+			if (v <= o) {
+				d = o - v + 1;
+				for (i=0; i<d; i++) {
+					$('tr.engineered').first().detach();
+				}
+			}
+		}
+		$('#number_of_children_in_family').click(fac);
+		$('#number_of_children_in_family').change(fac);
+		$('#number_of_children_in_family').keyup(fac);
+	})
+</script>
+			</td>
+		</tr>
+	</table>
 </fieldset>
 
 <fieldset class="pane" id="pendidikan">
@@ -366,10 +505,10 @@
 			<span class="instruction">Jika Adik pernah berpindah sekolah (mutasi), tuliskan secara berurutan nama masing-masing sekolah yang pernah Adik masuki dengan memisahkannya dengan garis miring (/).</span>	
 		</li>
 		<li>
-			<?php $form->checkbox('pesantren', 'pesantren') ?> Sekolah saya adalah Pesantren/Madrasah
+			<?php $form->checkbox('pesantren') ?> Sekolah saya adalah Pesantren/Madrasah
 		</li>
 		<li>
-			<?php $form->checkbox('akselerasi', 'akselerasi') ?> Saya adalah siswa kelas Akselerasi
+			<?php $form->checkbox('akselerasi') ?> Saya adalah siswa kelas Akselerasi
 			<br>
 			<span class="instruction"><strong>Jika iya</strong>, pastikan kamu mengisi Surat Pernyataan Siswa Akselerasi yang dapat diunduh di halaman <a href="<?php L(array('controller'=>'applicant', 'action'=>'guide')); ?>">Panduan</a>.</span>
 		</li>
@@ -818,14 +957,15 @@
 </fieldset>
 <?php endif; ?>
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
-
 <script>
 
 $(document).ready(function(){
+	$('span.phone-number input').focus(function(){$(this.parentNode).addClass('focus')});
+	$('span.phone-number input').blur(function(){$(this.parentNode).removeClass('focus')});
+
 	uv = function() {
 		if ($('#finalize').attr('checked')) {
-			$('#finalize-button:parent').fadeIn().focus();
+			$('#finalize-button:parent').fadeIn('fast').focus();
 		}
 		else
 			$('#finalize-button:parent').fadeOut();
@@ -836,8 +976,14 @@ $(document).ready(function(){
 
 	//When page loads...
 	$("fieldset.pane").hide(); //Hide all content
-	$(".form-nav ul li:first").addClass("active");
+	
+	<?php if ($last_pane = 'keluarga'): ?>
+	$(".form-nav ol li a[href='#<?php echo $last_pane ?>']").addClass("active");
+	$("#<?php echo $last_pane ?>").show(); //Show first tab content
+	<?php else: ?>
+	$(".form-nav ol li:first a").addClass("active");
 	$("fieldset.pane:first").show(); //Show first tab content
+	<?php endif; ?>
 
 	//On Click Event
 	$(".form-nav li a").click(function() {
@@ -848,6 +994,9 @@ $(document).ready(function(){
 		$("fieldset.pane").hide(); //Hide all tab content
 
 		var activeTab = $(this).attr("href"); //Find the href attribute value to identify the active tab + content
+		
+		$("#lastpane").val(activeTab);
+		
 		if ($(this).attr("href") == '#finalisasi')
 			$('.save-button').slideUp();
 		else {
@@ -858,8 +1007,13 @@ $(document).ready(function(){
 		$(activeTab).fadeIn('medium'); //Fade in the active ID content
 		return false;
 	});
-	
-	$('.notice').hide().slideDown('slow');
+
+	<?php if ($new): ?>
+	$('.message').hide();
+	$('.global-nav').slideDown('slow', function() {$('.content').fadeIn('slow', function() { $('.message').slideDown() })});
+	<?php else: ?>
+	$('.global-nav, .content').fadeIn('fast', function() { $('.message').slideDown() })
+	<?php endif; ?>
 	
 	<?php if ($incomplete): ?>
 	<?php foreach ($incomplete as $inc): ?>
@@ -874,6 +1028,6 @@ $(document).ready(function(){
 </div>
 
 </form>
-
+<br clear="all">
 </div>
 <?php $this->footer(); ?>

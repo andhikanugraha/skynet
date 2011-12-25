@@ -29,6 +29,8 @@ class FormDisplay {
 	 */
 	public static $address_states = array();
 
+	public $prefix;
+
 	public $raw_values = array();
 	public $values = array();
 	public $base = '';
@@ -49,8 +51,10 @@ class FormDisplay {
 	public function associate(HeliumRecord $associated_object) {
 		$this->associated_object = $associated_object;
 
-		if ($associated_object->_is_vertically_partitioned)
+		if ($associated_object->_is_vertically_partitioned) {
+			$associated_object->map_vertical_partitions();
 			$this->column_types = array_merge($associated_object->_column_types, $associated_object->_vertical_partition_column_types);
+		}
 		else
 			$this->column_types = $associated_object->_column_types;
 
@@ -61,21 +65,54 @@ class FormDisplay {
 				// this way, we can have fields that aren't stored as dates in MySQL,
 				// as well as true datetime fields
 				$datetime = $associated_object->$col;
+				$strings = array('year' => 'Y', 'month' => 'm', 'day' => 'd', 'hour' => 'H', 'minute' => 'i', 'second' => 's');
+				$dummy = array();
 
-				if ($datetime instanceof DateTime) {
-					$dummy = array();
-					$strings = array('year' => 'Y', 'month' => 'm', 'day' => 'd', 'hour' => 'H', 'minute' => 'i', 'second' => 's');
+				if ($datetime instanceof DateTime && $datetime->format('Y') > 0) {
 					foreach ($strings as $string => $f) {
 						$dummy[$string] = $datetime->format($f);
 					}
-					$fields[$col] = $dummy;
 				}
+				else {
+					foreach ($strings as $string => $f) {
+						$dummy[$string] = '';
+					}
+				}	
+				$fields[$col] = $dummy;
 			}
 			else
 				$fields[$col] = $associated_object->$col;
 		}
 
 		$this->feed($fields);
+	}
+	
+	/**
+	 * Make this form a subform
+	 */
+	public function make_subform($prefix) {
+		$this->prefix = $prefix;
+	}
+	
+	public function format_name($name) {
+		if ($this->prefix) {
+			$pos = strpos($name, '[');
+			$pod = strpos($name, '.');
+			if ($pos !== false) {
+				$out = substr($name, $pos);
+				$in = substr($name, 0, $pos);
+				return $this->prefix . '[' . $in . ']' . $out;
+			}
+			elseif ($pod !== false) {
+				$out = substr($name, $pod);
+				$in = substr($name, 0, $pod);
+				return $this->prefix . '[' . $in . ']' . $out;
+			}
+			else
+				return $this->prefix . '[' . $name . ']';
+		}
+		else
+			return $name;
 	}
 
 	/**
@@ -160,7 +197,7 @@ class FormDisplay {
 
 		printf(	'<input type="%s" name="%s" id="%s" class="%s" value="%s"',
 				$type,
-				$name,
+				$this->format_name($name),
 				$this->name_to_id($name),
 				$length,
 				$value );
@@ -192,7 +229,7 @@ class FormDisplay {
 
 	public function textarea($name, $size = 'large') {
 		printf(	'<textarea name="%s" id="%s" class="%s">%s</textarea>',
-				$name,
+				$this->format_name($name),
 				$this->name_to_id($name),
 				$size,
 				$this->get_escaped_value($name) );
@@ -203,7 +240,7 @@ class FormDisplay {
 		$current_value = $this->values[$name];
 ?>
 
-<select name="<?php echo $name ?>" id="<?php echo $id ?>" class="<?php echo $length ?>">
+<select name="<?php echo $this->format_name($name) ?>" id="<?php echo $id ?>" class="<?php echo $length ?>">
 <?php
 	foreach ($options as $k => $v):
 		$is_selected = ((!$current_value && $k === $current_value) || ($current_value && $k == $current_value));
@@ -302,7 +339,7 @@ class FormDisplay {
 			$checked = in_array($value, $this->values[$name]);
 
 		printf(	'<input type="checkbox" name="%s" id="%s" value="%s"%s><input type="hidden" name="_checkboxes[]" value="%1$s">',
-				$name,
+				$this->format_name($name),
 				$this->name_to_id($name),
 				$value,
 				$checked ? ' checked' : '' );
@@ -313,8 +350,8 @@ class FormDisplay {
 		$checked = ($current_value == $value);
 
 		printf(	'<input type="radio" name="%s" id="%s" value="%s"%s>',
-				$name,
-				$this->name_to_id($name),
+				$this->format_name($name),
+				$this->name_to_id($name) . '-' . $this->name_to_id($value),
 				$value,
 				$checked ? ' checked' : '' );
 	}
@@ -355,23 +392,27 @@ class FormDisplay {
 		?>
 		<br>
 		<?php $this->label($name . '_phone_areacode', 'Home Phone', 'subpoint') ?>
+		<span class="phone-number">
 		( <?php $this->tel($name . '_phone_areacode', 'very-short', 4) ?> )
 		<?php $this->tel($name . '_phone_number', 'short', 12) ?>
+		</span>
 		<?php
 		endif;
 		if ($hp):
 		?>
 		<br>
 		<?php $this->label($name . '_mobilephone', 'HP', 'subpoint') ?>
-		<?php $this->tel($name . '_mobilephone', 'short', 12) ?>
+		<?php $this->tel($name . '_mobilephone', 'medium-short', 12) ?>
 		<?php
 		endif;
 		if ($fax):
 		?>
 		<br>
 		<?php $this->label($name . '_fax_areacode', 'Fax', 'subpoint') ?>
-		( <?php $this->tel($name . '_fax_areacode', 'very-short', 3) ?> )
-		<?php $this->tel($name . '_fax_number', 'short', 8) ?>
+		<span class="phone-number">
+		( <?php $this->tel($name . '_fax_areacode', 'very-short', 4) ?> )
+		<?php $this->tel($name . '_fax_number', 'short', 12) ?>
+		</span>
 		<?php
 		endif;
 		if ($email):

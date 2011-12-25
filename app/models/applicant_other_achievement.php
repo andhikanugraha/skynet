@@ -13,7 +13,7 @@ class ApplicantOtherAchievement extends HeliumRecord {
 	public $achievement;
 	public $year;
 
-	public init() {
+	public function init() {
 		$this->belongs_to('applicant');
 	}
 }

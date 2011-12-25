@@ -39,6 +39,26 @@ class HomeController extends GatotkacaController {
 				'JOG' => 'Yogyakarta',
 			);
 			
+			$area = array (
+				'DPS' => 'Bali',
+				'BPP' => 'Kalimantan Timur',
+				'BNA' => 'Aceh',
+				'BDG' => 'Jawa Barat',
+				'BMS' => 'Kalimantan Selatan',
+				'BGR' => 'Jawa Barat',
+				'JKT' => 'DKI Jakarta',
+				'KRW' => 'Jawa Barat',
+				'MKS' => 'Sulawesi Selatan',
+				'MLG' => 'Jawa Timur',
+				'MDN' => 'Sumatera Utara',
+				'PDG' => 'Sumatera Barat',
+				'PLM' => 'Sumatera Selatan',
+				'SMD' => 'Kalimantan Timur',
+				'SMG' => 'Jawa Tengah',
+				'SUB' => 'Jawa Timur',
+				'JOG' => 'DI Yogyakarta',
+			);
+			
 			$timezones = array (
 				'DPS' => 'Asia/Ujung_Pandang',
 				'BPP' => 'Asia/Ujung_Pandang',
@@ -58,12 +78,13 @@ class HomeController extends GatotkacaController {
 				'SUB' => 'Asia/Jakarta',
 				'JOG' => 'Asia/Jakarta',
 			);
-			
+
 			foreach ($chapters as $code => $name) {
 				$chapter = new Chapter;
 				$chapter->chapter_code = $code;
 				$chapter->chapter_name = $name;
 				$chapter->chapter_timezone = $timezones[$code];
+				$chapter->chapter_area = $area[$code];
 				$chapter->save();
 				
 				$user = new User;

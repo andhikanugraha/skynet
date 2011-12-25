@@ -52,7 +52,7 @@ class LocaleComponent extends HeliumComponent {
 		}
 		
 		FormDisplay::$address_states = array(
-			'Nangroe Aceh Darussalam',
+			'Aceh',
 			'Sumatera Utara',
 			'Sumatera Barat',
 			'Riau',

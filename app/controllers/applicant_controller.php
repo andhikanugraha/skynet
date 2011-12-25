@@ -72,7 +72,7 @@ class ApplicantController extends AppController {
 
 				// save the code into session,
 				// then redirect to applicant/create
-				$this->session['registration_code'] = $code;
+				$this->session['registration_code_token'] = $code->token;
 				$this->http_redirect(array('controller' => 'applicant', 'action' => 'create'));
 			}
 			else {
@@ -91,7 +91,8 @@ class ApplicantController extends AppController {
 	
 		// we need a code on hand to get to this form
 
-		$code = $this->session['registration_code'];
+		$token = $this->session['registration_code_token'];
+		$code = RegistrationCode::find_by_token($token);
 		// registration code validation
 		// if this doesn't pass, redirect back to applicant/redeem
 		if (!$code) {
@@ -156,7 +157,7 @@ class ApplicantController extends AppController {
 					$code->redeem();
 
 					$chapter = $code->chapter;
-				
+
 					// create the user
 					$user = new User;
 					$user->username = $username;
@@ -168,16 +169,18 @@ class ApplicantController extends AppController {
 
 					// create the applicant
 					$applicant = new Applicant;
+					$applicant->map_vertical_partitions();
 					$applicant->user_id = $user->id;
 					$applicant->expires_on = clone $code->expires_on;
 					$applicant->chapter_id = $code->chapter_id;
 					$applicant->program_year = $code->program_year;
+					$applicant->citizenship = 'Indonesia';
 					
-					$user->applicant_email = $email;
+					$applicant->applicant_email = $email;
 
 					$province = $chapter->chapter_area;
 					$city = $chapter->chapter_name;
-					$address_keys = array('applicant', 'applicant_mother', 'applicant_father', 'applicant_high_school');
+					$address_keys = array('applicant', 'high_school');
 					foreach ($address_keys as $k) {
 						$p = $k . '_address_province';
 						$applicant->$p = $province;
@@ -191,22 +194,23 @@ class ApplicantController extends AppController {
 
 					$applicant->save();
 
+					$db->commit();
+
 					// assign the code to the user
 					$code->applicant_id = $applicant->id;
 					$code->save();
 
-					// create applicant detail
-					$applicant_detail = new ApplicantDetail;
-					$applicant_detail->applicant_id = $applicant->id;
-					$applicant_detail->alamat_lengkap['kota'] = 'Bandung';
-					$applicant_detail->alamat_lengkap['provinsi'] = 'Jawa Barat';
-					$applicant_detail->alamat_lengkap['email'] = $user->email;
-					$applicant_detail->save();
-
 					// link everything up
-					$applicant_detail->save();
 					$applicant->save();
 					$user->save();
+
+					// login as the new user
+					$this->session->user_id = $user->id;
+					$this->session->save();
+					
+					$db->commit();
+					
+					$db->autocommit(true);
 				}
 				catch (HeliumException $e) {
 					$db->rollback();
@@ -214,13 +218,10 @@ class ApplicantController extends AppController {
 					$error = 'db_fail';
 				}
 
-				// login as the new user
-				$this->auth->process_login($username, $password);
-
 				$this['mode'] = 'success';
 
-				unset($this->session['registration_code']);
-				Gatotkaca::redirect(array('controller' => 'applicant', 'action' => 'form'));
+				$this->session['registration_code'] = '';
+				$this->http_redirect(array('controller' => 'applicant', 'action' => 'form'));
 			}
 			else {
 				$this['error'] = $error;
@@ -235,7 +236,7 @@ class ApplicantController extends AppController {
 
 	public function form() {
 		$this->require_authentication();
-
+		
 		if ($this->session->user->capable_of('admin') && $this->params['id']) {
 			if ($this->params['readonly'])
 				$readonly = true;
@@ -245,71 +246,20 @@ class ApplicantController extends AppController {
 		}
 		else {
 			$this->require_role('applicant');
-			$form = $this['form'] = new GatotkacaFormOutput;
 			$user_id = $this->session->user->id;
 			$applicant = $this->session->user->applicant;
 
-			if ($applicant->finalized)
-				$this->auth->land();
+			// if ($applicant->finalized)
+			// 	$this->auth->land();
 
-			$this->check_expiry();
+			// $this->check_expiry();
 		}
 
-		if ($readonly)
-			$form = $this['form'] = new GatotkacaFormTranscript;
-		else
-			$form = $this['form'] = new GatotkacaFormOutput;
-		$this['readonly'] = $readonly;
-
 		$applicant_id = $applicant->id;
-		$applicant_detail = ApplicantDetail::find(compact('applicant_id'))->first();
+
 		$pictures = Picture::find(compact('applicant_id'));
 		$pictures->set_order('DESC');
 		$picture = $this['picture'] = $pictures->first();
-
-		/* // DEBUG CODE AKA DATABASE RECONCILIATION
-		
-		$this['form'] = $form = new GatotkacaFormAnalyzer;
-		
-		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-			echo '<pre>';
-			echo <<<EOD
-ALTER TABLE applicant_details
-
-EOD;
-			$longtext = $_POST['longtext'];
-			unset($_POST['longtext']);
-			foreach ($_POST as $key => $value) {
-				echo 'ADD `'. $key .'` ';
-				if (is_array($value) || in_array($key, $longtext))
-					echo 'TEXT';
-				else
-					echo 'VARCHAR(512)';
-				echo ',
-';
-			}
-			
-			$arrays = array();
-			echo "\n";
-			
-			foreach ($_POST as $key => $value) {
-				if (is_array($value)) {
-					$arrays[] = $key;
-					echo 'public $' . $key . ' = array();';
-				}
-				else
-					echo 'public $' . $key . ' = \'\';';
-				echo "\n";
-			}
-			echo "\n";
-			
-			foreach ($arrays as $key) {
-				echo "\$this->auto_serialize('$key');\n";
-			}
-			exit;
-		}
-		
-		// END */
 
 		$this['new'] = $this->session->flash('just_logged_in');
 		$this['errors'] = $this->session->flash('form_errors');
@@ -318,53 +268,101 @@ EOD;
 
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			// store the form values in the DB
-			$checkboxes = $_POST['checkboxes'];
-			$applicant_detail->absorb($_POST);
-			$applicant_detail->save();
+			$proc = new FormProcessor;
+			$proc->add_uneditables('id', 'applicant_id', 'user_id', 'chapter_id', 'program_year', 'expires_on', 'confirmed', 'finalized');
+			$proc->associate($applicant);
+			$proc->commit();
+			$applicant->save();
+
 			$this->session['notice'] = 'Data Adik berhasil disimpan sementara. Silakan melanjutkan mengisi formulir.';
+			$this->session['last_pane'] = $_POST['last_pane'];
 
-			// handle upload, if any.
-			if (isset($_FILES['picture']) && $_FILES['picture']['tmp_name']) {
-				$file = $_FILES['picture'];
-				$pic = new Picture;
-				$pic->upload_original($file);
-				$this->session['picture'] = $pic;
-
-				Gatotkaca::redirect(array('controller' => 'applicant', 'action' => 'crop_picture'));
-				exit;
-			}
-			
-			// finalization process
-			if ($_POST['finalize']) {
-				// we validate the completeness of the form here first.
-				// $applicant->finalized = true;
-				// $applicant->save();
-				$try = $applicant->finalize();
-				if ($try)
-					Gatotkaca::redirect(array('controller' => 'applicant', 'action' => 'finalized'));
-				else {
-					$errors = $applicant->validation_errors;
-					$errors = array_map(function($e) {
-						switch ($e) {
-							case 'incomplete':
-								return 'Formulir belum lengkap. Pastikan seluruh bagian formulir ini telah terisi.';
-							case 'picture':
-								return 'Adik belum mengunggah (upload) foto.';
-							case 'birth_date':
-								return 'Tanggal lahir Adik harus di antara <strong>1 September 1994</strong> dan <strong>1 April 1996</strong>';
-							default:
-								return $e;
-						}
-					}, $errors);
-					$this->session['form_errors'] = $errors;
-					$this->session['incomplete'] = $applicant->incomplete_fields;
+			$old_siblings = $applicant->applicant_siblings;
+			$old_siblings->delete_all();
+			$new_siblings = $_POST['siblings'];
+			if ($new_siblings) {
+				foreach ($new_siblings as $sib) {
+					$sp = new FormProcessor($sib);
+					$sb = new ApplicantSibling;
+					$sb->applicant_id = $applicant->id;
+					$sp->add_uneditables('id', 'applicant_id');
+					$sp->associate($sb);
+					$sp->commit();
+					$sb->save();
 				}
 			}
 
-			Gatotkaca::redirect($this->params);
+			// // handle upload, if any.
+			// if (isset($_FILES['picture']) && $_FILES['picture']['tmp_name']) {
+			// 	$file = $_FILES['picture'];
+			// 	$pic = new Picture;
+			// 	$pic->upload_original($file);
+			// 	$this->session['picture'] = $pic;
+			// 
+			// 	Gatotkaca::redirect(array('controller' => 'applicant', 'action' => 'crop_picture'));
+			// 	exit;
+			// }
+			
+			// // finalization process
+			// 			if ($_POST['finalize']) {
+			// 				// we validate the completeness of the form here first.
+			// 				// $applicant->finalized = true;
+			// 				// $applicant->save();
+			// 				$try = $applicant->finalize();
+			// 				if ($try)
+			// 					Gatotkaca::redirect(array('controller' => 'applicant', 'action' => 'finalized'));
+			// 				else {
+			// 					$errors = $applicant->validation_errors;
+			// 					$errors = array_map(function($e) {
+			// 						switch ($e) {
+			// 							case 'incomplete':
+			// 								return 'Formulir belum lengkap. Pastikan seluruh bagian formulir ini telah terisi.';
+			// 							case 'picture':
+			// 								return 'Adik belum mengunggah (upload) foto.';
+			// 							case 'birth_date':
+			// 								return 'Tanggal lahir Adik harus di antara <strong>1 September 1994</strong> dan <strong>1 April 1996</strong>';
+			// 							default:
+			// 								return $e;
+			// 						}
+			// 					}, $errors);
+			// 					$this->session['form_errors'] = $errors;
+			// 					$this->session['incomplete'] = $applicant->incomplete_fields;
+			// 				}
+			// 			}
+
+			$this->http_redirect($this->params);
 		}
-		else
-			$form->feed(array());
+
+		$form = new FormDisplay;
+		$form->associate($applicant);
+		$this['form'] = $form;
+		$this['expires_on'] = $applicant->expires_on;
+		
+		$this['program_year'] = $applicant->program_year;
+		
+		$this['last_pane'] = substr($this->session->flash('last_pane'), 1);
+		
+		$applicant_siblings = $applicant->applicant_siblings;
+		$applicant_siblings->set_order_by('date_of_birth');
+		$applicant_siblings->set_order('ASC');
+		$sforms = array();
+		$i = 0;
+		foreach ($applicant_siblings as $s) {
+			$d = new FormDisplay;
+			$d->associate($s);
+			$d->make_subform("siblings[$i]");
+			$i++;
+			$sforms[] = $d;
+		}
+		if (count($sforms) < $applicant->number_of_children_in_family) {
+			for ($i = count($sforms); $i < $applicant->number_of_children_in_family; $i++) {
+				$d = new FormDisplay;
+				$d->make_subform("siblings[$i]");
+				$sforms[] = $d;
+			}
+		}
+		
+		$this['sibling_forms'] = $sforms;
 	}
 
 	public function crop_picture() {

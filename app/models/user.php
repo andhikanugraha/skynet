@@ -21,14 +21,15 @@ class User extends HeliumRecord {
 	}
 
 	public function rebuild() {
-		if ($this->role == 0)
+		if ($this->role == 1) {
 			$this->has_one('applicant');
+		}
 	}
 
 	public function capable_of($role, $chapter_id = 0) {
 		switch ($role) {
 			case 'applicant':
-				$min = 0;
+				$min = 1;
 				break;
 			case 'volunteer':
 				$min = 2;
@@ -60,8 +61,14 @@ class User extends HeliumRecord {
 	 */
 	public function get_landing_page() {
 		switch ($this->role) {
-			case 'applicant':
-				$land = $this->applicant->get_landing_page();
+			case 1:
+				if ($this->applicant->finalized)
+					$land = array();
+				elseif ($this->applicant->confirmed)
+					$land = array();
+				else
+					$land = array('controller' => 'applicant', 'action' => 'form');
+				$land = array('controller' => 'applicant', 'action' => 'form', 'id' => $this->applicant->finalized);
 				break;
 			case 'volunteer':
 				$land = array('controller' => 'volunteer');

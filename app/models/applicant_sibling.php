@@ -13,7 +13,7 @@ class ApplicantSibling extends HeliumRecord {
 	public $date_of_birth;
 	public $occupation;
 
-	public init() {
+	public function init() {
 		$this->belongs_to('applicant');
 	}
 }

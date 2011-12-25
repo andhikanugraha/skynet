@@ -14,7 +14,7 @@ class ApplicantWorkExperience extends HeliumRecord {
 	public $year;
 	public $length;
 
-	public init() {
+	public function init() {
 		$this->belongs_to('applicant');
 	}
 }

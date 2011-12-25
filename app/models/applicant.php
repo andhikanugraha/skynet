@@ -17,7 +17,7 @@ class Applicant extends HeliumPartitionedRecord {
 	public $test_id;
 	public $program_year;
 	public $confirmed;
-	public $finalized;
+	public $finalized = false;
 	public $expires_on;
 	public $sanitized_full_name;
 	public $sanitized_high_school_name;
@@ -62,6 +62,7 @@ class Applicant extends HeliumPartitionedRecord {
 		$this->add_vertical_partition('applicant_guardians');
 		$this->add_vertical_partition('applicant_high_schools');
 		$this->add_vertical_partition('applicant_mothers');
+		$this->add_vertical_partition('applicant_family');
 		$this->add_vertical_partition('applicant_personal_details');
 		$this->add_vertical_partition('applicant_personality');
 		$this->add_vertical_partition('applicant_primary_school_grade_history');
@@ -81,6 +82,9 @@ class Applicant extends HeliumPartitionedRecord {
 		// Sanitized entries
 		$this->sanitized_full_name = self::sanitize_name($this->full_name);
 		$this->sanitized_high_school_name = self::sanitize_school($this->high_school_name);
+		
+		if ($this->in_acceleration_class)
+			$this->program_yes = false;
 		
 		if (!$this->finalized && !$this->test_id)
 			$this->test_id = $this->generate_test_id();
@@ -113,6 +117,13 @@ class Applicant extends HeliumPartitionedRecord {
 	}
 
 	/**
+	 * Is applicant expired?
+	 */
+	public function is_expired() {
+		return $this->expires_on->later_than('now');
+	}
+
+	/**
 	 * Generate local ID based on chapter
 	 */
 	public function generate_local_id() {
@@ -130,7 +141,7 @@ class Applicant extends HeliumPartitionedRecord {
 	public function generate_test_id() {
 		$chapter_code = $this->chapter->chapter_code;
 		if ($this->finalized) {
-			$base = "INAYPsc/'%s-'%s/%s/%s";
+			$base = "INAYPsc/%s-%s/%s/%s";
 			$program_year = 2014;
 			$start_year = $program_year - 1;
 			$ycl = substr($start_year, 2);

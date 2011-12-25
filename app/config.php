@@ -20,7 +20,8 @@ class HeliumConfiguration extends HeliumDefaults {
 	public $session_check_user_agent = true;
 	public $session_check_ip_address = false;
 	
-	public $applicant_prefix = "INAYPSc/12-13/";
+	public $applicant_prefix = "INAYPSc/13-14/";
+	public $programs = array('afs', 'yes');
 	
 	public $program_year = 2014;
 	

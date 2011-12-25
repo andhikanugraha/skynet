@@ -14,7 +14,7 @@ class ApplicantOrganization extends HeliumRecord {
 	public $position;
 	public $year;
 
-	public init() {
+	public function init() {
 		$this->belongs_to('applicant');
 	}
 }
