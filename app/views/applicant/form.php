@@ -1,6 +1,6 @@
 <?php $this->header('Formulir Pendaftaran'); ?>
 <script>document.write('<style>.global-nav, .content {display: none}</style>');</script>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="<?php L('/assets/js/jquery-1.6.2.min.js') ?>"></script>
 <header class="page-title">
 	<p>Tahap 3/5</p>
 	<h1>Formulir Pendaftaran</h1>
@@ -973,40 +973,56 @@ $(document).ready(function(){
 	$('#finalize').change(uv)
 
 	uv();
-
-	//When page loads...
-	$("fieldset.pane").hide(); //Hide all content
 	
-	<?php if ($last_pane = 'keluarga'): ?>
-	$(".form-nav ol li a[href='#<?php echo $last_pane ?>']").addClass("active");
-	$("#<?php echo $last_pane ?>").show(); //Show first tab content
-	<?php else: ?>
-	$(".form-nav ol li:first a").addClass("active");
-	$("fieldset.pane:first").show(); //Show first tab content
-	<?php endif; ?>
+	function switchToTab(activeTab, direct) {
+		if ($(activeTab).hasClass('pane')) {
+			$(".form-nav li a").removeClass("active"); //Remove any "active" class
+			$(".form-nav li a[href='" + activeTab + "']").addClass("active"); //Add "active" class to selected tab
+
+			$("fieldset.pane").removeClass('active').hide(); //Hide all tab content
+	
+			$("#lastpane").val(activeTab);
+		
+			if (activeTab == '#finalisasi')
+				$('.save-button').slideUp();
+			else {
+				$('.save-button').slideDown();
+				$('#finalize').removeAttr('checked');
+				uv();
+			}
+			if (direct)
+				$(activeTab).addClass('active').show();
+			else
+				$(activeTab).addClass('active').fadeIn('medium'); //Fade in the active ID content
+		}
+	}
+
+	<?php if (!$last_pane) $last_pane = 'pribadi'; ?>
+
+	switchToTab('<?php echo '#' . $last_pane ?>', true)
 
 	//On Click Event
 	$(".form-nav li a").click(function() {
-
-		$(".form-nav li a").removeClass("active"); //Remove any "active" class
-		$(this).addClass("active"); //Add "active" class to selected tab
-
-		$("fieldset.pane").hide(); //Hide all tab content
-
 		var activeTab = $(this).attr("href"); //Find the href attribute value to identify the active tab + content
+
+		switchToTab(activeTab);
 		
-		$("#lastpane").val(activeTab);
-		
-		if ($(this).attr("href") == '#finalisasi')
-			$('.save-button').slideUp();
-		else {
-			$('.save-button').slideDown();
-			$('#finalize').removeAttr('checked');
-			uv();
-		}
-		$(activeTab).fadeIn('medium'); //Fade in the active ID content
+		if (history.pushState)
+			history.pushState(activeTab, $(this).text(), activeTab);
+
 		return false;
 	});
+
+	if (history.pushState) {
+		window.onpopstate = function(e) {
+			if (e.state)
+				switchToTab(e.state);
+			else if (window.location.hash)
+				switchToTab(window.location.hash, true);
+			else
+				switchToTab('<?php echo '#' . $last_pane ?>');
+		}
+	}
 
 	<?php if ($new): ?>
 	$('.message').hide();
