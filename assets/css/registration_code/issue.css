@@ -1,0 +1,11 @@
+legend {
+	float: left;
+	width: 100%;
+}
+span.instruction {
+	display: block;
+	font-size: 12px;
+}
+span.instruction strong {
+	color: inherit;
+}

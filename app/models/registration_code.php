@@ -9,7 +9,7 @@
  */
 class RegistrationCode extends HeliumRecord {
 
-	const token_length = 8;
+	const token_length = 16;
 
 	public $lifetime = '8 days';
 	
@@ -24,7 +24,7 @@ class RegistrationCode extends HeliumRecord {
 	public $generated_by;
 
 	public function init() {
-		// $this->belongs_to('user');
+		$this->belongs_to('chapter');
 	}
 
 	public function defaults() {
@@ -34,7 +34,7 @@ class RegistrationCode extends HeliumRecord {
 		$lifetime = Helium::conf('registration_code_lifetime');
 		if (!$lifetime)
 			$lifetime = $this->lifetime;
-	
+
 		$this->expires_on->modify('+' . $lifetime);
 	}
 
@@ -66,19 +66,23 @@ class RegistrationCode extends HeliumRecord {
 
 	public function redeem() {
 		$this->availability = false;
-		$this->save();
 	}
 
 	public function is_available() {
 		return $this->availability;
 	}
-	
+
 	public function is_expired() {
 		return !$this->expires_on->later_than('now');
 	}
-	
+
 	public function is_valid() {
 		return $this->is_available() && !$this->is_expired();
+	}
+	
+	public function get_chunked() {
+		$chunk_size = ceil(strlen($this->token) / 2);
+		return implode(' ', str_split($this->token, $chunk_size));
 	}
 
 	/**
