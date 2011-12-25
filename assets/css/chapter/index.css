@@ -7,11 +7,14 @@ table.chapters td {
 
 table.chapters {
 	margin-right: -40px;
+	margin-top: 40px;
+	margin-bottom: 80px;
 }
 table.chapters tr {
 	float: left;
-	width: 240px;
+	width: 210px;
 	margin-right: 40px;
+	margin-bottom: 40px;
 }
 .chapter-code {
 	display: none;

@@ -2,25 +2,6 @@
 .form-table {
 	width: 460px;
 }
-.form-table td {
-	border-top: 1px solid #d9e5f1;
-	padding: 10px 10px 10px 0;
-	vertical-align: top;
-}
-td.label {
-	width: 30%;
-	padding-top: 13px;
-}
-td.field {
-	width: 70%;
-}
-
-legend {
-	color: #000;
-	font-size: 22px;
-	margin-bottom: 10px;
-	letter-spacing: -.05em;
-}
 
 fieldset {
 	width: 460px;
@@ -32,7 +13,6 @@ fieldset {
 }
 
 fieldset.save {
-/*	clear: left;*/
 	margin: 0 0 40px 0;
 }
 fieldset.save p {

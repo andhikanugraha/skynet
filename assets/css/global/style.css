@@ -3,7 +3,7 @@
 
 body {
 	font-family: 'Open Sans', 'Segoe UI', 'Tahoma', sans-serif;
-	background: url('bg_top_light_blue.jpg') left top repeat-x;
+/*	background: url('bg_top_light_blue.jpg') left top repeat-x;*/
 	font-size: 12px;
 	line-height: 1.3;
 	color: #596571;
@@ -38,10 +38,10 @@ a {
 
 header.masthead {
 	float: left;
-	margin: 16px 20px;
 }
 header.masthead a {
 	display: block;
+	padding: 16px 20px;
 }
 .binabud-logo a:hover {
 }
@@ -216,7 +216,7 @@ button:active {
 	bottom: 0;
 }
 
-.container h1 {
+.container h1, .container legend {
 	font-size: 22px;
 	letter-spacing: -.05em;
 }
@@ -263,4 +263,23 @@ span.instruction {
 }
 input, textarea, select {
 	font: inherit;
+}
+.form-table {
+	margin-top: 20px;
+}
+.form-table td {
+	border-top: 1px solid #d9e5f1;
+	padding: 10px 10px 10px 0;
+	vertical-align: top;
+}
+td.label {
+	width: 30%;
+	padding-top: 13px;
+}
+td.field {
+	width: 70%;
+}
+legend {
+	color: #000;
+	margin-bottom: 10px;
 }
