@@ -273,8 +273,6 @@ class FormDisplay {
 	}
 
 	public function select_year($name, $start, $end) {
-		$years = array(0 => $this->__('(Tahun)'));
-		for ($i = $start; $i >= $end; $i--)
 		$years = array('' => $this->__('(Tahun)'));
 		for ($i = $end; $i >= $start; $i--)
 			$years[$i] = $i;
