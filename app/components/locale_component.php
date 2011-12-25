@@ -9,7 +9,6 @@
  * @package locale
  */
 class LocaleComponent extends HeliumComponent {
-	public $translations = array(
 	public static $translations = array(
 		'Monday' => 'Senin',
 		'Tuesday' => 'Selasa',
@@ -36,6 +35,10 @@ class LocaleComponent extends HeliumComponent {
 		'Mobile Phone' => 'HP',
 		'Home Phone' => 'Telepon',
 		'Fax' => 'Faks'
+		'Fax' => 'Faks',
+		'Asia/Jakarta' => 'WIB',
+		'Asia/Ujung_Pandang' => 'WITA',
+		'Asia/Jayapura' => 'WIT'
 	);
 	
 	public function init() {
@@ -43,6 +46,7 @@ class LocaleComponent extends HeliumComponent {
 		$translations = self::$translations;
 
 		HeliumDateTime::add_locale('id', $translations);
+		HeliumDateTime::set_default_locale('id');
 		self::set_timezone(Helium::conf('site_timezone'));
 
 		foreach ($translations as $k => $v) {
