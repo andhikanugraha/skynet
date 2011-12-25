@@ -1,4 +1,30 @@
+.page-title {
+/*	padding-top: 40px;*/
+}
+.actions-nav ul {
+	font-size: 14px;
+	line-height: 1;
+}
 
+.actions-nav li.expires-on {
+	color: #0054a5;
+	float: right;
+}
+.actions-nav li.expires-on span {
+	font-weight: bold;
+	letter-spacing: -0.05em;
+}
+
+.page-title p {
+	text-transform: uppercase;
+	text-shadow: none;
+	color: inherit;
+	letter-spacing: -.05em;
+}
+.page-title h1 {
+	letter-spacing: -.1em;
+	font-weight: bold;
+}
 
 /* stage-title III */
 .stage-title {

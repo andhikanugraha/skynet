@@ -1,8 +1,84 @@
-#token {
-	width: 17ex;
-	font-size: 60px;
-	font-family: Consolas, Courier, monospace;
+.token-box {
+	display: block;
+	border: 1px solid #B6CEE5;
+	vertical-align: middle;
+	width: 400px;
+}
+.token-box input {
+	display: block;
+	float: left;
+	width: 300px;
+	border: none;
+	font-size: 20px;
+	padding: 0 10px 0;
 	font-weight: bold;
 	text-transform: uppercase;
-	letter-spacing: 10px;
+	letter-spacing: 5px;
+	line-height: 20px;
+}
+.token-box input:focus {
+	outline: none;
+}
+button {
+	height: 30px;
+	width: 80px;
+	border-radius: 0;
+}
+
+label {
+	display: block;
+	color: #000;
+	margin-bottom: 5px;
+	letter-spacing: -.05em;
+}
+
+.token-entry {
+	margin-top: 20px;
+	padding-bottom: 25px;
+	border-bottom: 1px solid #D9E5F1;
+}
+.token-entry p {
+	margin: 0;
+}
+
+.faqs, .chapters {
+	float: left;
+	width: 460px;
+	margin-top: 20px;
+}
+.faqs {
+	margin-right: 40px;
+}
+.faqs h1, .chapters h1 {
+	margin-bottom: 20px;
+}
+
+.chapters dl {
+	-moz-column-count: 2;
+	-moz-column-gap: 20px;
+	-webkit-column-count: 2;
+	-webkit-column-gap: 20px;
+	column-count: 2;
+	column-gap: 20px;
+}
+
+.chapters ul {
+	padding-left: 0;
+}
+.chapters li {
+	list-style: none;
+}
+
+dl {
+	line-height: 1.5;
+}
+dt {
+	margin-top: 10px;
+	margin-bottom: 2px;
+	color: #000;
+	font-weight: bold;
+}
+
+.user-controls .activate-link {
+	display: none;
 }

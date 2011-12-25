@@ -1,17 +1,14 @@
 <?php
 
-class ApplicantController extends GatotkacaController {
+class ApplicantController extends AppController {
 
 	public $default_action = 'redeem';
 
 	public $applicant;
 
 	public function init() {
-		if ($this->is_logged_in()) {
-			$user_id = $this->session->user->id;
+		if ($this->is_logged_in())
 			$this->applicant = $this->session->user->applicant;
-			// $this->applicant = Applicant::find_by_user($user_id);
-		}
 	}
 
 	private function check_expiry() {
@@ -39,11 +36,9 @@ class ApplicantController extends GatotkacaController {
 		if ($this->applicant)
 			$this->auth->land();
 
-		$enable_recaptcha = $this['enable_recaptcha']= false;
+		$enable_recaptcha = $this['enable_recaptcha'] = false;
 
 		$this['recaptcha'] = $recaptcha = new RECAPTCHA;
-
-		$this['registration_code_error'] = $this->session['registration_code_error'];
 
 		unset($this->session['registration_code']);
 
@@ -51,43 +46,43 @@ class ApplicantController extends GatotkacaController {
 			// submitting a form
 			$token = strtoupper(trim($_POST['token']));
 
-			// validation routine
-			$validate = array();
-
-			$validate['incomplete'] = isset($token);
+			if (!isset($token))
+				$error = 'incomplete';
 
 			// validate the token
-			$code = RegistrationCode::find_by_token($token);
-			if (!$code)
-				$validate['token_nonexistent'] = false;
-			elseif (!$code->validate())
-				$validate[$code->validation_error] = false;
+			if (!$error) {
+				$code = RegistrationCode::find_by_token($token);
+				if (!$code)
+					$error = 'token_nonexistent';
+			}
+			
+			if (!$error && !$code->is_available())
+				$error = 'token_unavailable';
+				
+			if (!$error && $code->is_expired())
+				$error = 'token_expired';
 
 			// validate reCAPTCHA
-			if ($enable_recaptcha)
-				$validate['recaptcha'] = $recaptcha->check_answer();
-
-			$errors = array();
-			$valid = true;
-			foreach ($validate as $type => $check) {
-				if (!$check) {
-					$valid = false;
-					$errors[] = $type;
-				}
+			if ($enable_recaptcha && !$error && !$recaptcha->check_answer()) {
+				$error = 'recaptcha';
 			}
 
-			if (!$valid) {
-				$this['mode'] = 'fail';
-				$this['errors'] = $errors;
-			}
-			else {
+			if (!$error) {
+				// Everything went alright
+
 				// save the code into session,
 				// then redirect to applicant/create
 				$this->session['registration_code'] = $code;
-				// $this->session->save();
-				Gatotkaca::redirect(array('controller' => 'applicant', 'action' => 'create'));
+				$this->http_redirect(array('controller' => 'applicant', 'action' => 'create'));
+			}
+			else {
+				$this->session['error'] = $error;
+				$this->http_redirect(array('controller' => 'applicant', 'action' => 'redeem'));
 			}
 		}
+
+		$this['error'] = $this->session->flash('error');
+		$this['chapters'] = Chapter::find('all');
 	}
 
 	public function create() {
@@ -107,6 +102,10 @@ class ApplicantController extends GatotkacaController {
 			Gatotkaca::redirect(array('controller' => 'applicant', 'action' => 'redeem'));
 		}
 
+		$this['expires_on'] = new HeliumDateTime('now');
+		$this['form'] = new FormDisplay;
+		$this['chapter_name'] = $code->chapter->chapter_name;
+
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			// submitting a form here
 			$username = trim($_POST['username']);
@@ -117,76 +116,103 @@ class ApplicantController extends GatotkacaController {
 			// validate username, password and email.
 			$validate = array();
 
-			$validate['incomplete'] = isset($username, $password, $retype_password, $email);
+			if (!isset($username, $password, $retype_password, $email))
+				$error = 'incomplete';
 
-			// username validation
-			// username can only contain letters, numbers and underscore. min. 3 chars.
-			$username_pattern = "/^[a-z0-9_.]{3,}$/i";
-			$validate['username_format'] = preg_match($username_pattern, $username);
-			
-			$username_check = (bool) User::find(array('username' => $username))->first();
-			$validate['username_availability'] = !$username_check;
+			if (!$error) {
+				$username_check = (bool) User::find(array('username' => $username))->first();
+				if ($username_check)
+					$error = 'username_availability';
+			}
 
-			// validate password
-			$validate['password'] = strlen($password) >= 8;
+			if (!$error) {
+				// username validation
+				// username can only contain letters, numbers and underscore. min. 3 chars.
+				$username_pattern = "/^[a-z0-9_\-]{4,}$/i";
+				if (!preg_match($username_pattern, $username))
+					$error = 'username_format';
+			}
 
 			// validate retype password
-			$validate['retype_password'] = ($password == $retype_password);
+			if ($password != $retype_password)
+				$error = 'retype_password';
+			
+			if (strlen($password) < 8)
+				$error = 'password';
 
 			// validate email
-			$validate['email'] = filter_var($email, FILTER_VALIDATE_EMAIL);
+			if (!filter_var($email, FILTER_VALIDATE_EMAIL))
+				$error = 'email';
 
-			$errors = array();
-			$valid = true;
-			foreach ($validate as $type => $check) {
-				if (!$check) {
-					$valid = false;
-					$errors[] = $type;
-				}
-			}
-
-			if (!$valid) {
-				$this->session['username'] = $username;
-				$this->session['email'] = $email;
-				$this['mode'] = 'fail';
-				$this['errors'] = $errors;
-			}
-			else {
+			if (!$error) {
 				// everything set to go
-				
-				// redeem the reg code
-				$code->redeem();
-				
-				// create the user
-				$user = new User;
-				$user->username = $username;
-				$user->set_password($password);
-				$user->email = $email;
-				$user->role = 'applicant';
-				$user->save();
-				
-				// assign the code to the user
-				$code->user_id = $user->id;
-				$code->save();
 
-				// create the applicant
-				$applicant = new Applicant;
-				$applicant->user_id = $user->id;
-				$applicant->expires_on = clone $code->expires_on;
-				$applicant->save();
+				$db = Helium::db();
+				
+				try {
+					$db->autocommit(false);
 
-				// create applicant detail
-				$applicant_detail = new ApplicantDetail;
-				$applicant_detail->applicant_id = $applicant->id;
-				$applicant_detail->alamat_lengkap['kota'] = 'Bandung';
-				$applicant_detail->alamat_lengkap['provinsi'] = 'Jawa Barat';
-				$applicant_detail->alamat_lengkap['email'] = $user->email;
-				$applicant_detail->save();
+					// redeem the reg code
+					$code->redeem();
 
-				// link everything up
-				$applicant_detail->save();
-				$applicant->save();
-				$user->save();
+					$chapter = $code->chapter;
+				
+					// create the user
+					$user = new User;
+					$user->username = $username;
+					$user->set_password($password);
+					$user->email = $email;
+					$user->role = 1;
+					$user->chapter_id = $code->chapter_id;
+					$user->save();
+
+					// create the applicant
+					$applicant = new Applicant;
+					$applicant->user_id = $user->id;
+					$applicant->expires_on = clone $code->expires_on;
+					$applicant->chapter_id = $code->chapter_id;
+					$applicant->program_year = $code->program_year;
+					
+					$user->applicant_email = $email;
+
+					$province = $chapter->chapter_area;
+					$city = $chapter->chapter_name;
+					$address_keys = array('applicant', 'applicant_mother', 'applicant_father', 'applicant_high_school');
+					foreach ($address_keys as $k) {
+						$p = $k . '_address_province';
+						$applicant->$p = $province;
+					}
+					if ($city != $province) {
+						foreach ($address_keys as $k) {
+							$c = $k . '_address_city';
+							$applicant->$c = $city;
+						}
+					}
+
+					$applicant->save();
+
+					// assign the code to the user
+					$code->applicant_id = $applicant->id;
+					$code->save();
+
+					// create applicant detail
+					$applicant_detail = new ApplicantDetail;
+					$applicant_detail->applicant_id = $applicant->id;
+					$applicant_detail->alamat_lengkap['kota'] = 'Bandung';
+					$applicant_detail->alamat_lengkap['provinsi'] = 'Jawa Barat';
+					$applicant_detail->alamat_lengkap['email'] = $user->email;
+					$applicant_detail->save();
+
+					// link everything up
+					$applicant_detail->save();
+					$applicant->save();
+					$user->save();
+				}
+				catch (HeliumException $e) {
+					$db->rollback();
+
+					$error = 'db_fail';
+				}
 
 				// login as the new user
 				$this->auth->process_login($username, $password);
@@ -195,6 +221,9 @@ class ApplicantController extends GatotkacaController {
 
 				unset($this->session['registration_code']);
 				Gatotkaca::redirect(array('controller' => 'applicant', 'action' => 'form'));
+			}
+			else {
+				$this['error'] = $error;
 			}
 		}
 	}
@@ -335,7 +364,7 @@ EOD;
 			Gatotkaca::redirect($this->params);
 		}
 		else
-			$form->feed($applicant_detail->form_fields());
+			$form->feed(array());
 	}
 
 	public function crop_picture() {
