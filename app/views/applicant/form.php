@@ -48,9 +48,9 @@
 <form action="<?php L($this->params) ?>" enctype="multipart/form-data" method="POST">
 
 <nav class="form-page-nav above">
-	<p class="prev"><a href="#_prev">Halaman sebelumnya</a></p>
+	<p class="prev"><a href="#_prev">&laquo;  Halaman sebelumnya</a></p>
 	<p class="save"><button type="submit">Simpan<?php if (!$admin): ?> Sementara<?php endif; ?></button></p>
-	<p class="next"><a href="#_next">Halaman berikutnya</a></p>
+	<p class="next"><a href="#_next">Halaman berikutnya &raquo; </a></p>
 </nav>
 
 <nav class="form-nav">
@@ -131,12 +131,6 @@
 			<td class="field">
 				<?php $form->text('religion', 'long') ?>
 			</td>
-		</tr>
-		<tr>
-			<td class="combined" colspan="2"><?php $form->label('is_telkomsel_customer', 'Apakah Adik menggunakan nomor Telkomsel (Halo/Simpati/As)?', 'inline required') ?> <?php $form->select('is_telkomsel_customer', array('Tidak', 'Ya'), 'short'); ?></td>
-		</tr>
-		<tr>
-			<td class="combined" colspan="2"><?php $form->label('is_telkomsel_school_community_member', 'Apakah Adik anggota Telkomsel School Community?', 'inline required') ?> <?php $form->select('is_telkomsel_school_community_member', array('Tidak', 'Ya'), 'short'); ?></td>
 		</tr>
 		<!--
 		<tr>
@@ -1058,9 +1052,9 @@ $(document).ready(function(){
 </script>
 
 <nav class="form-page-nav below">
-	<p class="prev"><a href="#_prev">Halaman sebelumnya</a></p>
+	<p class="prev"><a href="#_prev">&laquo; Halaman sebelumnya</a></p>
 	<p class="save"><input type="hidden" name="last_pane" id="lastpane" value="#pribadi"><button type="submit">Simpan<?php if (!$admin): ?> Sementara<?php endif; ?></button></p>
-	<p class="next"><a href="#_next">Halaman berikutnya</a></p>
+	<p class="next"><a href="#_next">Halaman berikutnya &raquo;</a></p>
 </nav>
 
 </div>

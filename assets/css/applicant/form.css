@@ -16,7 +16,7 @@ body {
 
 .form-nav {
 	text-align: right;
-	width: 220px;
+	width: 239px;
 	float: left;
 	padding-top: 20px;
 	padding-bottom: 40px;
@@ -64,8 +64,8 @@ body {
 }
 
 .form-fields {
-	width: 710px;
-	padding-left: 25px;
+	width: 700px;
+	padding-left: 20px;
 	padding-bottom: 100px;
 	float: left;
 	border-left: 1px solid #D9E5F1;
@@ -73,12 +73,12 @@ body {
 }
 
 .form-table {
-	width: 710px;
+	width: 700px;
 }
 
 .form-table td table,
 .subform {
-	width: 710px;
+	width: 700px;
 }
 .form-table td table td,
 .subform td {
@@ -201,7 +201,7 @@ table.form-table tr td.combined {
 .container fieldset legend {
 	color: #000;
 	font-size: 24px;
-	padding-top: 20px;
+	padding-top: 40px;
 	margin-bottom: 40px;
 	float: left;
 	width: 100%;
@@ -211,6 +211,11 @@ table.form-table tr td.combined {
 }
 
 .container fieldset legend + h1 {
+	margin-top: 0;
+}
+
+.container fieldset h1 + .form-table,
+.container fieldset legend + .form-table {
 	margin-top: 0;
 }
 
@@ -392,7 +397,6 @@ label.descriptive {
 	border-collapse: collapse;
 	border-top: 1px solid #D9E5F1;
 	border-bottom: 1px solid #D9E5F1;
-	width: 710px;
 }
 .academics .grade {
 	border-right: 1px solid #D9E5F1;
@@ -443,7 +447,7 @@ label.descriptive {
 	float: left;
 	width: 100%;
 	border-bottom: 1px solid #d9e5f1;
-	padding: 5px 0;
+	padding: 25px 0 5px;
 }
 .form-page-nav.below {
 	float: left;
@@ -465,8 +469,7 @@ label.descriptive {
 	color: #0054A5;
 }
 .form-page-nav p.prev {
-	text-align: right;
-	width: 200px;
+	width: 220px;
 	padding-right: 40px;
 	padding-top: 4px;
 }
@@ -480,5 +483,10 @@ label.descriptive {
 	margin: 0;
 }
 .form-page-nav.below p.prev {
-	margin-left: -245px;
+	margin-left: -260px;
+}
+
+.form-page-nav.above p.save button {
+	padding-left: 20px;
+	padding-right: 20px;
 }
