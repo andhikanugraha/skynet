@@ -994,7 +994,9 @@ $(document).ready(function(){
 		return $(".form-nav a.active").parent().closest('li').next().children().first().attr('href');
 	}
 	function getPrevTab() {
-		return $(".form-nav a.active").parent().closest('li').prev().children().first().attr('href');
+		return	$(".form-nav a.active").parent().closest('li').prev().children().first().attr('href') ? 
+				$(".form-nav a.active").parent().closest('li').prev().children().first().attr('href') :
+				$(".form-nav a.active").parent().siblings().last().children().first().attr('href');
 	}
 	
 	$("a[href='#_next']").click(function(e) {

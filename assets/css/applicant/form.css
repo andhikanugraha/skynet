@@ -299,6 +299,7 @@ p.field textarea {
 
 #personality p label {
 	font-size: 15px;
+	letter-spacing: -.05em;
 	color: #000;
 }
 #personality p textarea {
@@ -479,5 +480,6 @@ label.descriptive {
 }
 
 .form-page-nav p.save button {
-	width: 220px;
+	padding-left: 30px;
+	padding-right: 30px;
 }

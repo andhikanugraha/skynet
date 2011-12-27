@@ -262,18 +262,37 @@ label.required:after {
 	content: ' *';
 	color: #a00;
 }
+.long {
+	width: 400px;
+}
+input.long {
+	width: 390px;
+}
 .medium {
-	width: 298px;
+	width: 300px;
+}
+input.medium {
+	width: 290px;
 }
 .medium-short {
-	width: 158px;
+	width: 160px;
+}
+input.medium-short {
+	width: 150px;
 }
 .large {
 	width: 298px;
 	height: 60px;
 }
 .short {
-	width: 98px;
+	width: 100px;
+}
+input.short {
+	width: 90px;
+}
+input.long, input.medium,
+input.medium-short, input.short {
+	padding: 2px 4px;
 }
 .very-short {
 	width: 48px;
@@ -285,7 +304,7 @@ label.required:after {
 	width: 10em;
 }
 .date-y {
-	width: 6em;
+	width: 6.5em;
 }
 span.instruction {
 	display: block;
