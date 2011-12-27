@@ -77,6 +77,12 @@ body {
 .form-table {
 	width: 700px;
 }
+.form-table td.label {
+	width: 210px;
+}
+.form-table td.field {
+	width: 490px;
+}
 
 .form-table td table,
 .subform {
@@ -104,7 +110,6 @@ body {
 .form-table.siblings td.label {
 	width: 30%;
 	vertical-align: middle;
-	padding-top: 13px;
 }
 .form-table.siblings td.field {
 	width: 20%;

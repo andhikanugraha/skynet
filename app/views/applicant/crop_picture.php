@@ -28,9 +28,9 @@ $(document).ready(function () {
 	o = $('#pic').clone().css('max-width', '');
 	rx = o.width() / $('#pic').width();
 	ry = o.height() / $('#pic').height();
-	
+
 	$('#pic').imgAreaSelect({
-		x1: 20, y1: 30, x2: 300, y2: 400,
+		x1: $('#pic').width() / 4 , y1: $('#pic').height() / 4, x2: $('#pic').width() * 0.75, y2: ($('#pic').height() / 4) + (2 * $('#pic').width() / 3),
 		aspectRatio: '3:4',
 		handles: true,
 		onSelectEnd: function (img, selection) {

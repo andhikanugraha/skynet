@@ -20,7 +20,7 @@
 		</header>
 		<p>Formulir ini terdiri atas <strong>sembilan bagian</strong> yang dapat diakses melalui tautan pada menu di sebelah kiri. Isilah seluruh formulir ini dengan <strong>lengkap</strong> dan <strong>teliti</strong>. Gunakan tombol <em>Simpan Sementara</em> di sebelah kanan atas ini untuk menyimpan sementara isian formulir untuk diisi kembali.</p>
 		<?php if (!$admin): ?><p>Setelah Adik selesai mengisi <strong>seluruh</strong> formulir ini, klik 'Finalisasi' di menu sebelah kiri.<br>Ingat, waktu Adik hanya sampai <strong><?php echo $this->applicant->expires_on->format('l, j F Y'); ?></strong>.</p><?php endif; ?>
-		<p><a href="#" onclick="$(this.parentNode.parentNode).slideUp()">Sembunyikan pesan ini</a></p>
+		<p class="hide"><a href="#">Sembunyikan pesan ini</a></p>
 	</div>
 
 	<?php elseif ($errors): ?>
@@ -37,10 +37,11 @@
 	<?php elseif ($message = $notice): ?>
 	<div class="message">
 		<p><?php echo $message; ?></p>
-		<p><a href="#" onclick="$(this.parentNode.parentNode).slideUp()">Sembunyikan pesan ini</a></p>
+		<p class="hide"><a href="#">Sembunyikan pesan ini</a></p>
 	</div>
-
 	<?php endif; ?>
+	
+	<script>$(document).ready(function(){$('.message .hide a').click(function(e){e.preventDefault(); $(this).parent().parent().slideUp()})})</script>
 
 	<script>document.write('<style>.message {display: none}</style>');</script>
 
@@ -270,15 +271,10 @@
 	</table>
 	<?php endforeach; ?>
 
-	<?php
-
-	foreach(array('guardian' => 'Wali') as $n => $parent):
-		$n = strtolower($parent);
-	?>
-	<h1>Wali <span>(bilamana orang tua telah wafat atau siswa tinggal terpisah dengan orang tua)</span></h1>
+	<h1>Wali <span>(apabila orang tua telah wafat atau Adik tinggal terpisah dengan orang tua)</span></h1>
 	<table class="form-table">
 		<tr>
-			<td class="label"><?php $form->label('guardian_full_name', "Nama Lengkap $parent", 'required') ?></td>
+			<td class="label"><?php $form->label('guardian_full_name', "Nama Lengkap Wali") ?></td>
 			<td class="field">
 				<?php $form->text('guardian_full_name', 'long'); ?>
 				<br>
@@ -321,7 +317,6 @@
 			</td>
 		</tr>
 	</table>
-	<?php endforeach; ?>
 
 	<h1>Saudara Kandung</h1>
 	<table class="form-table siblings">
@@ -498,7 +493,7 @@
 	<h1>SMP/MTs</h1>
 	<table class="form-table">
 		<tr>
-			<td class="label"><?php $form->label('junior_high_school_name', 'Nama Sekolah') ?></td>
+			<td class="label"><?php $form->label('junior_high_school_name', 'Nama Sekolah', 'required') ?></td>
 			<td class="field">
 				<?php $form->text('junior_high_school_name', 'long'); ?><br>
 				<span class="instruction">Cantumkan kota. Misal: SMP <u>Negeri</u> 70 <u>Bandung</u></span>
@@ -506,7 +501,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td class="label"><?php $form->label('junior_high_school_graduation_year', 'Tahun Ijazah') ?></td>
+			<td class="label"><?php $form->label('junior_high_school_graduation_year', 'Tahun Ijazah', 'required') ?></td>
 			<td class="field"><?php $form->select_year('junior_high_school_graduation_year', date('Y') - 2, date('Y') - 1); ?></td>
 		</tr>
 	</table>
@@ -547,7 +542,7 @@
 	<h1>SD/MI</h1>
 	<table class="form-table">
 		<tr>
-			<td class="label"><?php $form->label('elementary_school_name', 'Nama Sekolah') ?></td>
+			<td class="label"><?php $form->label('elementary_school_name', 'Nama Sekolah', 'required') ?></td>
 			<td class="field">
 				<?php $form->text('elementary_school_name', 'long'); ?><br>
 				<span class="instruction">Cantumkan kota. Misal: SD <u>Negeri</u> 70 <u>Bandung</u></span>
@@ -555,8 +550,8 @@
 			</td>
 		</tr>
 		<tr>
-			<td class="label"><?php $form->label('elementary_graduation_year', 'Tahun Ijazah') ?></td>
-			<td class="field"><?php $form->select_year('elementary_graduation_year', date('Y') - 2, date('Y') - 1); ?></td>
+			<td class="label"><?php $form->label('elementary_graduation_year', 'Tahun Ijazah', 'required') ?></td>
+			<td class="field"><?php $form->select_year('elementary_graduation_year', date('Y') - 5, date('Y') - 3); ?></td>
 		</tr>
 	</table>
 
@@ -1083,7 +1078,7 @@ $(document).ready(function(){
 	$('.message').hide();
 	$('.global-nav').slideDown('slow', function() {$('.content').fadeIn('slow', function() { $('.message').slideDown() })});
 	<?php else: ?>
-	// $('.global-nav, .content').fadeIn('fast', function() { $('.message').slideDown() })
+	$('.global-nav, .content').fadeIn('fast', function() { $('.message').slideDown() })
 	<?php endif; ?>
 	
 	<?php if ($incomplete): ?>
