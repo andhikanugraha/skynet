@@ -115,16 +115,19 @@ body {
 	padding-left: 20px;
 }
 .sibling-name {
-	width: 40%;
+	width: 280px;
 }
 .sibling-dob {
-	width: 30%;
+	width: 230px;
 }
 .sibling-job {
-	width: 25%;
+	width: 190px;
 }
-.siblings-table .short {
-	width: 97%;
+.siblings-table .sibling-name input {
+	width: 260px;
+}
+.siblings-table .sibling-job input {
+	width: 180px;
 }
 .siblings-table .date-d {
 	width: 4em;
@@ -306,12 +309,41 @@ p.field textarea {
 	margin-top: 10px;
 }
 
-.achievements td input,
-.organizations td input,
-.activities td input {
-	width: 97%;
+#kegiatan .subform .name,
+#kegiatan .subform .kind,
+#kegiatan .subform .achv {
+	width: 206px;
 }
-.activities {
+#kegiatan .subform .chmp {
+	width: 412px;
+}
+#kegiatan .subform .ngo {
+	width: 279px;
+}
+#kegiatan .subform .period {
+	width: 142px;
+}
+#kegiatan .subform .year {
+	width: 82px;
+}
+#kegiatan .subform .name input,
+#kegiatan .subform .kind input,
+#kegiatan .subform .achv input {
+	width: 190px;
+}
+#kegiatan .subform .chmp input {
+	width: 396px;
+}
+#kegiatan .subform .ngo input {
+	width: 263px;
+}
+#kegiatan .subform .year select {
+	width: 82px;
+}
+#kegiatan .subform .period input {
+	width: 132px;
+}
+#kegiatan .subform {
 	margin-bottom: 20px;
 }
 

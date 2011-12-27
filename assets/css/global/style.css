@@ -104,7 +104,7 @@ b, strong {
 button {
 	font-size: inherit;
 	font-family: inherit;
-	padding: .3em 1em;
+	padding: 4px 10px;
 	background: #0054a7 url(buttongrad.png) center repeat-x;
 	color: white;
 	border: none;
@@ -327,7 +327,7 @@ input, textarea, select {
 }
 td.label {
 	width: 30%;
-	padding-top: 14px;
+	padding-top: 16px;
 }
 td.field {
 	width: 70%;

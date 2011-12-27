@@ -325,9 +325,9 @@
 		</caption>
 		<thead>
 			<tr>
-				<th>Nama Lengkap</th>
-				<th>Tanggal Lahir</th>
-				<th>Sekolah/Pekerjaan</th>
+				<th class="sibling-name">Nama Lengkap</th>
+				<th class="sibling-dob">Tanggal Lahir</th>
+				<th class="sibling-job">Sekolah/Pekerjaan</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -364,15 +364,21 @@
 				v = parseInt($(this).val());
 				o = $('.siblings-table tbody tr').length - 1;
 				if (v > o) {
+					$('.siblings-table').css('visibility', 'visible');
 					d = v - o - 1;
 					for (i=0; i<d; i++) {
 						$('.siblings-table tbody').append($('.prototype').clone().removeClass('prototype'));
 					}
 				}
 				if (v <= o) {
-					d = o - v + 1;
-					for (i=0; i<d; i++) {
-						$('tr.engineered').first().detach();
+					if (v == 1) {
+						$('.siblings-table').css('visibility', 'hidden');
+					}
+					else {
+						d = o - v + 1;
+						for (i=0; i<d; i++) {
+							$('tr.engineered').first().detach();
+						}
 					}
 				}
 			}
@@ -582,23 +588,23 @@
 	<legend>Kegiatan</legend>
 	<!-- poin 15-19 -->
 	<h1>Organisasi</h1>
-	<table class="organizations subform">
+	<table class="achievements subform">
 		<caption>Organisasi yang pernah diikuti, baik di lingkungan sekolah maupun di luar lingkungan sekolah</caption>
 		<thead>
 			<tr>
-				<th width="180">Nama Organisasi</th>
-				<th width="180">Jenis Kegiatan</th>
-				<th width="180">Jabatan</th>
-				<th width="40">Tahun</th>
+				<th class="name">Nama Organisasi</th>
+				<th class="kind">Jenis Kegiatan</th>
+				<th class="achv">Jabatan</th>
+				<th class="year">Tahun</th>
 			</tr>
 		</thead>
 		<tbody>
 			<?php for($i=1; $i<=7; $i++): ?>
 			<tr>
-				<td><?php $form->text('organisasi[' . $i . '][nama_organisasi]', 'short') ?></td>
-				<td><?php $form->text('organisasi[' . $i . '][jenis_kegiatan]', 'short') ?></td>
-				<td><?php $form->text('organisasi[' . $i . '][jabatan]', 'short') ?></td>
-				<td><?php $form->select_year('organisasi[' . $i . '][tahun]', 2011, 1996) ?></td>
+				<td class="name"><?php $form->text('organisasi[' . $i . '][nama_organisasi]', 'short') ?></td>
+				<td class="kind"><?php $form->text('organisasi[' . $i . '][jenis_kegiatan]', 'short') ?></td>
+				<td class="achv"><?php $form->text('organisasi[' . $i . '][jabatan]', 'short') ?></td>
+				<td class="year"><?php $form->select_year('organisasi[' . $i . '][tahun]', date('Y') - 12, date('Y')) ?></td>
 			</tr>
 			<?php endfor; ?>
 		</tbody>
@@ -620,19 +626,19 @@
 		<caption>Prestasi</caption>
 		<thead>
 			<tr>
-				<th width="180">Jenis</th>
-				<th width="180">Kejuaraan</th>
-				<th width="180">Prestasi</th>
-				<th width="40">Tahun</th>
+				<th class="name">Jenis</th>
+				<th class="kind">Kejuaraan</th>
+				<th class="achv">Prestasi</th>
+				<th class="year">Tahun</th>
 			</tr>
 		</thead>
 		<tbody>
 			<?php for($i=1; $i<=7; $i++): ?>
 			<tr>
-				<td><?php $form->text($phase . '_prestasi[' . $i . '][jenis]', 'short') ?></td>
-				<td><?php $form->text($phase . '_prestasi[' . $i . '][kejuaraan]', 'short') ?></td>
-				<td><?php $form->text($phase . '_prestasi[' . $i . '][prestasi]', 'short') ?></td>
-				<td><?php $form->select_year($phase . '_prestasi[' . $i . '][tahun]', 2011, 1996) ?></td>
+				<td class="name"><?php $form->text('organisasi[' . $i . '][nama_organisasi]', 'short') ?></td>
+				<td class="kind"><?php $form->text('organisasi[' . $i . '][jenis_kegiatan]', 'short') ?></td>
+				<td class="achv"><?php $form->text('organisasi[' . $i . '][jabatan]', 'short') ?></td>
+				<td class="year"><?php $form->select_year('organisasi[' . $i . '][tahun]', date('Y') - 12, date('Y')) ?></td>
 			</tr>
 			<?php endfor; ?>
 		</tbody>
@@ -654,17 +660,17 @@
 		<caption>Prestasi</caption>
 		<thead>
 			<tr>
-				<th width="360">Kejuaraan</th>
-				<th width="180">Pencapaian</th>
-				<th width="40">Tahun</th>
+				<th class="chmp">Kejuaraan</th>
+				<th class="achv">Pencapaian</th>
+				<th class="year">Tahun</th>
 			</tr>
 		</thead>
 		<tbody>
 			<?php for($i=1; $i<=7; $i++): ?>
 			<tr>
-				<td><?php $form->text($phase . '_prestasi[' . $i . '][kejuaraan]', 'medium') ?></td>
-				<td><?php $form->text($phase . '_prestasi[' . $i . '][pencapaian]', 'short') ?></td>
-				<td><?php $form->select_year($phase . '_prestasi[' . $i . '][tahun]', 2011, 1996) ?></td>
+				<td class="chmp"><?php $form->text($phase . '_prestasi[' . $i . '][kejuaraan]', 'medium') ?></td>
+				<td class="achv"><?php $form->text($phase . '_prestasi[' . $i . '][pencapaian]', 'short') ?></td>
+				<td class="year"><?php $form->select_year($phase . '_prestasi[' . $i . '][tahun]', 2011, 1996) ?></td>
 			</tr>
 			<?php endfor; ?>
 		</tbody>
@@ -672,42 +678,42 @@
 
 	<h1>Lain-lain</h1>
 	<?php $phase = 'kegiatan_lain_lain'; ?>
-	<table class="activities subform">
+	<table class="achievements subform">
 		<caption>Kegiatan lain di luar olahraga dan kesenian</caption>
 		<thead>
 			<tr>
-				<th width="360">Kegiatan</th>
-				<th width="180">Prestasi</th>
-				<th width="40">Tahun</th>
+				<th class="chmp">Kegiatan</th>
+				<th class="achv">Prestasi</th>
+				<th class="year">Tahun</th>
 			</tr>
 		</thead>
 		<tbody>
 			<?php for($i=1; $i<=7; $i++): ?>
 			<tr>
-				<td><?php $form->text($phase . '[' . $i . '][kegiatan]', 'medium') ?></td>
-				<td><?php $form->text($phase . '[' . $i . '][prestasi]', 'short') ?></td>
-				<td><?php $form->select_year($phase . '[' . $i . '][tahun]', 2011, 1996) ?></td>
+				<td class="chmp"><?php $form->text($phase . '_prestasi[' . $i . '][kejuaraan]', 'medium') ?></td>
+				<td class="achv"><?php $form->text($phase . '_prestasi[' . $i . '][pencapaian]', 'short') ?></td>
+				<td class="year"><?php $form->select_year($phase . '_prestasi[' . $i . '][tahun]', 2011, 1996) ?></td>
 			</tr>
 			<?php endfor; ?>
 		</tbody>
 	</table>
 
 	<?php $phase = 'pengalaman_kerja'; ?>
-	<table class="activities subform">
+	<table class="achievements subform">
 		<caption>Pengalaman kerja sosial/magang/bekerja (di LSM, Yayasan, kantor, sekolah, koperasi, usaha, dll)</caption>
 		<thead>
 			<tr>
-				<th width="240">Nama dan bidang tempat bekerja/magang</th>
-				<th width="240">Tugas dan tanggung jawab yang dijalankan</th>
-				<th width="100">Tahun dan lama&nbsp;bekerja</th>
+				<th class="ngo">Nama dan bidang tempat bekerja/magang</th>
+				<th class="ngo">Tugas dan tanggung jawab yang dijalankan</th>
+				<th class="period">Tahun dan lama&nbsp;bekerja</th>
 			</tr>
 		</thead>
 		<tbody>
 			<?php for($i=1; $i<=7; $i++): ?>
 			<tr>
-				<td><?php $form->text($phase . '[' . $i . '][kegiatan]', 'institution') ?></td>
-				<td><?php $form->text($phase . '[' . $i . '][prestasi]', ' position') ?></td>
-				<td><?php $form->text($phase . '[' . $i . '][tahun]', ' duration') ?></td>
+				<td class="ngo"><?php $form->text($phase . '[' . $i . '][kegiatan]', 'medium') ?></td>
+				<td class="ngo"><?php $form->text($phase . '[' . $i . '][prestasi]', ' medium') ?></td>
+				<td class="period"><?php $form->text($phase . '[' . $i . '][tahun]', ' short') ?></td>
 			</tr>
 			<?php endfor; ?>
 		</tbody>
