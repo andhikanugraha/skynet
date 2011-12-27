@@ -103,7 +103,7 @@ class ApplicantController extends AppController {
 			Gatotkaca::redirect(array('controller' => 'applicant', 'action' => 'redeem'));
 		}
 
-		$this['expires_on'] = new HeliumDateTime('now');
+		$this['expires_on'] = $code->expires_on;
 		$this['form'] = new FormDisplay;
 		$this['chapter_name'] = $code->chapter->chapter_name;
 
@@ -170,12 +170,12 @@ class ApplicantController extends AppController {
 					// create the applicant
 					$applicant = new Applicant;
 					$applicant->map_vertical_partitions();
-					$applicant->user_id = $user->id;
 					$applicant->expires_on = clone $code->expires_on;
 					$applicant->chapter_id = $code->chapter_id;
 					$applicant->program_year = $code->program_year;
 					$applicant->citizenship = 'Indonesia';
 					
+					$applicant->user_id = $user->id;
 					$applicant->applicant_email = $email;
 
 					$province = $chapter->chapter_area;
@@ -205,7 +205,7 @@ class ApplicantController extends AppController {
 					$user->save();
 
 					// login as the new user
-					$this->session->user_id = $user->id;
+					$this->auth->process_login($username, $password);
 					$this->session->save();
 					
 					$db->commit();
@@ -218,12 +218,16 @@ class ApplicantController extends AppController {
 					$error = 'db_fail';
 				}
 
-				$this['mode'] = 'success';
+				if (!$error) {
+					$this['mode'] = 'success';
 
-				$this->session['registration_code'] = '';
-				$this->http_redirect(array('controller' => 'applicant', 'action' => 'form'));
+					$this->session['registration_code'] = '';
+					$this->http_redirect(array('controller' => 'applicant', 'action' => 'form'));
+				}
 			}
-			else {
+			if ($error) {
+				$this->session['username'] = $username;
+				$this->session['email'] = $email;
 				$this['error'] = $error;
 			}
 		}

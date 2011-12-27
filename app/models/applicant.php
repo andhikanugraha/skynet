@@ -71,7 +71,6 @@ class Applicant extends HeliumPartitionedRecord {
 		$this->add_vertical_partition('applicant_referral');
 		$this->add_vertical_partition('applicant_secondary_school_grade_history');
 		$this->add_vertical_partition('applicant_selection_progress');
-		$this->add_vertical_partition('applicant_telkomsel');
 		$this->add_vertical_partition('applicant_travel_history');
 	}
 

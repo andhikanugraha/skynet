@@ -56,7 +56,7 @@ class Session extends HeliumRecord implements ArrayAccess {
 			$user = $this->user;
 			// only do this check if we're logged in
 			if (($user) && ($user->password_hash != $this->user_password_hash))
-				return false;
+				echo 'aaa';
 		}
 
 		// check user agent

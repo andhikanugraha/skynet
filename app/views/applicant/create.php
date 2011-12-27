@@ -6,10 +6,11 @@ $error_messages = array('username_availability' => 'Nama pengguna yang Adik pili
 						'retype_password' => 'Kedua isian sandi Adik tidak saling cocok.',
 						'email' => 'Alamat surel yang Adik masukkan tidak sah.',
 						'incomplete' => 'Isian pada formulir tidak lengkap.',
-						'recaptcha' => 'Isian reCAPTCHA tidak cocok.')
+						'recaptcha' => 'Isian reCAPTCHA tidak cocok.',
+						'db_fail' => 'Cobalah sesaat lagi.')
 
 ?>
-<?php $this->header('Buat Akun'); $this->fx('staggered_load'); ?>
+<?php $this->header('Buat Akun'); $this->fx('fade_all_load'); ?>
 
 
 <header class="page-title">
