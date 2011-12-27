@@ -3,40 +3,42 @@
 body {
 	background: #000;
 }
-.user-create-wrapper {
+.container {
 	text-align: center;
 	margin-bottom: 80px;
-	width: auto;
 }
 p.instruction {
 	text-align: center;
 	padding: 0;
 	color: #999;
 }
-.stage-title {
+.global-nav, .global-footer {
+	display: none;
+}
+.page-title {
 	background: transparent;
 	border-bottom: none;
 	text-align: center;
 	margin-bottom: 0;
 	padding-bottom: 0;
 }
-.stage-title h1 {
-	color: #999;
-	text-shadow: none;
-}
-.stage-title h2 {
+.page-title h1 {
+	font-weight: normal;
+	font-size: 24px;
+	letter-spacing: -.05em;
 	color: #fff;
 	text-shadow: none;
 	margin-bottom: 0;
 	padding-bottom: 0;
 }
 .pic-container {
-	margin: 20px 0;
+	margin: 20px 0 40px;
 	text-align: center;
 }
 button {
-	font-size: 20px;
+	font-size: 14px;
 }
 #pic {
-	max-width: 600px;
+	max-width: 480px;
+	max-height: 640px;
 }
