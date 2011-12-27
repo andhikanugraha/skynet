@@ -458,7 +458,7 @@
 				<td class="field"><?php $form->select_year('high_school_admission_year', date('Y') - 2, date('Y') - 1, false); ?></td>
 			</tr>
 			<tr>
-				<td class="label"><?php $form->label('high_school_graduation_month', 'Bulan Keluar') ?></td>
+				<td class="label"><?php $form->label('high_school_graduation_month', 'Bulan Keluar', 'required') ?></td>
 				<td class="field"><?php $form->select_month('high_school_graduation_month'); ?>
 				<?php $form->select_year('high_school_graduation_year', date('Y') + 1, date('Y') + 2); ?></td>
 			</tr>
@@ -591,7 +591,7 @@
 	<h1>Pengetahuan Bahasa</h1>
 	<table class="form-table">
 		<tr>
-			<td class="label"><?php $form->label('years_speaking_english', 'Sudah berapa lama Adik belajar Bahasa Inggris?') ?></td>
+			<td class="label"><?php $form->label('years_speaking_english', 'Sudah berapa lama Adik belajar Bahasa Inggris?', 'required') ?></td>
 			<td class="field"><?php $form->text('years_speaking_english', 'long') ?></td>
 		</tr>
 		<tr>
@@ -606,11 +606,11 @@
 	<h1>Pelajaran Favorit dan Cita-Cita</h1>
 	<table class="form-table">
 		<tr>
-			<td class="label"><?php $form->label('favorite_subject', 'Mata pelajaran favorit') ?></td>
+			<td class="label"><?php $form->label('favorite_subject', 'Mata pelajaran favorit', 'required') ?></td>
 			<td class="field"><?php $form->text('favorite_subject', 'long') ?></td>
 		</tr>
 		<tr>
-			<td class="label"><?php $form->label('dream', 'Cita-cita') ?></td>
+			<td class="label"><?php $form->label('dream', 'Cita-cita', 'required') ?></td>
 			<td class="field"><?php $form->text('dream', 'long') ?></td>
 		</tr>
 	</table>
@@ -645,7 +645,7 @@
 	<?php $phase = 'kesenian'; ?>
 	<table class="form-table">
 		<tr>
-			<td class="label"><?php $form->label('arts_hobby', 'Sekedar hobi') ?></td>
+			<td class="label"><?php $form->label('arts_hobby', 'Sekedar hobi', 'required') ?></td>
 			<td class="field"><?php $form->text('arts_hobby', 'long') ?></td>
 		</tr>		
 		<tr>
@@ -680,7 +680,7 @@
 	<?php $phase = 'olahraga'; ?>
 	<table class="form-table">
 		<tr>
-			<td class="label"><?php $form->label('sports_hobby', 'Sekedar hobi') ?></td>
+			<td class="label"><?php $form->label('sports_hobby', 'Sekedar hobi', 'required') ?></td>
 			<td class="field"><?php $form->text('sports_hobby', 'long') ?></td>
 		</tr>		
 		<tr>
@@ -846,8 +846,8 @@
 
 <fieldset class="pane" id="rekomendasi">
 	<legend>Rekomendasi</legend>
-	<p>Sebutkan nama 3 (tiga) orang <em>di luar keluarga</em> Adik yang mengenal diri Adik secara pribadi untuk menuliskan surat rekomendasi bagi Adik. Diharapkan nama orang-orang tersebut tidak akan berganti pada saat Adik harus memintakan rekomendasi dari mereka. <i>Surat rekomendasi tidak perlu dikumpulkan pada saat pendaftaran seleksi.</i></p>
-	<h1>Lingkungan sekolah (Guru atau Kepala Sekolah) <span>(minimal berusia 21 tahun)</span></h1>
+	<p>Sebutkan nama 3 (tiga) orang <u>di luar keluarga</u> Adik yang mengenal diri Adik secara pribadi untuk menuliskan surat rekomendasi bagi Adik. Diharapkan nama orang-orang tersebut tidak akan berganti pada saat Adik harus memintakan rekomendasi dari mereka. <i>Surat rekomendasi tidak perlu dikumpulkan pada saat pendaftaran seleksi.</i></p>
+	<h1>Lingkungan sekolah (Guru atau Kepala Sekolah) <span>(berusia sekurang-kurangnya 21 tahun)</span></h1>
 	<table class="form-table">
 		<tr>
 			<td class="label"><?php $form->label('recommendations_school_name', 'Nama', 'required') ?></td>
@@ -870,7 +870,7 @@
 			<td class="field"><?php $form->text('recommendations_school_relationship', 'long') ?></td>
 		</tr>
 	</table>
-	<h1>Lingkungan rumah/organisasi di luar sekolah <span>(<strong>bukan keluarga,</strong> minimal berusia 21 tahun)</span></h1>
+	<h1>Lingkungan rumah/organisasi di luar sekolah <span>(<strong>bukan keluarga,</strong> berusia sekurang-kurangnya 21 tahun)</span></h1>
 	<table class="form-table">
 		<tr>
 			<td class="label"><?php $form->label('recommendations_nonschool_name', 'Nama', 'required') ?></td>
@@ -890,7 +890,8 @@
 		</tr>
 		<tr>
 			<td class="label"><?php $form->label('recommendations_nonschool_relationship', 'Hubungan', 'required') ?></td>
-			<td class="field"><?php $form->text('recommendations_nonschool_relationship', 'long') ?></td>
+			<td class="field"><?php $form->text('recommendations_nonschool_relationship', 'long') ?><br>
+				<span class="instruction">Pastikan yang bersangkutan tidak memiliki hubungan keluarga dengan Adik.</span></td>
 		</tr>
 	</table>
 	<h1>Teman dekat</h1>

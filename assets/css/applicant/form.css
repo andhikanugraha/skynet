@@ -170,7 +170,7 @@ body {
 }
 .phone-number .very-short {
 	width: 30px;
-	text-align: right;
+	text-align: center;
 }
 .phone-number .short {
 	width: 95px;
@@ -393,6 +393,8 @@ label.subpoint {
 	display: block;
 	display: inline-block;
 	width: 100px;
+	height: 20px;
+	margin-right: -.45em;
 }
 
 fieldset {
