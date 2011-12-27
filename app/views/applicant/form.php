@@ -414,7 +414,31 @@
 				<td class="field">
 					<?php $form->checkbox('is_acceleration_class') ?> Saya adalah siswa kelas Akselerasi
 					<br>
-					<span class="instruction" id="acceleration-instruction"><strong>Jika iya</strong>, pastikan kamu mengisi Surat Pernyataan Siswa Akselerasi yang dapat diunduh di halaman <a href="<?php L(array('controller'=>'applicant', 'action'=>'guide')); ?>">Panduan</a>.</span>
+					<span class="instruction">Mohon maaf, untuk saat ini program YES tidak tersedia bagi siswa kelas akselerasi.</span>
+					<br>
+					<!-- span class="instruction" id="acceleration-instruction"><strong>Jika iya</strong>, pastikan kamu mengisi Surat Pernyataan Siswa Akselerasi yang dapat diunduh di halaman <a href="<?php L(array('controller'=>'applicant', 'action'=>'guide')); ?>">Panduan</a>.</span -->
+					<script>
+					$(document).ready(function() {
+						previously_selected_yes = $('#program_yes').attr('checked')
+						checkAcc = function() {
+							if ($('#is_acceleration_class').is(':checked')) {								
+								previously_selected_yes = $('#program_yes').attr('checked');
+								$('#program_yes').removeAttr('checked')
+								$('.programs-table .yes').hide();
+							}
+							else {
+								if (previously_selected_yes)
+									$('#program_yes').attr('checked', 'checked');
+								else
+									$('#program_yes').removeAttr('checked');
+
+								$('.programs-table .yes').show();
+							}
+						}
+						checkAcc();
+						$('#is_acceleration_class').click(checkAcc);
+					})
+					</script>
 				</td>
 			</tr>
 			<tr>
