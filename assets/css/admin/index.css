@@ -1,0 +1,10 @@
+p.option {
+	font-size: 18px;
+	letter-spacing: -.05em;
+}
+
+hr {
+	border: none;
+	border-top: 1px solid #eee;
+	margin: -5px 0;
+}

@@ -1,0 +1,37 @@
+.user-create-wrapper, .container {
+	width: 640px;
+	margin: 0 auto;
+}
+.content {
+	padding-bottom: 80px;
+}
+label {
+	display: block;
+	color: #666;
+	margin-bottom: 5px;
+}
+span.description {
+	display: block;
+	font-size: 12px;
+	margin-top: 5px;
+	color: #999;
+}
+input {
+	display: block;
+	font-size: 16px;
+}
+
+.errors {
+	width: 100%;
+	background: #fcc;
+	padding: 5px 10px;
+	margin-left: -10px;
+	color: #000;
+}
+.errors li {
+	margin-top: 5px;
+}
+
+p.hello {
+	font-size: 14px;
+}

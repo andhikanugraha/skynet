@@ -1,0 +1,73 @@
+table.applicants td {
+	padding-left: 5px;
+	padding-right: 5px;
+}
+table.applicants tr.unfinalized td {
+	opacity: 0.2;
+	-moz-transition: all .5s ease-in-out;
+	-o-transition: all .5s ease-in-out;
+	-webkit-transition: all .5s ease-in-out;
+	transition: all .5s ease-in-out;
+}
+table.applicants tr.unfinalized:hover td {
+	opacity: 0.6;
+	-moz-transition: none;
+	-o-transition: none;
+	-webkit-transition: none;
+	transition: none;
+}
+table.applicants tr.expired td {
+	color: #800080;
+}
+table.applicants tr.unfinalized.expired td {
+	opacity: 0.7;
+	color: #c00;
+}
+table.applicants tr.expired td a {
+	color: inherit;
+}
+table.applicants tr.submitted td {
+	color: #000;
+	background: #cfc;
+}
+
+button.use, form {
+	display: inline;
+}
+
+.container,
+.stage-title h1,
+.stage-title h2 {
+	width: 960px;
+}
+table {
+	clear: left;
+	width: 960px;
+}
+
+.search {
+	float: left;
+	width: 960px;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #eee;
+	font-size: 12px;
+}
+.page-selector {
+	float: right;
+	padding-right: 20px;
+}
+.stage-selector {
+	padding-left: 5px;
+	float: left;
+}
+.filter a {
+	margin: 0 0 0 10px;
+	font-size: 14px;
+}
+.stage-selector a {
+	margin: 0 10px 0 0;
+}
+.filter  a.active {
+	font-size: 18px;
+	font-weight: bold;
+}

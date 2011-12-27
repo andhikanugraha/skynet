@@ -1,0 +1,38 @@
+@import url(forms.css);
+
+.content p {
+	line-height: 1.5;
+}
+.reqs {
+	margin-left: 2.5em;
+}
+.reqs li {
+	color: #333;
+	margin-bottom: 5px;
+}
+form {
+	display: inline;
+}
+hr {
+	border-bottom: 1px solid #666;
+}
+.big {
+	color: #333;
+	font-size: 16px;
+}
+.content {
+	padding-bottom: 80px;
+}
+.afsglobal {
+	color: #a00;
+	font-size: 16px;
+}
+.when {
+	line-height: 1.5;
+	color: #333;
+	font-size: 16px;
+	margin-top: -10px;
+}
+.content button {
+	font-size: 18px;
+}

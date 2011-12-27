@@ -1,0 +1,48 @@
+
+table.chapters,
+table.chapters tr,
+table.chapters td {
+	display: block;
+}
+
+table.chapters {
+	margin-right: -40px;
+	margin-top: 40px;
+	margin-bottom: 80px;
+}
+table.chapters tr {
+	float: left;
+	width: 210px;
+	margin-right: 40px;
+	margin-bottom: 40px;
+}
+.chapter-code {
+	display: none;
+	font-size: 12px;
+	color: #0054A5;
+	line-height: 0.8;
+}
+.chapter-name {
+	font-weight: bold;
+	letter-spacing: -.05em;
+	font-size: 24px;
+	color: #000;
+	margin-bottom: 5px;
+	text-indent: -.05em;
+}
+.chapter-address,
+.chapter-email {
+	margin-bottom: 5px;
+}
+.chapter-applicant-count,
+.chapter-user-count {
+	color: #6698c9;
+	text-transform: uppercase;
+	font-size: 11px;
+}
+.chapter-applicant-count span,
+.chapter-user-count span {
+	font-weight: bold;
+	color: #0054A5;
+	font-size: 13px;
+}

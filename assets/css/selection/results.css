@@ -1,0 +1,23 @@
+h1.announcement {
+	font-size: 22px;
+	letter-spacing: -.03em;
+	margin-top: 40px;
+}
+
+h1.announcement strong {
+	text-transform: uppercase;
+	color: #006400;
+}
+
+.container p {
+	width: 500px;
+}
+
+.technical_announcements {
+	width: 500px;
+	line-height: 1.5;
+}
+
+.technical_announcements ol {
+	margin-left: 2em;
+}

@@ -1,0 +1,13 @@
+form h1 {
+	font-size: 18px;
+	padding: 1em 0 1em;
+}
+
+label {
+	display: block;
+	margin-bottom: 5px;
+}
+
+.content {
+	padding-bottom: 40px;
+}

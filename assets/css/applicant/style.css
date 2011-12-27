@@ -1,0 +1,55 @@
+.page-title {
+/*	padding-top: 40px;*/
+}
+.actions-nav ul {
+	font-size: 14px;
+	line-height: 1;
+}
+
+.actions-nav li.expires-on {
+	color: #0054a5;
+	float: right;
+	margin-right: 0;
+}
+.actions-nav li.expires-on span {
+	font-weight: bold;
+	letter-spacing: -0.05em;
+}
+
+.page-title p {
+	text-transform: uppercase;
+	text-shadow: none;
+	color: inherit;
+	letter-spacing: -.05em;
+}
+.page-title h1 {
+	letter-spacing: -.1em;
+	font-weight: bold;
+}
+
+/* stage-title III */
+.stage-title {
+	width: 100%;
+	left: 0;
+	padding-top: 80px;
+	padding-bottom: 10px;
+	margin-bottom: 40px;
+	font-size: 40px;
+	background: -webkit-linear-gradient(#fff, #f6f6f6);
+	background: -moz-linear-gradient(#fff, #f6f6f6);
+	border-bottom: 1px solid #eee;
+}
+.stage-title h1 {
+	width: 640px;
+	margin: 0 auto;
+	font-size: 12px;
+	color: #999;
+	text-shadow: 1px 1px 0 #fff;
+}
+.stage-title h2 {
+	width: 640px;
+	margin: 0 auto;
+	font-size: 44px;
+	letter-spacing: -.05em;
+	text-shadow: 1px 1px 0 #fff;
+}

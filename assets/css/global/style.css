@@ -1,0 +1,340 @@
+@import url('reset.css');
+/*@import url('http://fonts.googleapis.com/css?family=Open+Sans:regular,italic,bold,bolditalic');*/
+
+body {
+	font-family: 'Open Sans', 'Segoe UI', 'Tahoma', sans-serif;
+/*	background: url('bg_top_light_blue.jpg') left top repeat-x;*/
+	font-size: 12px;
+	line-height: 1.3;
+	color: #596571;
+}
+header, h1, h2, h3, h4, h5, h6, strong, em {
+	color: #000;
+}
+a {
+	color: #0054a7;
+	text-decoration: none;
+}
+
+.global-nav {
+	height: 80px;
+	background: #003c81 url(global-nav.jpg);
+	color: #ccdded;
+	text-shadow: 1px 1px 0 #003b73;
+}
+.global-nav a, .user-controls .chapter {
+	color: #fff;
+	color: rgba(255, 255, 255, 0.8);
+}
+.global-nav a:hover {
+	color: #fff;
+}
+.user-controls a, .user-controls .chapter {
+	margin-left: 10px;
+}
+.global-nav .expires_on {
+	color: #fff;
+}
+
+header.masthead {
+	float: left;
+}
+header.masthead a {
+	display: block;
+	padding: 16px 20px;
+}
+.binabud-logo a:hover {
+}
+.binabud-logo img {
+	display: block;
+}
+
+.user-controls {
+	float: right;
+	line-height: 80px;
+	vertical-align: middle;
+	padding: 0 40px;
+}
+span.username {
+	font-weight: bold;
+	color: white;
+}
+strong.activate-link {
+	margin-right: 10px;
+}
+strong.activate-link a {
+	padding: 3px 10px;
+	border: 1px solid #ccdded;
+	border-radius: 3px;
+	box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
+}
+strong.activate-link a:active {
+	position: relative;
+	top: 1px;
+	left: 1px;
+}
+.user-controls a.login {
+	color: white;
+	font-weight: bold;
+	text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
+}
+
+.content {
+}
+.container {
+	width: 960px;
+	margin: 0 auto;
+}
+
+i, em {
+	font-style: italic;
+}
+b, strong {
+	font-weight: bold;
+}
+
+.content ul {
+	list-style: disc;
+	padding-left: 1.5em;
+}
+.content p {
+	margin: 1em 0;
+}
+
+button {
+	font-size: inherit;
+	font-family: inherit;
+	padding: .3em 1em;
+	background: #0054a7 url(buttongrad.png) center repeat-x;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
+	cursor: pointer;
+}
+button:active {
+	background: #002a52 url(buttongrad-dark.png) center repeat-x;
+	box-shadow: none;
+}
+
+.page-title {
+	background: url('bg_top_blue.jpg') left -80px repeat-x;
+	padding-top: 80px;
+	padding-bottom: 20px;
+	margin-bottom: 40px;
+	border-bottom: 1px solid #b6cee5;
+}
+.page-title p {
+	width: 960px;
+	margin: 0 auto;
+	font-size: 12px;
+	color: #000;
+	text-transform: uppercase;
+	color: inherit;
+	letter-spacing: -.05em;
+}
+.page-title h1 {
+	color: #0054a5;
+	width: 960px;
+	margin: 0 auto;
+	font-size: 34px;
+	letter-spacing: -.1em;
+	font-weight: bold;
+}
+
+
+.actions-nav {
+	margin: -40px 0 20px;
+	padding: 10px 0;
+	border-bottom: 1px solid #d9e5f1;
+}
+.actions-nav ul {
+	width: 960px;
+	margin: 0 auto 0;
+	padding: 0;
+	font-size: 20px;
+	font-weight: 300;
+}
+.actions-nav li {
+	display: inline;
+	margin-right: 20px;
+}
+.actions-nav li a {
+/*	color: #b6cee5;*/
+	color: #6698c9;
+}
+.actions-nav li a.active {
+	font-weight: bold;
+	color: #0054a5;
+	letter-spacing: -0.05em;
+}
+
+.container {
+	width: 960px;
+	margin: 0 auto;
+}
+
+.global-footer {
+	visibility: hidden;
+	clear: both;
+	width: 100%;
+	padding: 40px 0;
+	text-align: center;
+	background: white;
+}
+
+/**
+ * Messages
+ */
+
+.message {
+	margin: 1px -20px 20px;
+	padding: 5px 20px;
+	background: #fffbeb;
+	border-bottom: 1px solid #ffd333;
+	color: #665414;
+	position: relative;
+}
+.page-title + div .message {
+	margin-top: -39px;
+}
+.actions-nav + div .message {
+	margin-top: -19px;
+}
+.message p {
+	margin: 10px 0 5px;
+	line-height: 1.5;
+	max-width: 60em;
+}
+.message header,
+.message header h1 {
+	font-size: 14px;
+	color: #665414;
+	margin: 5px 0;
+	letter-spacing: 0;
+	line-height: 1;
+}
+.message.error {
+	background-color: #ffeeeb;
+	border-bottom-color: #ff5432;
+	color: #662214;
+}
+.message.error header,
+.message.error header h1 {
+	color: #a00;
+}
+.message .close {
+	visibility: hidden;
+	position: absolute;
+	bottom: 0;
+}
+
+.container h1, .container legend {
+	font-size: 22px;
+	letter-spacing: -.05em;
+}
+
+/**
+ * Forms
+ */
+
+input[type=text],
+input[type=password],
+input[type=email],
+input[type=number],
+input[type=tel],
+input[type=date],
+textarea {
+	border: 1px solid #b6cee5;
+	padding: 1px 0;
+}
+input[type=text]:focus,
+input[type=password]:focus,
+input[type=email]:focus,
+input[type=number]:focus,
+input[type=tel]:focus,
+input[type=date]:focus,
+textarea:focus {
+	outline: none;
+	border-color: #0054A5;
+}
+label.required:after {
+	content: ' *';
+	color: #a00;
+}
+.long {
+	width: 400px;
+}
+input.long {
+	width: 390px;
+}
+.medium {
+	width: 300px;
+}
+input.medium {
+	width: 290px;
+}
+.medium-short {
+	width: 160px;
+}
+input.medium-short {
+	width: 150px;
+}
+.large {
+	width: 298px;
+	height: 60px;
+}
+.short {
+	width: 100px;
+}
+input.short {
+	width: 90px;
+}
+input.long, input.medium,
+input.medium-short, input.short {
+	padding: 2px 4px;
+}
+.very-short {
+	width: 48px;
+}
+.date-d {
+	width: 4em;
+}
+.date-m {
+	width: 10em;
+}
+.date-y {
+	width: 6.5em;
+}
+span.instruction {
+	display: block;
+	display: inline-block;
+	margin-top: 2px;
+	font-size: 11px;
+	color: #8fa2b6;
+	line-height: 1.2;
+}
+input, textarea, select {
+	font: inherit;
+}
+.form-table {
+	margin-top: 20px;
+}
+.form-table td {
+	border-top: 1px solid #d9e5f1;
+	padding: 10px 10px 10px 0;
+	vertical-align: top;
+}
+td.label {
+	width: 30%;
+	padding-top: 14px;
+}
+td.field {
+	width: 70%;
+	line-height: 1.4;
+	vertical-align: middle;
+}
+legend {
+	color: #000;
+	margin-bottom: 10px;
+}

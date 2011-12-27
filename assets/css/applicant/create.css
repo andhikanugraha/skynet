@@ -1,0 +1,26 @@
+form p.pw {
+	float: left;
+	width: 320px;
+	height: 6em;
+}
+p {
+	line-height: 1.5;
+}
+section.intro {
+	float: left;
+	width: 460px;
+	margin-right: 40px;
+}
+section.intro h1 {
+	margin-bottom: 20px;
+}
+section.user-form {
+	float: left;
+	width: 460px;
+}
+section.user-form .form-table {
+	margin-top: 9px;
+}
+.user-controls .activate-link {
+	display: none;
+}

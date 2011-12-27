@@ -1,0 +1,49 @@
+@import url(forms.css);
+
+p.picture {
+	margin: 0 40px 20px 0;
+	float: left;
+}
+p.picture img {
+	display: block;
+}
+
+p.details {
+	margin-left: 280px;
+	padding-top: 20px;
+	font-size: 18px;
+}
+
+span.expired {
+	color: #a00;
+}
+
+p.notice {
+	background: #ffc;
+	padding: 10px;
+	border-radius: 5px;
+	font-size: 18px;
+	color: #000;
+	margin-left: 270px;
+}
+
+input {
+	display: inline;
+	margin-right: 10px;
+	width: 234px;
+}
+
+.global-footer {
+	display: none;
+}
+
+hr {
+	border: none;
+	border-top: 1px solid #eee;
+	clear: both;
+	margin: 20px 0;
+}
+
+p.selector {
+	clear: both;
+}

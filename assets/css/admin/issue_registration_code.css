@@ -1,0 +1,15 @@
+table.codes {
+	height: 600px;
+	overflow: auto;
+	font-family: monospace;
+	font-size: 20px;
+	color: #000;
+	margin-bottom: 20px;
+}
+table.codes td {
+	padding: 10px;
+}
+p.expires_on strong {
+	display: block;
+	font-size: 18px;
+}

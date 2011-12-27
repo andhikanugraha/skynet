@@ -1,0 +1,22 @@
+.stage-title h1,
+.stage-title h2,
+.container {
+	width: 400px;
+}
+
+tr, td {
+	border: none;
+	padding: 5px 10px 0 0;
+}
+form {
+	font-size: 18px;
+	color: #000;
+}
+input {
+	font-size: 18px;
+	width: 2em;
+	text-align: right;
+}
+span.calculator {
+	color: #999;
+}
