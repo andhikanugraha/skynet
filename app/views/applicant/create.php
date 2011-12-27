@@ -71,7 +71,11 @@ $error_messages = array('username_availability' => 'Nama pengguna yang Adik pili
 				</tr>
 				<tr>
 					<td class="label"></td>
-					<td class="field"><button type="submit">Buat Akun</button></td>
+					<td class="field">
+						<button type="submit">Buat Akun</button>
+						&nbsp;&nbsp;&nbsp;
+						<?php $form->checkbox('remember') ?> <?php $form->label('remember', 'Ingat saya') ?>
+					</td>
 				</tr>
 			</table>
 		</form>

@@ -206,6 +206,8 @@ class ApplicantController extends AppController {
 
 					// login as the new user
 					$this->auth->process_login($username, $password);
+					$this->session->is_persistent = $_POST['remember'];
+					$this->session['just_logged_in'] = true;
 					$this->session->save();
 					
 					$db->commit();
