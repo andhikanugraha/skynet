@@ -86,16 +86,29 @@
 			<td class="field"><?php $form->text('full_name', 'long'); ?> <span class="instruction">Isi sesuai dengan Akte Kelahiran.</span></td>
 		</tr>
 		<tr>
-			<td class="label"><?php $form->label('applicant_address_street', 'Alamat Lengkap', 'required') ?></td>
-			<td class="field"><?php $form->address('applicant'); ?> <span class="instruction">Isilah dengan lengkap agar tidak terjadi salah pengiriman surat.</span></td>
-		</tr>
-		<tr>
 			<td class="label"><?php $form->label('place_of_birth', 'Tempat dan Tanggal Lahir', 'required') ?></td>
 			<td class="field">
 				<?php $form->text('place_of_birth', 'medium') ?>
 				<br>
-				<?php $form->date('date_of_birth'); ?>
+				<?php $form->date('date_of_birth', 17, 15); ?>
+				<br>
+				<?php
+				$this_year = (int) date('Y');
+				$min = new HeliumDateTime;
+				$min->setDate($this_year - 15, 4, 1);
+				$max = new HeliumDateTime;
+				$max->setDate($this_year - 17, 9, 1);
+				?>
+				<span class="instruction">Untuk mengikuti program pertukaran pelajar Bina Antarbudaya, Adik harus berusia antara 15 tahun hingga 16 tahun 8 bulan (lahir antara tanggal <?php echo $max->format('j F Y') ?> dan <?php echo str_replace(' ', '&nbsp;', $min->format('j F Y')) ?>)</span>
 			</td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label('applicant_email', 'Alamat Surel (E-mail)', 'required') ?></td>
+			<td class="field"><?php $form->email('applicant_email', 'long'); ?> <span class="instruction">Seluruh pengumuman mengenai seleksi akan dikirim ke alamat surel ini.</span></td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label('applicant_address_street', 'Alamat Lengkap', 'required') ?></td>
+			<td class="field"><?php $form->address('applicant', true, true, true, true, true, true, false); ?> <span class="instruction">Isilah dengan lengkap agar tidak terjadi salah pengiriman surat.</span></td>
 		</tr>
 		<tr>
 			<td class="label"><?php $form->label('sex', 'Jenis Kelamin', 'required') ?></td>
@@ -474,9 +487,9 @@
 			<tr>
 				<td class="grade">X</td>
 				<td class="term-first">
-					<?php $form->number('grades_y10t1_rank', 'very-short l') ?>
+					<?php $form->text('grades_y10t1_rank', 'very-short l') ?>
 					dari
-					<?php $form->number('grades_y10t1_total', 'very-short r') ?>
+					<?php $form->text('grades_y10t1_total', 'very-short r') ?>
 				</td>
 			</tr>
 		</tbody>
@@ -519,12 +532,12 @@
 			<tr>
 				<td class="grade"><?php echo $g; ?></td>
 				<td class="term-first">
-					<?php $form->number('grades_y' . $i . 't1_rank', 'very-short l') ?> dari
-					<?php $form->number('grades_y' . $i . 't1_total', 'very-short r') ?>
+					<?php $form->text('grades_y' . $i . 't1_rank', 'very-short l') ?> dari
+					<?php $form->text('grades_y' . $i . 't1_total', 'very-short r') ?>
 				</td>
 				<td class="term-final">
-					<?php $form->number('grades_y' . $i . 't2_rank', 'very-short l') ?> dari
-					<?php $form->number('grades_y' . $i . 't2_total', 'very-short r') ?>
+					<?php $form->text('grades_y' . $i . 't2_rank', 'very-short l') ?> dari
+					<?php $form->text('grades_y' . $i . 't2_total', 'very-short r') ?>
 				</td>
 			</tr>
 			<?php endforeach; ?>
@@ -568,12 +581,12 @@
 			<tr>
 				<td class="grade"><?php echo $g; ?></td>
 				<td class="term-first">
-					<?php $form->number('grades_y' . $i . 't1_rank', 'very-short l') ?> dari
-					<?php $form->number('grades_y' . $i . 't1_total', 'very-short r') ?>
+					<?php $form->text('grades_y' . $i . 't1_rank', 'very-short l') ?> dari
+					<?php $form->text('grades_y' . $i . 't1_total', 'very-short r') ?>
 				</td>
 				<td class="term-final">
-					<?php $form->number('grades_y' . $i . 't2_rank', 'very-short l') ?> dari
-					<?php $form->number('grades_y' . $i . 't2_total', 'very-short r') ?>
+					<?php $form->text('grades_y' . $i . 't2_rank', 'very-short l') ?> dari
+					<?php $form->text('grades_y' . $i . 't2_total', 'very-short r') ?>
 				</td>
 			</tr>
 			<?php endforeach; ?>

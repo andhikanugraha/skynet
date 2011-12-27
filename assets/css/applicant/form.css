@@ -104,6 +104,7 @@ body {
 .form-table.siblings td.label {
 	width: 30%;
 	vertical-align: middle;
+	padding-top: 13px;
 }
 .form-table.siblings td.field {
 	width: 20%;
@@ -174,7 +175,7 @@ body {
 
 span.number {
 	display: inline-block;
-	padding: 0 0 0 3px;
+	padding: 2px 0 2px 4px;
 	color: #b6cee5;
 	background: #fff;
 	border: 1px solid;
@@ -451,6 +452,9 @@ label.descriptive {
 	vertical-align: middle;
 	text-align: center;
 }
+.academics input {
+	margin: 0 5px;
+}
 .academics td {
 	padding: 5px 0;
 }
@@ -461,13 +465,13 @@ label.descriptive {
 .picture-container {
 	float: left;
 	width: 100%;
-	text-align: center;
 	overflow: auto;
-	background: #D9E5F1;
+	border-top: 1px solid #D9E5F1;
 	padding: 10px 0;
 }
 .picture-container img {
-	vertical-align: middle;
+	display: block;
+	margin-left: 30%;
 }
 
 .form-page-nav.above {

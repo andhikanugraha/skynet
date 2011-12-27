@@ -391,7 +391,14 @@ class FormDisplay {
 		?>
 		<br>
 		<?php $this->label($name . '_address_postcode', 'Postcode', 'subpoint') ?>
-		<?php $this->number($name . '_address_postcode', 'short', 5) ?>
+		<?php $this->tel($name . '_address_postcode', 'medium-short', 5) ?>
+		<?php
+		endif;
+		if ($hp):
+		?>
+		<br>
+		<?php $this->label($name . '_mobilephone', 'HP', 'subpoint') ?>
+		<?php $this->tel($name . '_mobilephone', 'medium-short', 12) ?>
 		<?php
 		endif;
 		if ($telepon):
@@ -402,13 +409,6 @@ class FormDisplay {
 		( <?php $this->tel($name . '_phone_areacode', 'very-short', 4) ?> )
 		<?php $this->tel($name . '_phone_number', 'short', 12) ?>
 		</span>
-		<?php
-		endif;
-		if ($hp):
-		?>
-		<br>
-		<?php $this->label($name . '_mobilephone', 'HP', 'subpoint') ?>
-		<?php $this->tel($name . '_mobilephone', 'medium-short', 12) ?>
 		<?php
 		endif;
 		if ($fax):
