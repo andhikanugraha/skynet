@@ -70,7 +70,6 @@ EOS;
 	}
 	
 	public function footer() {
-		$this->load_jquery();
 		
 		if ($this->footer_js) {
 		?>

@@ -427,6 +427,8 @@ label.descriptive {
 }
 
 .picture-container {
+	float: left;
+	width: 100%;
 	text-align: center;
 	overflow: auto;
 	background: #D9E5F1;

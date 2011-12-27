@@ -295,16 +295,16 @@ class ApplicantController extends AppController {
 			}
 
 			// // handle upload, if any.
-			// if (isset($_FILES['picture']) && $_FILES['picture']['tmp_name']) {
-			// 	$file = $_FILES['picture'];
-			// 	$pic = new Picture;
-			// 	$pic->upload_original($file);
-			// 	$this->session['picture'] = $pic;
-			// 
-			// 	Gatotkaca::redirect(array('controller' => 'applicant', 'action' => 'crop_picture'));
-			// 	exit;
-			// }
+			if (isset($_FILES['picture']) && $_FILES['picture']['tmp_name']) {
+				$file = $_FILES['picture'];
+				$pic = new Picture;
+				$pic->upload_original($file);
+				$this->session['picture'] = $pic;
 			
+				Gatotkaca::redirect(array('controller' => 'applicant', 'action' => 'crop_picture'));
+				exit;
+			}
+
 			// // finalization process
 			// 			if ($_POST['finalize']) {
 			// 				// we validate the completeness of the form here first.

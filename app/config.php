@@ -46,7 +46,7 @@ class HeliumConfiguration extends HeliumDefaults {
 	public $recaptcha_private_key = '6LeuJ8ISAAAAANw4cl3_OSQUG5sDrEs1fmQPv0qh';
 	
 	public $picture_upload_path = PICTURE_UPLOAD_PATH;
-	public $picture_public_path = 'http://seleksi.binabudbdg.org/uploads';
+	public $picture_public_path = 'http://skynet.bina-antarbudaya.info/uploads';
 
 	/* MySQL Database configuration – optional if database is not being used */
 

@@ -2,12 +2,10 @@
 $this['additional_css'] = array('imgareaselect/imgareaselect-animated');
 ?>
 <?php $this->header() ?>
+<header class="page-title">
+	<h1>Unggah Foto</h1>
+</header>
 <div class="user-create-wrapper">
-
-	<header class="stage-title">
-		<h1>Formulir Pendaftaran</h1>
-		<h2>Unggah Foto</h2>
-	</header>
 
 	<div class="pic-container">
 		<p class="instruction">Lakukan <i>cropping</i> pada foto Adik dengan menekan tombol pada <i>mouse</i> dan menggesernya. <i>(click and drag)</i></p>
