@@ -15,6 +15,8 @@ body {
 }
 
 .form-nav {
+	position: relative;
+	background: white;
 	text-align: right;
 	width: 239px;
 	float: left;
@@ -145,7 +147,7 @@ body {
 	border: 1px solid;
 	line-height: 1;
 	margin: 1px 0;
-	width: 154px;
+	width: 152px;
 }
 .phone-number.focus {
 	color: #0054A5;
@@ -313,20 +315,6 @@ p.field textarea {
 }
 
 /*** OLD STUFF BELOW ***/
-/*.save-button button {
-	font-size: 12px;
-	background: #D9E5F1;
-	box-shadow: 0 .2em 0 #ccc;
-	color: #333;
-	text-shadow: 1px 1px 0 #D9E5F1;
-	cursor: pointer;
-}
-.save-button button:hover {
-	color: #000;
-}
-.save-button button:active {
-	box-shadow: none;
-}*/
 
 .message.errors a {
 	color: #a00;
@@ -368,11 +356,15 @@ label.subpoint {
 	width: 100px;
 }
 
+fieldset {
+	min-height: 36em;
+}
 fieldset p {
 	line-height: 1.5;
 }
 input, select {
 	line-height: 1;
+	margin: 2px 0;
 }
 .long, .large {
 	width: 400px;
@@ -486,7 +478,6 @@ label.descriptive {
 	margin-left: -260px;
 }
 
-.form-page-nav.above p.save button {
-	padding-left: 20px;
-	padding-right: 20px;
+.form-page-nav p.save button {
+	width: 220px;
 }

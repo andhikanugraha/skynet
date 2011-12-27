@@ -263,20 +263,20 @@ label.required:after {
 	color: #a00;
 }
 .medium {
-	width: 300px;
+	width: 298px;
 }
 .medium-short {
-	width: 160px;
+	width: 158px;
 }
 .large {
-	width: 300px;
+	width: 298px;
 	height: 60px;
 }
 .short {
-	width: 100px;
+	width: 98px;
 }
 .very-short {
-	width: 50px;
+	width: 48px;
 }
 .date-d {
 	width: 4em;

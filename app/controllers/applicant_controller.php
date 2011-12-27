@@ -332,7 +332,8 @@ class ApplicantController extends AppController {
 			// 				}
 			// 			}
 
-			@header('Location: ' . PathsComponent::build_url($this->params) . $_POST['last_pane']);
+			$this->http_redirect($this->params);
+			// @header('Location: ' . PathsComponent::build_url($this->params) . $_POST['last_pane']);
 		}
 
 		$form = new FormDisplay;
