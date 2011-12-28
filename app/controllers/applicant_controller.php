@@ -272,6 +272,13 @@ class ApplicantController extends AppController {
 		$this['incomplete'] = $this->session->flash('incomplete');
 		$this['notice'] = $this->session->flash('notice');
 
+		$subforms = array(	'siblings' => 'applicant_siblings',
+							'applicant_organizations' => 'applicant_organizations',
+							'applicant_arts_achievements' => 'applicant_arts_achievements',
+							'applicant_sports_achievements' => 'applicant_sports_achievements',
+							'applicant_other_achievements' => 'applicant_other_achievements',
+							'applicant_work_experiences' => 'applicant_work_experiences');
+
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			// store the form values in the DB
 			$proc = new FormProcessor;
@@ -283,19 +290,31 @@ class ApplicantController extends AppController {
 			$this->session['notice'] = 'Data Adik berhasil disimpan sementara. Silakan melanjutkan mengisi formulir.';
 			$this->session['last_pane'] = $_POST['last_pane'];
 
-			$old_siblings = $applicant->applicant_siblings;
-			$old_siblings->delete_all();
-			$new_siblings = $_POST['siblings'];
-			if ($new_siblings) {
-				foreach ($new_siblings as $sib) {
-					if ($sib['full_name']) {
-						$sp = new FormProcessor($sib);
-						$sb = new ApplicantSibling;
-						$sb->applicant_id = $applicant->id;
-						$sp->add_uneditables('id', 'applicant_id');
-						$sp->associate($sb);
-						$sp->commit();
-						$sb->save();
+			foreach ($subforms as $f => $d) {
+				$old = $applicant->$d;
+				$old->delete_all();
+				$new = $_POST[$f];
+				
+				if ($new) {
+					foreach ($new as $node) {
+						if ($node) {
+							foreach ($node as $n) {
+								if ((string) $n)
+									$not_empty = true;
+							}
+							if ($not_empty) {
+								$sp = new FormProcessor($node);
+								$class_name = Inflector::classify($d);
+								$sb = new $class_name;
+								$sb->applicant_id = $applicant->id;
+								$sp->add_uneditables('id', 'applicant_id');
+								$sp->associate($sb);
+								$sp->commit();
+								$sb->save();
+							}
+						}
+
+						$not_empty = false;
 					}
 				}
 			}
@@ -347,10 +366,12 @@ class ApplicantController extends AppController {
 		$this['form'] = $form;
 		$this['expires_on'] = $applicant->expires_on;
 		
+		$this['applicant'] = $applicant;
+		
 		$this['program_year'] = $applicant->program_year;
 		
 		$this['last_pane'] = substr($this->session->flash('last_pane'), 1);
-		
+
 		$applicant_siblings = $applicant->applicant_siblings;
 		$applicant_siblings->set_order_by('date_of_birth');
 		$applicant_siblings->set_order('ASC');
@@ -363,14 +384,28 @@ class ApplicantController extends AppController {
 			$i++;
 			$sforms[] = $d;
 		}
-		while ($i < ($applicant->number_of_children_in_family - 1)) {
-			$d = new FormDisplay;
-			$d->make_subform("siblings[$i]");
-			$i++;
-			$sforms[] = $d;
-		}
 
 		$this['sibling_forms'] = $sforms;
+		
+		$subform_forms = array();
+		foreach ($subforms as $f => $d) {
+			$nodes = $applicant->$d;
+			$i = 0;
+			$forms = array();
+			if ($nodes) {
+				foreach ($nodes as $s) {
+					$d = new FormDisplay;
+					$d->associate($s);
+					$d->make_subform($f . '[' . $i . ']');
+					$i++;
+					$forms[] = $d;
+				}
+			}
+
+			$subform_forms[$f] = $forms;
+		}
+		
+		$this['subforms'] = $subform_forms;
 	}
 
 	public function crop_picture() {

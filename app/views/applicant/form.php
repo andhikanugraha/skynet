@@ -342,13 +342,19 @@
 			<?php
 			foreach ($sibling_forms as $s):
 			?>
-			<tr>
+			<tr class="notempty">
 				<td class="sibling-name"><?php $s->text('full_name', 'short') ?></td>
 				<td class="sibling-dob"><?php $s->date('date_of_birth', 50) ?></td>
 				<td class="sibling-job"><?php $s->text('occupation', 'short') ?></td>
 			</tr>
 			<?php endforeach; ?>
-			<?php $s = new FormDisplay; $s->make_subform('siblings[#]'); ?>
+			<?php for ($i = 0; $i < ($applicant->number_of_children_in_family - count($sibling_forms) - 1); $i++): $s = new FormDisplay; $s->make_subform('siblings[' . $i . ']') ?>
+			<tr class="engineered">
+				<td class="sibling-name"><?php $s->text('full_name', 'short') ?></td>
+				<td class="sibling-dob"><?php $s->date('date_of_birth', 50) ?></td>
+				<td class="sibling-job"><?php $s->text('occupation', 'short') ?></td>
+			</tr>
+			<?php endfor; $s = new FormDisplay; $s->make_subform('siblings[#]'); ?>
 			<tr class="prototype">
 				<td class="sibling-name"><?php $s->text('full_name', 'short') ?></td>
 				<td class="sibling-dob"><?php $s->date('date_of_birth', 50) ?></td>
@@ -631,12 +637,24 @@
 			</tr>
 		</thead>
 		<tbody>
-			<?php for($i=1; $i<=7; $i++): ?>
+			<?php
+			foreach ($subforms['applicant_organizations'] as $s):
+			?>
+			<tr class="notempty">
+				<td class="name"><?php $s->text('name', 'short') ?></td>
+				<td class="kind"><?php $s->text('kind', 'short') ?></td>
+				<td class="achv"><?php $s->text('position', 'short') ?></td>
+				<td class="year"><?php $s->select_year('year', date('Y') - 12, date('Y')) ?></td>
+			</tr>
+			<?php endforeach; ?>
+			<?php for($i=1; $i<=5; $i++):
+			$s = new FormDisplay;
+			$s->make_subform("applicant_organizations[$i]"); ?>
 			<tr>
-				<td class="name"><?php $form->text('organisasi[' . $i . '][nama_organisasi]', 'short') ?></td>
-				<td class="kind"><?php $form->text('organisasi[' . $i . '][jenis_kegiatan]', 'short') ?></td>
-				<td class="achv"><?php $form->text('organisasi[' . $i . '][jabatan]', 'short') ?></td>
-				<td class="year"><?php $form->select_year('organisasi[' . $i . '][tahun]', date('Y') - 12, date('Y')) ?></td>
+				<td class="name"><?php $s->text('name', 'short') ?></td>
+				<td class="kind"><?php $s->text('kind', 'short') ?></td>
+				<td class="achv"><?php $s->text('position', 'short') ?></td>
+				<td class="year"><?php $s->select_year('year', date('Y') - 12, date('Y')) ?></td>
 			</tr>
 			<?php endfor; ?>
 		</tbody>
@@ -665,12 +683,24 @@
 			</tr>
 		</thead>
 		<tbody>
-			<?php for($i=1; $i<=7; $i++): ?>
+			<?php
+			foreach ($subforms['applicant_arts_achievements'] as $s):
+			?>
+			<tr class="notempty">
+				<td class="name"><?php $s->text('championship', 'short') ?></td>
+				<td class="kind"><?php $s->text('kind', 'short') ?></td>
+				<td class="achv"><?php $s->text('achievement', 'short') ?></td>
+				<td class="year"><?php $s->select_year('year', date('Y') - 12, date('Y')) ?></td>
+			</tr>
+			<?php endforeach; ?>
+			<?php for($i=1; $i<=5; $i++):
+			$s = new FormDisplay;
+			$s->make_subform("applicant_arts_achievements[$i]"); ?>
 			<tr>
-				<td class="name"><?php $form->text('organisasi[' . $i . '][nama_organisasi]', 'short') ?></td>
-				<td class="kind"><?php $form->text('organisasi[' . $i . '][jenis_kegiatan]', 'short') ?></td>
-				<td class="achv"><?php $form->text('organisasi[' . $i . '][jabatan]', 'short') ?></td>
-				<td class="year"><?php $form->select_year('organisasi[' . $i . '][tahun]', date('Y') - 12, date('Y')) ?></td>
+				<td class="name"><?php $s->text('championship', 'short') ?></td>
+				<td class="kind"><?php $s->text('kind', 'short') ?></td>
+				<td class="achv"><?php $s->text('achievement', 'short') ?></td>
+				<td class="year"><?php $s->select_year('year', date('Y') - 12, date('Y')) ?></td>
 			</tr>
 			<?php endfor; ?>
 		</tbody>
@@ -698,11 +728,22 @@
 			</tr>
 		</thead>
 		<tbody>
-			<?php for($i=1; $i<=7; $i++): ?>
+			<?php
+			foreach ($subforms['applicant_sports_achievements'] as $s):
+			?>
+			<tr class="notempty">
+				<td class="chmp"><?php $s->text('championship', 'short') ?></td>
+				<td class="achv"><?php $s->text('achievement', 'short') ?></td>
+				<td class="year"><?php $s->select_year('year', date('Y') - 12, date('Y')) ?></td>
+			</tr>
+			<?php endforeach; ?>
+			<?php for($i=1; $i<=5; $i++):
+			$s = new FormDisplay;
+			$s->make_subform("applicant_sports_achievements[$i]"); ?>
 			<tr>
-				<td class="chmp"><?php $form->text($phase . '_prestasi[' . $i . '][kejuaraan]', 'medium') ?></td>
-				<td class="achv"><?php $form->text($phase . '_prestasi[' . $i . '][pencapaian]', 'short') ?></td>
-				<td class="year"><?php $form->select_year($phase . '_prestasi[' . $i . '][tahun]', 2011, 1996) ?></td>
+				<td class="chmp"><?php $s->text('championship', 'short') ?></td>
+				<td class="achv"><?php $s->text('achievement', 'short') ?></td>
+				<td class="year"><?php $s->select_year('year', date('Y') - 12, date('Y')) ?></td>
 			</tr>
 			<?php endfor; ?>
 		</tbody>
@@ -720,11 +761,22 @@
 			</tr>
 		</thead>
 		<tbody>
-			<?php for($i=1; $i<=7; $i++): ?>
+			<?php
+			foreach ($subforms['applicant_other_achievements'] as $s):
+			?>
+			<tr class="notempty">
+				<td class="chmp"><?php $s->text('activity', 'short') ?></td>
+				<td class="achv"><?php $s->text('achievement', 'short') ?></td>
+				<td class="year"><?php $s->select_year('year', date('Y') - 12, date('Y')) ?></td>
+			</tr>
+			<?php endforeach; ?>
+			<?php for($i=1; $i<=5; $i++):
+			$s = new FormDisplay;
+			$s->make_subform("applicant_other_achievements[$i]"); ?>
 			<tr>
-				<td class="chmp"><?php $form->text($phase . '_prestasi[' . $i . '][kejuaraan]', 'medium') ?></td>
-				<td class="achv"><?php $form->text($phase . '_prestasi[' . $i . '][pencapaian]', 'short') ?></td>
-				<td class="year"><?php $form->select_year($phase . '_prestasi[' . $i . '][tahun]', 2011, 1996) ?></td>
+				<td class="chmp"><?php $s->text('activity', 'short') ?></td>
+				<td class="achv"><?php $s->text('achievement', 'short') ?></td>
+				<td class="year"><?php $s->select_year('year', date('Y') - 12, date('Y')) ?></td>
 			</tr>
 			<?php endfor; ?>
 		</tbody>
@@ -741,11 +793,22 @@
 			</tr>
 		</thead>
 		<tbody>
-			<?php for($i=1; $i<=7; $i++): ?>
+			<?php
+			foreach ($subforms['applicant_work_experiences'] as $s):
+			?>
+			<tr class="notempty">
+				<td class="ngo"><?php $s->text('organization', 'short') ?></td>
+				<td class="ngo"><?php $s->text('position', 'short') ?></td>
+				<td class="period"><?php $form->text('period') ?></td>
+			</tr>
+			<?php endforeach; ?>
+			<?php for($i=1; $i<=5; $i++):
+			$s = new FormDisplay;
+			$s->make_subform("applicant_work_experiences[$i]"); ?>
 			<tr>
-				<td class="ngo"><?php $form->text($phase . '[' . $i . '][kegiatan]', 'medium') ?></td>
-				<td class="ngo"><?php $form->text($phase . '[' . $i . '][prestasi]', ' medium') ?></td>
-				<td class="period"><?php $form->text($phase . '[' . $i . '][tahun]', ' short') ?></td>
+				<td class="ngo"><?php $s->text('organization', 'short') ?></td>
+				<td class="ngo"><?php $s->text('position', 'short') ?></td>
+				<td class="period"><?php $form->text('period') ?></td>
 			</tr>
 			<?php endfor; ?>
 		</tbody>
