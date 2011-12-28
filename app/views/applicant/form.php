@@ -261,11 +261,19 @@
 			<td class="field"><?php $form->text($n . '_job_title', 'long'); ?></td>
 		</tr> -->
 		<tr>
+			<td class="label"><?php $form->label($n . '_office_email', 'Alamat Surel (E-mail)') ?></td>
+			<td class="field"><?php $form->text($n . '_office_email', 'long') ?></td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label($n . '_office_mobilephone', 'Nomor Ponsel') ?></td>
+			<td class="field"><?php $form->tel($n . '_office_mobilephone', 'long') ?></td>
+		</tr>
+		<tr>
 			<td class="label"><?php $form->label($n . '_office_name', 'Nama dan Alamat Kantor') ?></td>
 			<td class="field">
 				<?php $form->text($n . '_office_name', 'long'); ?>
 				<br>
-				<?php $form->address($n . '_office', false, false, false, true, true, true, true) ?>
+				<?php $form->address($n . '_office', true, true, false, true, false, true, false) ?>
 			</td>
 		</tr>
 	</table>
@@ -287,8 +295,12 @@
 			<td class="field"><?php $form->text('guardian_relationship_to_applicant', 'long'); ?></td>
 		</tr>
 		<tr>
-			<td class="label"><?php $form->label('guardian_address_street', 'Pendidikan Terakhir') ?></td>
-			<td class="field"><?php $form->address('guardian', false, false, false, true, true, false, false) ?></td>
+			<td class="label"><?php $form->label('guardian_email', 'Alamat Surel (E-mail)') ?></td>
+			<td class="field"><?php $form->text('guardian_email', 'long') ?></td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label('guardian_address_street', 'Alamat Wali') ?></td>
+			<td class="field"><?php $form->address('guardian', true, true, false, true, true, false, false) ?></td>
 		</tr>
 		<!-- The field below is in the DB schema but not the original form -->
 		<!-- <tr>
@@ -313,7 +325,7 @@
 			<td class="field">
 				<?php $form->text('guardian_office_name', 'long'); ?>
 				<br>
-				<?php $form->address('guardian_office', false, false, false, true, false, true, true) ?>
+				<?php $form->address('guardian_office', true, true, false, true, false, true, false) ?>
 			</td>
 		</tr>
 	</table>
