@@ -14,6 +14,18 @@ body {
 	margin-bottom: 1px;
 }
 
+.actions-nav {
+	text-align: right;
+}
+.actions-nav li {
+	margin-right: 0;
+	margin-left: 20px;
+}
+.actions-nav li.expires-on {
+	float: left;
+	margin-left: 0;
+}
+
 .form-nav {
 	position: relative;
 	background: white;
