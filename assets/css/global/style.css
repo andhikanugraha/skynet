@@ -281,7 +281,7 @@ input.medium-short {
 	width: 150px;
 }
 .large {
-	width: 398px;
+	width: 390px;
 	height: 60px;
 }
 .short {
@@ -295,8 +295,9 @@ input.medium-short, input.short {
 	padding: 2px 4px;
 }
 textarea.large {
-	width: 388px;
+	width: 390px;
 	padding: 4px 4px;
+	margin: 2px 0;
 }
 .very-short {
 	width: 48px;

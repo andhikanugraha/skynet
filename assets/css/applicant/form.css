@@ -155,7 +155,7 @@ body {
 	color: #b6cee5;
 	border: 1px solid;
 	line-height: 1;
-	margin: 1px 0;
+	margin: 2px 0;
 	width: 152px;
 }
 .phone-number.focus {
@@ -394,7 +394,7 @@ label.subpoint {
 	display: inline-block;
 	width: 100px;
 	height: 20px;
-	margin-right: -.45em;
+	margin-right: -.3em;
 }
 
 fieldset {
