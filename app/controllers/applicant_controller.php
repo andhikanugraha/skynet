@@ -299,7 +299,15 @@ class ApplicantController extends AppController {
 					foreach ($new as $node) {
 						if ($node) {
 							foreach ($node as $n) {
-								if ((string) $n)
+								if ($not_empty)
+									break;
+
+								if (is_array($n)) {
+									foreach ($n as $o)
+										if ($o)
+											$not_empty = true;
+								}
+								elseif ($n)
 									$not_empty = true;
 							}
 							if ($not_empty) {
