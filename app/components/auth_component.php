@@ -25,6 +25,8 @@ class AuthComponent extends HeliumComponent {
 		$controller->is_logged_in = function() use ($auth) { return $auth->is_logged_in(); };
 		$controller->require_authentication = function() use ($auth) { return $auth->require_authentication(); };
 		$controller->require_role = function($role) use ($auth) { return $auth->require_role($role); };
+
+		$controller->user = $controller->session->user;
 	}
 
 	public function process_login($username, $password) {

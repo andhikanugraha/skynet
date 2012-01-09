@@ -341,7 +341,7 @@ class FormDisplay {
 	public function checkbox($name, $value = true) {
 		if (is_bool($value))
 			$checked = (bool) $this->values[$name];
-		else
+		elseif (is_array($this->values[$name]))
 			$checked = in_array($value, $this->values[$name]);
 
 		printf(	'<input type="checkbox" name="%s" id="%s" value="%s"%s><input type="hidden" name="_checkboxes[]" value="%1$s">',

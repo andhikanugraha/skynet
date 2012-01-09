@@ -6,32 +6,53 @@ class ApplicantController extends AppController {
 
 	public $applicant;
 
+	/**
+	 *
+	 */
 	public function init() {
 		if ($this->is_logged_in())
 			$this->applicant = $this->session->user->applicant;
 	}
 
+	/**
+	 *
+	 */
 	private function check_expiry() {
 		if ($this->applicant && $this->applicant->expires_on->earlier_than('now'))
 			$this->auth->land();
 	}
-	
+
+	/**
+	 *
+	 */
 	private function check_submitted() {
 		if (!$this->applicant->submitted)
 			$this->auth->land();
 	}
 
+	/**
+	 *
+	 */
 	public function expired() {}
 
+	/**
+	 *
+	 */
 	private function require_finalized() {
 		if (!$this->applicant->finalized && Helium::conf('production'))
 			Gatotkaca::redirect(array('controller' => 'applicant', 'action' => 'form'));
 	}
 
+	/**
+	 *
+	 */
 	public function guide() {
 		Gatotkaca::redirect('/uploads/guide.pdf'); exit;
 	}
 
+	/**
+	 *
+	 */
 	public function redeem() {
 		if ($this->applicant)
 			$this->auth->land();
@@ -85,6 +106,9 @@ class ApplicantController extends AppController {
 		$this['chapters'] = Chapter::find('all');
 	}
 
+	/**
+	 *
+	 */
 	public function create() {
 		if ($this->applicant)
 			$this->auth->land();
@@ -235,11 +259,143 @@ class ApplicantController extends AppController {
 		}
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public function status() {
 		$this->render = false;
 		Gatotkaca::redirect(array('controller' => 'applicant', 'action' => 'form'));
 	}
 
+	/**
+	 * List applicants
+	 */
+	public function index() {
+		$this->require_role('chapter_staff');
+		
+		$applicants = Applicant::find();
+
+		$db = Helium::db();
+		
+		// -- Filtering --
+		
+		// Filter by chapter
+		// This can only be used by national admin
+		if ($this->user->capable_of('national_admin')) {
+			if ($this->params['chapter_id']) {
+				$applicants->narrow(array('chapter_id' => $this->params['chapter_id']));
+				$is_search = true;
+			}
+		}
+		// Otherwise, only list applicants from user's chapter
+		else {
+			$applicants->narrow(array('chapter_id' => $this->user->chapter_id));
+		}
+		
+		// Filter by stage
+		$applicants->add_additional_column('expired', "expires_on < '" . (new HeliumDateTime('now')) . "'");
+		switch ($this->params['stage']) {
+			case 'expired':
+				$applicants->narrow(array('expired' => true, 'confirmed' => false));
+				break;
+			case 'unexpired':
+				$applicants->narrow(array('expired' => false));
+				$applicants->widen(array('confirmed' => true));
+				break;
+			case 'confirmed':
+				$applicants->narrow(array('confirmed' => true));
+				break;
+			case 'finalized':
+				$applicants->narrow(array('finalized' => true));
+				break;
+			case 'anomaly':
+				$applicants->narrow(array('confirmed' => false, 'expired' => true, 'finalized' => true));
+				break;
+		}
+		
+		// Filter by school
+		if ($this->params['school_name']) {
+			$applicants->narrow(array('sanitized_high_school_name' => $this->params['school_name']));
+			$is_search = true;
+		}
+
+		// Filter by name
+		if ($this->params['name']) {
+			$criteria = $db->prepare("`sanitized_full_name` LIKE '%%%s%%'", str_replace(' ', '%', $this->params['name']));
+			$applicants->narrow($criteria);
+			$is_search = true;
+		}
+
+		// TODO
+		// Filter by POB
+		// Filter by DOB
+		
+		// -- Ordering --
+		
+		switch ($this->params['order_by']) {
+			case 'school':
+				$order_by = 'sanitized_high_school_name';
+				break;
+			case 'name':
+				$order_by = 'sanitized_full_name';
+				break;
+			case 'test_id':
+			default:
+				$order_by = 'test_id';
+		}
+		$applicants->set_order_by($order_by);
+		
+		if (strtoupper($this->params['order']) == 'DESC')
+			$applicants->set_order('DESC');
+		else
+			$applicants->set_order('ASC');
+
+		// -- Pagination --
+		$batch_length = 10;
+		$applicants->set_batch_length($batch_length);
+		if (!$this->params['page'])
+			$this->params['page'] = 1;
+		$page = $this->params['page'];
+		$count_all = $applicants->count_all();
+		$applicants->set_batch_number($page);
+		$first = (($page - 1) * $batch_length) + 1;
+		$last = ($first + $batch_length - 1) > $count_all ? $count_all : ($first + $batch_length - 1);
+
+		// Applicants is now ready for listing.
+		$this['applicants'] = $applicants;
+		$this['total_pages'] = $applicants->get_number_of_batches();
+		$this['current_page'] = $page;
+		$this['first'] = $first;
+		$this['last'] = $last;
+		$this['count_all'] = $count_all;
+		$this['current_stage'] = $this->params['stage'];
+
+		if ($this->user->capable_of('national_admin'))
+			$this['schools'] = $this->get_schools();
+		else
+			$this['schools'] = $this->get_schools($this->user->chapter_id);
+			
+		$this['form'] = new FormDisplay;
+		
+		$this->session['back_to'] = $this->params;
+	}
+
+	/**
+	 *
+	 */
+	public function get_schools($chapter_id = null) {
+		$db = Helium::db();
+
+		$q = "SELECT DISTINCT sanitized_high_school_name FROM applicants";
+		if ($chapter_id)
+			$q .= $db->prepare(" WHERE chapter_id = '%s'", $chapter_id);
+
+		return $db->get_col($q);
+	}
+
+	/**
+	 *
+	 */
 	public function form() {
 		$this->require_authentication();
 		
@@ -338,32 +494,34 @@ class ApplicantController extends AppController {
 				exit;
 			}
 
-			// // finalization process
-			// 			if ($_POST['finalize']) {
-			// 				// we validate the completeness of the form here first.
-			// 				// $applicant->finalized = true;
-			// 				// $applicant->save();
-			// 				$try = $applicant->finalize();
-			// 				if ($try)
-			// 					Gatotkaca::redirect(array('controller' => 'applicant', 'action' => 'finalized'));
-			// 				else {
-			// 					$errors = $applicant->validation_errors;
-			// 					$errors = array_map(function($e) {
-			// 						switch ($e) {
-			// 							case 'incomplete':
-			// 								return 'Formulir belum lengkap. Pastikan seluruh bagian formulir ini telah terisi.';
-			// 							case 'picture':
-			// 								return 'Adik belum mengunggah (upload) foto.';
-			// 							case 'birth_date':
-			// 								return 'Tanggal lahir Adik harus di antara <strong>1 September 1994</strong> dan <strong>1 April 1996</strong>';
-			// 							default:
-			// 								return $e;
-			// 						}
-			// 					}, $errors);
-			// 					$this->session['form_errors'] = $errors;
-			// 					$this->session['incomplete'] = $applicant->incomplete_fields;
-			// 				}
-			// 			}
+			// finalization process
+			if ($_POST['finalize']) {
+				// we validate the completeness of the form here first.
+				// $applicant->finalized = true;
+				// $applicant->save();
+				$try = $applicant->finalize();
+				if ($try) {
+					$applicant->save();
+					Gatotkaca::redirect(array('controller' => 'applicant', 'action' => 'finalized'));
+				}
+				else {
+					$errors = $applicant->validation_errors;
+					$errors = array_map(function($e) {
+						switch ($e) {
+							case 'incomplete':
+								return 'Formulir belum lengkap. Pastikan seluruh bagian formulir ini telah terisi.';
+							case 'picture':
+								return 'Adik belum mengunggah (upload) foto.';
+							case 'birth_date':
+								return 'Tanggal lahir Adik harus di antara <strong>1 September 1994</strong> dan <strong>1 April 1996</strong>';
+							default:
+								return $e;
+						}
+					}, $errors);
+					$this->session['form_errors'] = $errors;
+					$this->session['incomplete'] = $applicant->incomplete_fields;
+				}
+			}
 
 			$this->http_redirect($this->params);
 			// @header('Location: ' . PathsComponent::build_url($this->params) . $_POST['last_pane']);
@@ -416,6 +574,41 @@ class ApplicantController extends AppController {
 		$this['subforms'] = $subform_forms;
 	}
 
+
+	/**
+	 * View applicant
+	 */
+	public function view() {
+		$this->require_role('chapter_staff');
+		
+		$id = $this->params['id'];
+		$applicant = Applicant::find($id);
+		
+		if (!$applicant)
+			$error = true;
+		else {
+			$this['applicant'] = $applicant;
+			$this['picture'] = $applicant->picture;
+		}
+		
+		$this['error'] = $error;
+		
+		$back_to = $this->session->flash('back_to');
+		if (!$back_to)
+			$back_to = array('controller' => 'applicant', 'action' => 'index');
+
+		$this['back_to'] = $back_to;
+		
+		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+			$applicant->finalized = $_POST['finalized'];
+			$applicant->confirmed = $applicant->finalized ? $_POST['confirmed'] : false;
+			$applicant->save();
+		}
+	}
+
+	/**
+	 *
+	 */
 	public function crop_picture() {
 		$this->require_role('applicant');
 
@@ -449,25 +642,27 @@ class ApplicantController extends AppController {
 		}
 	}
 
+	/**
+	 *
+	 */
 	public function card() {
 		$this->require_role('applicant');
-		$this->require_finalized();
+		// $this->require_finalized();
 		// $this->check_expiry();
 
-		$user_id = $this->session->user->id;
-		$applicant = Applicant::find_by_user($user_id);
+		$applicant = $this->user->applicant;
+// $applicant->finalize();
 
 		// if (!$_POST['username'] || !$_POST['password'])
 		// 	Gatotkaca::redirect(array('controller' => 'applicant', 'action' => 'finalized'));
 
 		$applicant_id = $applicant->id;
-		$applicant_detail = ApplicantDetail::find(compact('applicant_id'))->first();
-		$pictures = Picture::find(compact('applicant_id'));
-		$pictures->set_order('DESC');
-		$picture = $this['picture'] = $pictures->first();
+		$picture = $applicant->picture;
 
 		$this['det'] = $applicant_detail;
-		$this['name'] = $applicant_detail->nama_lengkap;
+		$this['name'] = $applicant->sanitized_full_name;
+		$this['applicant'] = $applicant;
+		$this['picture'] = $picture;
 
 		// if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		// 	$this->render();
@@ -475,6 +670,9 @@ class ApplicantController extends AppController {
 		// 	Gatotkaca::redirect(array('controller' => 'applicant', 'action' => 'finalized'));
 	}
 
+	/**
+	 *
+	 */
 	public function finalized() {
 		$this->require_role('applicant');
 		$this->require_finalized();
@@ -484,6 +682,9 @@ class ApplicantController extends AppController {
 			Gatotkaca::redirect(array('controller' => 'applicant', 'action' => 'submitted'));
 	}
 
+	/**
+	 *
+	 */
 	public function transcript() {
 		$this->require_role('applicant');
 		$this->require_finalized();
@@ -520,6 +721,9 @@ class ApplicantController extends AppController {
 		// }
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public function transcript_pdf() {
 		$this->require_role('applicant');
 		$this->render = false;
@@ -538,6 +742,9 @@ class ApplicantController extends AppController {
 		}
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public function confirm() {
 		$this->require_role('volunteer');
 

@@ -1,0 +1,79 @@
+header.applicant-header {
+	margin: 0 -20px;
+	padding: 0 20px 25px;
+	border-bottom: 1px solid #d9e5f1;
+	margin-bottom: 20px;
+}
+p.applicant-test-id {
+	float: right;
+	font-size: 30px;
+	margin: 0 0 0 20px;
+	font-weight: 300;
+	letter-spacing: -.05em;
+	color: #0054a5;
+}
+h1.applicant-name {
+	font-size: 30px;
+	font-weight: 600;
+}
+.picture-container {
+	width: 300px;
+	height: 400px;
+	margin: 0 40px 20px 0;
+	float: left;
+}
+
+h2 {
+	display: none;
+}
+
+.form-preview {
+	width: 300px;
+	float: left;
+	margin-right: 40px;
+}
+table {
+	width: 300px;
+}
+td {
+	padding: 5px 0;
+}
+td.label {
+	color: #8fa2b6;
+	width: 140px;
+}
+td.field {
+	width: 160px;
+}
+.form-preview ul {
+	margin-top: 20px;
+	border-top: 1px solid #d9e5f1;
+}
+
+.application-status {
+	width: 280px;
+	float: left;
+}
+span.instruction {
+	display: block;
+	margin-top: 10px;
+	text-align: center;
+}
+.confirm-button {
+	width: 280px;
+	padding-left: 0;
+	padding-right: 0;
+}
+.unfinalize-button {
+	margin-top: 20px;
+	width: 280px;
+	background: #fff;
+	border: 1px solid #d9e5f1;
+	color: inherit;
+	text-shadow: none;
+}
+button.unfinalize-button:active,
+button.unfinalize-button:focus {
+	background: none;
+	border-color: #8fa2b6;
+}
