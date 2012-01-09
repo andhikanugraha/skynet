@@ -8,7 +8,7 @@ $pdf = new TCPDF('P', PDF_UNIT, 'A4', true, 'UTF-8', true);
 // set document information
 $pdf->SetCreator(PDF_CREATOR);
 $pdf->SetAuthor('Yayasan Bina Antarbudaya');
-$pdf->SetTitle('Tanda Peserta Seleksi Bina Antarbudaya 2011');
+$pdf->SetTitle('Tanda Peserta Seleksi Bina Antarbudaya 2012');
 // $pdf->SetSubject('TCPDF Tutorial');
 // $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 
@@ -45,7 +45,6 @@ Tanda Peserta Seleksi Bina Antarbudaya
 
 EOD;
 
-
 $pdf->Image(HELIUM_PARENT_PATH . '/assets/logo.png', 140, 7.5, 60);
 
 // print a block of text using Write()
@@ -55,32 +54,33 @@ $pdf->setFont('helvetica', '', 9);
 
 $pdf->setCellHeightRatio(1.6);
 
-$code = Applicant::get_test_id($det->applicant_id);
+$code = $applicant->test_id;
 // $code = "INAYPSc/12-13/" . str_pad($det->applicant_id, 4, '0', STR_PAD_LEFT);
 
 $html = <<<EOD
 <table>
-<tr>
-	<td colspan="2">Nomor Peserta:</td>
-</tr>
 <tr style="font-size: 300%; margin-top: -5mm">
 	<td colspan="2"><b>$code</b></td>
 </tr>
 <tr>
+	<td width="20%">Chapter:</td>
+	<td width="80%"><b>{$applicant->chapter->chapter_name}</b></td>
+</tr>
+<tr>
 	<td width="20%">Nama:</td>
-	<td width="80%"><b>$name</b></td>
+	<td width="80%"><b>{$applicant->sanitized_full_name}</b></td>
 </tr>
 <tr>
 	<td width="20%">Asal Sekolah:</td>
-	<td width="80%"><b>{$det->pendidikan_sma_nama_sekolah}</b></td>
+	<td width="80%"><b>{$applicant->sanitized_high_school_name}</b></td>
 </tr>
 <tr>
 	<td width="20%">Alamat:</td>
-	<td width="80%"><b>{$det->alamat_lengkap[alamat]}, {$det->alamat_lengkap[kota]} {$det->alamat_lengkap[kode_pos]}</b></td>
+	<td width="80%"><b>{$applicant->applicant_address_street}, {$applicant->applicant_address_city} {$applicant->applicant_address_postcode}</b></td>
 </tr>
 <tr>
 	<td width="20%">Telepon:</td>
-	<td width="80%"><b>{$det->alamat_lengkap[hp]}</b></td>
+	<td width="80%"><b>{$applicant->applicant_mobilephone}</b></td>
 </tr>
 </table>
 <br>

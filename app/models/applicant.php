@@ -79,8 +79,17 @@ class Applicant extends HeliumPartitionedRecord {
 	 */
 	public function before_save() {
 		// Sanitized entries
-		$this->sanitized_full_name = self::sanitize_name($this->full_name);
-		$this->sanitized_high_school_name = self::sanitize_school($this->high_school_name);
+		$this->sanitized_full_name = $this->sanitize_name($this->full_name);
+
+		if ($this->applicant_address_city) {
+			$city = $this->applicant_address_city;
+
+			if ($this->applicant_address_province == 'DKI Jakarta' && $city{0} == 'J')
+				$city = 'Jakarta';
+		}
+		else
+			$city = $this->chapter->chapter_name;
+		$this->sanitized_high_school_name = $this->sanitize_school($this->high_school_name, $city);
 		
 		if ($this->in_acceleration_class)
 			$this->program_yes = false;
@@ -95,7 +104,8 @@ class Applicant extends HeliumPartitionedRecord {
 	public function finalize() {
 		if ($this->validate()) {
 			$this->finalized = true;
-			$this->local_id = $this->generate_local_id();
+			if (!$this->local_id)
+				$this->local_id = $this->generate_local_id();
 			$this->test_id = $this->generate_test_id();
 			return true;
 		}
@@ -119,7 +129,7 @@ class Applicant extends HeliumPartitionedRecord {
 	 * Is applicant expired?
 	 */
 	public function is_expired() {
-		return $this->expires_on->later_than('now');
+		return !$this->expires_on->later_than('now');
 	}
 
 	/**
@@ -148,7 +158,7 @@ class Applicant extends HeliumPartitionedRecord {
 			return sprintf($base, $ycl, $ycr, $chapter_code, str_pad($this->local_id, 4, '0', STR_PAD_LEFT));
 		}
 		else
-			return "U/$chapter_code/" . strtoupper(substr(sha1(time()), 0, 8));
+			return "XYZ" . strtoupper(substr(sha1(mt_rand()), 0, 16));
 	}
 
 	/**
@@ -171,7 +181,7 @@ class Applicant extends HeliumPartitionedRecord {
 	/**
 	 * Sanitize school name
 	 */
-	public static function sanitize_school($school) {
+	public static function sanitize_school($school, $city = '') {
 		// sanitize school name
 		// use last school if multiple schools were used
 		if ($slash = strpos($school, '/'))
@@ -202,10 +212,10 @@ class Applicant extends HeliumPartitionedRecord {
 		// sanitize SMAN -> SMA Negeri, etc.
 		$uniform = array(
 			'/\s+/' => ' ',
-			'/^SM(A|K|P)N\s/i' => 'SM$1 Negeri ',
-			'/^SM(A|P)K\s/i' => 'SM$1 Kristen ',
-			'/^SM(A|P)T\s/i' => 'SM$1 Terpadu ',
-			'/^M(A|Ts)N\s/i' => 'M$1 Negeri ',
+			'/^SM(A|K|P) ?N\s/i' => 'SM$1 Negeri ',
+			'/^SM(A|P) ?K\s/i' => 'SM$1 Kristen ',
+			'/^SM(A|P) ?T\s/i' => 'SM$1 Terpadu ',
+			'/^M(A|Ts) ?N\s/i' => 'M$1 Negeri ',
 			'/Sekolah Menengah Atas/i' => 'SMA',
 			'/Sekolah Menengah Kejuruan/i' => 'SMK',
 			'/^Madrasah Aliyah\s/' => 'MA ',
@@ -230,9 +240,9 @@ class Applicant extends HeliumPartitionedRecord {
 			// '/^(.*Margahayu)( Bandung)?$/i' => '$1 Kabupaten Bandung',
 			// '/^SMA Terpadu Baiturrahman$/i' => 'SMA Terpadu Baiturrahman Kabupaten Bandung'
 		);
-		
-		if ($this && $this->chapter) {
-			$specific['/([0-9])$/'] = '$1 ' . $this->chapter->chapter_name;
+
+		if ($city) {
+			$specific['/([0-9])$/'] = '$1 ' . $city;
 		}
 		
 		$school = preg_replace(array_keys($specific), $specific, $school);
@@ -267,16 +277,20 @@ class Applicant extends HeliumPartitionedRecord {
 		$applicant_id = $this->id;
 		$d = $this->applicant_detail;
 
-		// $compulsory =  'nama_lengkap alamat_lengkap  ';
-		$compulsory .= 'pendidikan_sd_nama_sekolah pendidikan_smp_nama_sekolah pendidikan_sma_nama_sekolah ';
-		$compulsory .= 'kepribadian_sifat_dan_kepribadian kepribadian_kelebihan_dan_kekurangan kepribadian_kondisi_membuat_tertekan kepribadian_masalah_terberat kepribadian_rencana ';
-		$compulsory .= 'rekomendasi_lingkungan_sekolah_nama rekomendasi_lingkungan_sekolah_alamat rekomendasi_lingkungan_sekolah_pekerjaan rekomendasi_lingkungan_sekolah_hubungan ';
-		$compulsory .= 'rekomendasi_lingkungan_luar_sekolah_nama rekomendasi_lingkungan_luar_sekolah_alamat rekomendasi_lingkungan_luar_sekolah_alamat rekomendasi_lingkungan_luar_sekolah_pekerjaan rekomendasi_lingkungan_luar_sekolah_hubungan ';
-		$compulsory .= 'rekomendasi_teman_dekat_nama rekomendasi_teman_dekat_alamat rekomendasi_teman_dekat_hubungan ';
-		$compulsory = trim($compulsory);
-		$co = explode(' ', $compulsory);
-		foreach ($co as $f) {
-			$try = trim($d->$f, "- \t\n\r\0\x0B");
+		$required = array('full_name', 'place_of_birth', 'applicant_email', 'applicant_address_street', 'sex', 'body_height', 'body_weight', 'blood_type', 'citizenship', 'religion', 'ayah_full_name', 'ibu_full_name', 'number_of_children_in_family', 'nth_child', 'high_school_name', 'high_school_admission_year', 'high_school_graduation_month', 'junior_high_school_name', 'junior_high_school_graduation_year', 'elementary_school_name', 'elementary_graduation_year', 'years_speaking_english', 'favorite_subject', 'dream', 'arts_hobby', 'sports_hobby', 'motivation', 'hopes', 'recommendations_school_name', 'recommendations_school_address', 'recommendations_school_occupation', 'recommendations_school_work_address', 'recommendations_school_relationship', 'recommendations_nonschool_name', 'recommendations_nonschool_address', 'recommendations_nonschool_occupation', 'recommendations_nonschool_work_address', 'recommendations_nonschool_relationship', 'recommendations_close_friend_name', 'recommendations_close_friend_address', 'recommendations_close_friend_relationship', 'personality', 'strengths_and_weaknesses', 'stressful_conditions', 'biggest_life_problem', 'plans');
+		
+		for ($i = 1; $i <= 10; $i++) {
+			if ($i != 6 && $i != 9) {
+				// Allow acceleration class in primary and secondary schools
+				$required[] = "grades_y{$i}t1_rank";
+				$required[] = "grades_y{$i}t1_total";
+				$required[] = "grades_y{$i}t2_rank";
+				$required[] = "grades_y{$i}t2_total";
+			}
+		}
+
+		foreach ($required as $f) {
+			$try = trim($this->$f, "- \t\n\r\0\x0B");
 			if (!$try) {
 				$check['incomplete'] = false;
 				$this->incomplete_fields[] = $f;
@@ -285,7 +299,7 @@ class Applicant extends HeliumPartitionedRecord {
 
 		$check['picture'] = (bool) $this->picture;
 
-		list($a, $y, $j) = array($d->program_afs, $d->program_yes, $d->program_jenesys);
+		list($a, $y, $j) = array($this->program_afs, $this->program_yes, $this->program_jenesys);
 		if (!$a && !$y && !$j) {
 			$check['program'] = false;
 		}

@@ -12,6 +12,10 @@ fieldset {
 	margin-right: 40px;
 }
 
+.chapter-details textarea.large {
+	width: 290px;
+}
+
 fieldset.save {
 	margin: 0 0 40px 0;
 }

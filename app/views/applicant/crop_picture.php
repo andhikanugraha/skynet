@@ -25,7 +25,8 @@ $this['additional_css'] = array('imgareaselect/imgareaselect-animated');
 <script>
 $(document).ready(function () {
 	
-	o = $('#pic').clone().css('max-width', '');
+	o = $('#pic').clone().css('max-width', '').attr('id', '').css('position', 'absolute').css('left', '-5000px').css('top', '-5000px').appendTo($('body'));
+
 	rx = o.width() / $('#pic').width();
 	ry = o.height() / $('#pic').height();
 

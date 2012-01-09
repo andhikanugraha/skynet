@@ -24,8 +24,10 @@
 	</div>
 
 	<?php elseif ($errors): ?>
-	<div class="message errors">
-		<p><strong>Finalisasi gagal karena:</strong></p>
+	<div class="message error">
+		<header>
+			<h1>Finalisasi Gagal</h1>
+		</header>
 		<ul>
 			<?php foreach ($errors as $error): ?>
 			<li><?php echo $error; ?></li>
@@ -49,9 +51,9 @@
 <form action="<?php L($this->params) ?>" enctype="multipart/form-data" method="POST">
 
 <nav class="form-page-nav above">
-	<p class="prev"><a href="#_prev">&laquo;  Halaman sebelumnya</a></p>
+	<p class="prev"><a href="#_prev">&laquo; Halaman sebelumnya</a></p>
 	<p class="save"><button type="submit">Simpan<?php if (!$admin): ?> Sementara<?php endif; ?></button></p>
-	<p class="next"><a href="#_next">Halaman berikutnya &raquo; </a></p>
+	<p class="next"><a href="#_next">Halaman berikutnya &raquo;</a></p>
 </nav>
 
 <nav class="form-nav">
@@ -69,8 +71,8 @@
 		<li><a href="#reference">Referensi</a></li>
 		<li><a href="#rekomendasi">Rekomendasi</a></li>
 		<li><a href="#foto">Foto</a></li>
-		<?php if (!$readonly && false): ?>
-		<li class="finalize"><strong><a href="#finalisasi">Finalisasi</a></strong></li>
+		<?php if (!$readonly): ?>
+		<li class="finalize"><a href="#finalisasi">Finalisasi</a></li>
 		<?php endif; ?>
 	</ol>
 </nav>
@@ -146,14 +148,6 @@
 				<?php $form->text('religion', 'long') ?>
 			</td>
 		</tr>
-		<!--
-		<tr>
-			<td class="label"><?php $form->label('n', 'A', 'required') ?></td>
-			<td class="field">
-				
-			</td>
-		</tr>
-		-->
 	</table>
 </fieldset>
 
@@ -1047,17 +1041,18 @@
 <?php if (!$admin): ?>
 <fieldset class="pane" id="finalisasi">
 	<legend>Finalisasi</legend>
-	<ol>
-		<li>
-			<label class="main-point">Untuk menyelesaikan pendaftaran Adik, Adik perlu melakukan finalisasi. Setelah finalisasi, informasi pada formulir ini dikunci dan Adik tidak dapat mengubahnya kembali. Oleh sebab itu, <strong>pastikan seluruh kolom pada formulir ini telah terisi dengan lengkap dan benar sebelum melakukan finalisasi</strong>. Kelalaian dalam mengisi formulir akan mengakibatkan penolakan pengumpulan berkas.</label>
-		</li>
-		<li class="finalize-checkbox-box">
-			<input type="checkbox" name="finalize" value="true" id="finalize"> <label for="finalize"><strong>Formulir ini telah saya isi dengan selengkapnya dan sejujurnya. Saya mengerti.</strong></label>
-		</li>
-		<li>
-			<button type="submit" id="finalize-button">Finalisasi</button>
-		</li>
-	</ol>
+	<p>
+		Untuk menyelesaikan pendaftaran Adik, Adik perlu melakukan finalisasi. Setelah finalisasi, informasi pada formulir ini dikunci dan Adik tidak dapat mengubahnya kembali. Oleh sebab itu, <em>pastikan seluruh kolom pada formulir ini telah terisi dengan lengkap dan benar sebelum melakukan finalisasi</em>. Kelalaian dalam mengisi formulir akan mengakibatkan penolakan pengumpulan berkas.
+	</p>
+	<p>
+		Dengan finalisasi, Adik juga menyatakan bahwa seluruh informasi yang Adik isi dalam formulir ini adalah benar dan apa adanya, serta dibuat tanpa paksaan dari pihak manapun.
+	</p>
+	<p>
+		<input type="checkbox" name="finalize" value="true" id="finalize"> <label for="finalize"><strong>Saya mengerti.</strong></label>
+	</p>
+	<p>
+		<button type="submit" id="finalize-button">Finalisasi</button>
+	</p>
 </fieldset>
 <?php endif; ?>
 

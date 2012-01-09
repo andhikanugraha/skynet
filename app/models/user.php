@@ -34,12 +34,15 @@ class User extends HeliumRecord {
 			case 'volunteer':
 				$min = 2;
 				break;
-			case 'chapter':
+			case 'chapter_staff':
+			case 'chapter':	
 				$min = 3;
 				break;
+			case 'chapter_admin':
 			case 'chadmin':
 				$min = 4;
 				break;
+			case 'national_admin':
 			case 'nadmin':
 			case 'admin':
 			default:
