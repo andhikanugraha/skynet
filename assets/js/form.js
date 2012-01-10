@@ -19,10 +19,13 @@ recheckActivated = false;
 		s = this.parents('fieldset');
 		n = $("a[href='#" + s.attr('id') + "']");
 
-		if (!f.getVal(this.attr('name')) && l.hasClass('required')) {
+		v = f.getVal(this.attr('name'));
+		if ((!v || v == '0') && l.hasClass('required')) {
 			l.addClass('recheck');
 			n.addClass('recheck');
 			this.addClass('invalid');
+			if (this.css('border-width') == 0)
+				this.parents('span').addClass('invalid');
 		}
 		this.change(function() {
 			t = $(this);
@@ -30,8 +33,11 @@ recheckActivated = false;
 			s = t.parents('fieldset');
 			n = $("a[href='#" + s.attr('id') + "']");
 
-			if (f.getVal(t.attr('name'))) {
+			v = f.getVal(t.attr('name'));
+			if (v && v != '0') {
 				t.removeClass('invalid');
+				if (t.css('border-width') == 0)
+					t.parents('span').removeClass('invalid');
 				l.removeClass('recheck');
 
 				if ($('.invalid', s).length == 0) {
@@ -42,6 +48,8 @@ recheckActivated = false;
 				l.addClass('recheck');
 				n.addClass('recheck');
 				t.addClass('invalid');
+				if (t.css('border-width') == 0)
+					t.parents('span').addClass('invalid');
 			}
 		});
 
@@ -166,7 +174,7 @@ $(document).ready(function(){
 
 		if ($('#finalize').attr('checked')) {
 			activateRecheck();
-			if ($('.form-nav li a.active').length) {
+			if ($('.form-nav li a.recheck').length) {
 				// Invalid elements still exist
 				$('.recheck', '#finalisasi').show();
 				$('.finalize-checkbox').hide();
@@ -186,10 +194,11 @@ $(document).ready(function(){
 	$('#finalisasi')
 		.bind('activate', function() {
 			$(this).show();
-			$('.recheck', this).hide();
 			$('p.save button').css('visibility', 'hidden');
 			$('.form-page-nav.below').hide();
 
+			if (!$('.form-nav li a.recheck').length)
+				$('.recheck', '#finalisasi').hide();
 			toggleFinalizeButton();
 		})
 		.bind('deactivate', function() {
