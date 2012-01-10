@@ -52,7 +52,14 @@ recheckActivated = false;
 		if (!recheckActivated) {
 			$('label.required').each(function() {
 				e = $('#' + $(this).attr('for'));
-				e.recheck();
+				if (!e.length) {
+					$(this).addClass('recheck');
+					$('input[name=' + $(this).attr('for') + ']').change(function() {
+						$('label[for=' + $(this).attr('name') + ']').removeClass('recheck');
+					});
+				}
+				else
+					e.recheck();
 			});
 		}
 
@@ -155,9 +162,21 @@ $(document).ready(function(){
 		$('.global-nav, .content').fadeIn('fast', function() { $('.message').slideDown() })
 	}
 
-	toggleFinalizeButton = function() {
+	toggleFinalizeButton = function(e) {
+
 		if ($('#finalize').attr('checked')) {
-			$('#finalize-button:parent').fadeIn('fast').focus();
+			activateRecheck();
+			if ($('.form-nav li a.active').length) {
+				// Invalid elements still exist
+				$('.recheck', '#finalisasi').show();
+				$('.finalize-checkbox').hide();
+				e.preventDefault();
+			}
+			else {
+				$('.recheck', '#finalisasi').hide();
+				$('.finalize-checkbox').show();
+				$('#finalize-button:parent').fadeIn('fast').focus();
+			}
 		}
 		else
 			$('#finalize-button:parent').hide();
@@ -167,20 +186,9 @@ $(document).ready(function(){
 	$('#finalisasi')
 		.bind('activate', function() {
 			$(this).show();
+			$('.recheck', this).hide();
 			$('p.save button').css('visibility', 'hidden');
 			$('.form-page-nav.below').hide();
-
-			activateRecheck();
-
-			if ($('.form-nav li a.active').length) {
-				// Invalid elements still exist
-				$('.recheck', this).show();
-				$('.finalize-checkbox', this).hide();
-			}
-			else {
-				$('.recheck', this).hide();
-				$('.finalize-checkbox', this).show();
-			}
 
 			toggleFinalizeButton();
 		})

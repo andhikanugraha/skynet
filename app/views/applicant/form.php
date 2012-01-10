@@ -116,9 +116,9 @@
 		<tr>
 			<td class="label"><?php $form->label('sex', 'Jenis Kelamin', 'required') ?></td>
 			<td class="field">
-				<?php $form->radio('sex', 'F') ?> Perempuan
+				<?php $form->radio('sex', 'F') ?> <label for="sex-F">Perempuan</label>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-				<?php $form->radio('sex', 'M') ?> Laki-laki
+				<?php $form->radio('sex', 'M') ?> <label for="sex-M">Laki-laki</label>
 			</td>
 		</tr>
 		<tr>
