@@ -365,8 +365,6 @@ p.field textarea {
 	margin-bottom: 20px;
 }
 
-/*** OLD STUFF BELOW ***/
-
 .message.errors a {
 	color: #a00;
 }
@@ -539,4 +537,13 @@ label.descriptive {
 .form-page-nav p.save button {
 	padding-left: 30px;
 	padding-right: 30px;
+}
+
+/* Form validation */
+.invalid {
+	border-color: #b23b23 !important;
+/*	box-shadow: 0 0 5px #f00;*/
+}
+.recheck {
+	color: #c00 !important;
 }

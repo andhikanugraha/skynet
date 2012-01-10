@@ -277,9 +277,9 @@ class Applicant extends HeliumPartitionedRecord {
 		$applicant_id = $this->id;
 		$d = $this->applicant_detail;
 
-		$required = array('full_name', 'place_of_birth', 'applicant_email', 'applicant_address_street', 'sex', 'body_height', 'body_weight', 'blood_type', 'citizenship', 'religion', 'ayah_full_name', 'ibu_full_name', 'number_of_children_in_family', 'nth_child', 'high_school_name', 'high_school_admission_year', 'high_school_graduation_month', 'junior_high_school_name', 'junior_high_school_graduation_year', 'elementary_school_name', 'elementary_graduation_year', 'years_speaking_english', 'favorite_subject', 'dream', 'arts_hobby', 'sports_hobby', 'motivation', 'hopes', 'recommendations_school_name', 'recommendations_school_address', 'recommendations_school_occupation', 'recommendations_school_work_address', 'recommendations_school_relationship', 'recommendations_nonschool_name', 'recommendations_nonschool_address', 'recommendations_nonschool_occupation', 'recommendations_nonschool_work_address', 'recommendations_nonschool_relationship', 'recommendations_close_friend_name', 'recommendations_close_friend_address', 'recommendations_close_friend_relationship', 'personality', 'strengths_and_weaknesses', 'stressful_conditions', 'biggest_life_problem', 'plans');
+		$required = array('full_name', 'place_of_birth', 'applicant_email', 'applicant_address_street', 'sex', 'body_height', 'body_weight', 'blood_type', 'citizenship', 'religion', 'ayah_full_name', 'ibu_full_name', 'number_of_children_in_family', 'nth_child', 'high_school_name', 'high_school_admission_year', 'high_school_graduation_month', 'high_school_graduation_year', 'junior_high_school_name', 'junior_high_school_graduation_year', 'elementary_school_name', 'elementary_graduation_year', 'years_speaking_english', 'favorite_subject', 'dream', 'arts_hobby', 'sports_hobby', 'motivation', 'hopes', 'recommendations_school_name', 'recommendations_school_address', 'recommendations_school_occupation', 'recommendations_school_work_address', 'recommendations_school_relationship', 'recommendations_nonschool_name', 'recommendations_nonschool_address', 'recommendations_nonschool_occupation', 'recommendations_nonschool_work_address', 'recommendations_nonschool_relationship', 'recommendations_close_friend_name', 'recommendations_close_friend_address', 'recommendations_close_friend_relationship', 'personality', 'strengths_and_weaknesses', 'stressful_conditions', 'biggest_life_problem', 'plans');
 		
-		for ($i = 1; $i <= 10; $i++) {
+		for ($i = 1; $i <= 8; $i++) {
 			if ($i != 6 && $i != 9) {
 				// Allow acceleration class in primary and secondary schools
 				$required[] = "grades_y{$i}t1_rank";
@@ -288,6 +288,9 @@ class Applicant extends HeliumPartitionedRecord {
 				$required[] = "grades_y{$i}t2_total";
 			}
 		}
+
+		$required[] = "grades_y10t1_rank";
+		$required[] = "grades_y10t1_total";
 
 		foreach ($required as $f) {
 			$try = trim($this->$f, "- \t\n\r\0\x0B");

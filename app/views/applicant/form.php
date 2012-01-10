@@ -48,7 +48,7 @@
 	<script>document.write('<style>.message {display: none}</style>');</script>
 
 
-<form action="<?php L($this->params) ?>" enctype="multipart/form-data" method="POST">
+<form action="<?php L($this->params) ?>" enctype="multipart/form-data" method="POST" id="appform">
 
 <nav class="form-page-nav above">
 	<p class="prev"><a href="#_prev">&laquo; Halaman sebelumnya</a></p>
@@ -66,7 +66,7 @@
 		<li><a href="#keluarga">Keluarga</a></li>
 		<li><a href="#pendidikan">Pendidikan</a></li>
 		<li><a href="#kegiatan">Kegiatan</a></li>
-		<li><a href="#personality">Kepribadian</a></li>
+		<li><a href="#persona">Kepribadian</a></li>
 		<li><a href="#travel">Riwayat Perjalanan</a></li>
 		<li><a href="#reference">Referensi</a></li>
 		<li><a href="#rekomendasi">Rekomendasi</a></li>
@@ -980,7 +980,7 @@
 	</table>
 </fieldset>
 
-<fieldset class="pane" id="personality">
+<fieldset class="pane" id="persona">
 	<legend>Kepribadian</legend>
 	<p class="field">
 		<?php $form->label('personality', 'Menurut Adik, seperti apakah sifat dan kepribadian adik?', 'required') ?>
@@ -1019,7 +1019,7 @@
 	<?php if (!$admin): ?>
 	<table class="form-table">
 		<tr>
-			<td class="label"><?php $form->label('picture', 'Unggah foto baru') ?></td>
+			<td class="label"><?php $form->label('picture', 'Unggah foto'  . ($picture ? ' baru' : ''),  ($picture ? '' : ' required')) ?></td>
 			<td class="field">
 				<input type="hidden" name="MAX_FILE_SIZE" value="2048000">
 				<input type="file" name="picture" id="picture" class="medium">
@@ -1042,12 +1042,15 @@
 <fieldset class="pane" id="finalisasi">
 	<legend>Finalisasi</legend>
 	<p>
-		Untuk menyelesaikan pendaftaran Adik, Adik perlu melakukan finalisasi. Setelah finalisasi, informasi pada formulir ini dikunci dan Adik tidak dapat mengubahnya kembali. Oleh sebab itu, <em>pastikan seluruh kolom pada formulir ini telah terisi dengan lengkap dan benar sebelum melakukan finalisasi</em>. Kelalaian dalam mengisi formulir akan mengakibatkan penolakan pengumpulan berkas.
+		Untuk melanjutkan pendaftaran Adik, Adik perlu melakukan finalisasi. Setelah finalisasi, informasi pada formulir ini dikunci dan Adik tidak dapat mengubahnya kembali. Oleh sebab itu, <em>pastikan seluruh kolom pada formulir ini telah terisi dengan lengkap dan benar sebelum melakukan finalisasi</em>. Kelalaian dalam mengisi formulir akan mengakibatkan penolakan pengumpulan berkas.
 	</p>
 	<p>
 		Dengan finalisasi, Adik juga menyatakan bahwa seluruh informasi yang Adik isi dalam formulir ini adalah benar dan apa adanya, serta dibuat tanpa paksaan dari pihak manapun.
 	</p>
-	<p>
+	<p class="recheck">
+		Adik belum dapat melakukan finalisasi karena Adik belum mengisi formulir dengan lengkap. Lengkapi bagian-bagian  formulir yang ditandai dengan warna merah sebelum kembali ke laman ini. Adik masih bisa menyimpan sementara formulir ini jika Adik perlu.
+	</p>
+	<p class="finalize-checkbox">
 		<input type="checkbox" name="finalize" value="true" id="finalize"> <label for="finalize"><strong>Saya mengerti.</strong></label>
 	</p>
 	<p>
@@ -1057,110 +1060,11 @@
 <?php endif; ?>
 
 <script>
-
-$(document).ready(function(){
-	$('span.phone-number input, span.number input')
-		.focus(function(){$(this.parentNode).addClass('focus')})
-		.blur(function(){$(this.parentNode).removeClass('focus')});
-
-	uv = function() {
-		if ($('#finalize').attr('checked')) {
-			$('#finalize-button:parent').fadeIn('fast').focus();
-		}
-		else
-			$('#finalize-button:parent').fadeOut();
-	}
-	$('#finalize').change(uv)
-
-	uv();
-	
-	function switchToTab(activeTab, direct) {
-		if (!activeTab)
-			activeTab = '#pribadi';
-		if ($(activeTab).hasClass('pane')) {
-			$(".form-nav li a").removeClass("active"); //Remove any "active" class
-			$(".form-nav li a[href='" + activeTab + "']").addClass("active"); //Add "active" class to selected tab
-
-			$("fieldset.pane").removeClass('active').hide(); //Hide all tab content
-	
-			$("#lastpane").val(activeTab);
-		
-			if (activeTab == '#finalisasi')
-				$('.save-button').slideUp();
-			else {
-				$('.save-button').slideDown();
-				$('#finalize').removeAttr('checked');
-				uv();
-			}
-			if (direct)
-				$(activeTab).addClass('active').show();
-			else
-				$(activeTab).addClass('active').fadeIn('medium', function() { $('.form-page-nav').focus() }); //Fade in the active ID content
-		}
-	}
-	
-	function getNextTab() {
-		return $(".form-nav a.active").parent().closest('li').next().children().first().attr('href');
-	}
-	function getPrevTab() {
-		return	$(".form-nav a.active").parent().closest('li').prev().children().first().attr('href') ? 
-				$(".form-nav a.active").parent().closest('li').prev().children().first().attr('href') :
-				$(".form-nav a.active").parent().siblings().last().children().first().attr('href');
-	}
-	
-	$("a[href='#_next']").click(function(e) {
-		e.preventDefault();
-		switchToTab(getNextTab());
-	})
-	
-	$("a[href='#_prev']").click(function(e) {
-		e.preventDefault();
-		switchToTab(getPrevTab());
-	})
-
-	<?php if (!$last_pane) $last_pane = 'pribadi'; ?>
-
-	switchToTab('<?php echo '#' . $last_pane ?>', true)
-
-	//On Click Event
-	$(".form-nav li a").click(function() {
-		var activeTab = $(this).attr("href"); //Find the href attribute value to identify the active tab + content
-
-		switchToTab(activeTab);
-		
-		if (history.pushState)
-			history.pushState(activeTab, $(this).text(), activeTab);
-
-		return false;
-	});
-
-	if (history.pushState) {
-		window.onpopstate = function(e) {
-			if (e.state)
-				switchToTab(e.state);
-			else if (window.location.hash)
-				switchToTab(window.location.hash, true);
-			else
-				switchToTab('<?php echo '#' . $last_pane ?>');
-		}
-	}
-
-	<?php if ($new): ?>
-	$('.message').hide();
-	$('.global-nav').slideDown('slow', function() {$('.content').fadeIn('slow', function() { $('.message').slideDown() })});
-	<?php else: ?>
-	$('.global-nav, .content').fadeIn('fast', function() { $('.message').slideDown() })
-	<?php endif; ?>
-	
-	<?php if ($incomplete): ?>
-	<?php foreach ($incomplete as $inc): ?>
-	$("label[for=<?php echo $inc; ?>]").css('color', '#c00');
-	$("#<?php echo $inc; ?>").css('box-shadow', '0 0 5px #f00');
-	<?php endforeach; ?>
-	<?php endif; ?>
-
-});
+	last_pane = '<?php echo $last_pane ? $last_pane : 'pribadi' ?>';
+	firstTime = <?php echo $new ? 'true' : 'false' ?>;
+	incomplete = <?php echo $incomplete ? 'true' : 'false' ?>
 </script>
+<script src="<?php L('/assets/js/form.js') ?>"></script>
 
 <nav class="form-page-nav below">
 	<p class="prev"><a href="#_prev">&laquo; Halaman sebelumnya</a></p>
