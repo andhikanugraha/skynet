@@ -394,17 +394,33 @@ class ApplicantController extends AppController {
 	}
 
 	/**
+	 * Edit an applicant's application form.
 	 *
+	 * Accessible either as an applicant or as an admin, with slight UI differences.
 	 */
 	public function form() {
 		$this->require_authentication();
 		
-		if ($this->session->user->capable_of('admin') && $this->params['id']) {
+		if ($this->session->user->capable_of('chapter_admin')) {
+			$this['admin'] = true;
+
 			if ($this->params['readonly'])
 				$readonly = true;
+
 			$id = $this->params['id'];
-			$applicant = Applicant::find($id);
-			$this['admin'] = true;
+			if (!$id)
+				$error = 'not_found';
+			else {
+				$applicant = Applicant::find($id);
+				if (!$applicant)
+					$error = 'not_found';
+
+				if (!$error && !$this->user->capable_of('national_admin') && ($this->user->chapter_id != $applicant->chapter_id))
+					$error = 'forbidden';
+			
+				if (!$error && $applicant->finalized)
+					$error = 'applicant_finalized';
+			}
 		}
 		else {
 			$this->require_role('applicant');
@@ -415,193 +431,319 @@ class ApplicantController extends AppController {
 				$this->auth->land();
 		}
 
-		$applicant_id = $applicant->id;
+		if (!$error) {
 
-		$pictures = Picture::find(compact('applicant_id'));
-		$pictures->set_order('DESC');
-		$picture = $this['picture'] = $pictures->first();
+			$applicant_id = $applicant->id;
 
-		$this['new'] = $this->session->flash('just_logged_in');
-		$this['errors'] = $this->session->flash('form_errors');
-		$this['incomplete'] = $this->session->flash('incomplete');
-		$this['notice'] = $this->session->flash('notice');
+			$pictures = Picture::find(compact('applicant_id'));
+			$pictures->set_order('DESC');
+			$picture = $this['picture'] = $pictures->first();
 
-		$subforms = array(	'siblings' => 'applicant_siblings',
-							'applicant_organizations' => 'applicant_organizations',
-							'applicant_arts_achievements' => 'applicant_arts_achievements',
-							'applicant_sports_achievements' => 'applicant_sports_achievements',
-							'applicant_other_achievements' => 'applicant_other_achievements',
-							'applicant_work_experiences' => 'applicant_work_experiences');
+			$this['new'] = $this->session->flash('just_logged_in');
+			$this['errors'] = $this->session->flash('form_errors');
+			$this['incomplete'] = $this->session->flash('incomplete');
+			$this['notice'] = $this->session->flash('notice');
 
-		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-			// store the form values in the DB
-			$proc = new FormProcessor;
-			$proc->add_uneditables('id', 'applicant_id', 'user_id', 'chapter_id', 'program_year', 'expires_on', 'confirmed', 'finalized');
-			$proc->associate($applicant);
-			$proc->commit();
-			$applicant->save();
+			$subforms = array(	'siblings' => 'applicant_siblings',
+								'applicant_organizations' => 'applicant_organizations',
+								'applicant_arts_achievements' => 'applicant_arts_achievements',
+								'applicant_sports_achievements' => 'applicant_sports_achievements',
+								'applicant_other_achievements' => 'applicant_other_achievements',
+								'applicant_work_experiences' => 'applicant_work_experiences');
 
-			$this->session['notice'] = 'Data Adik berhasil disimpan sementara. Silakan melanjutkan mengisi formulir.';
-			$this->session['last_pane'] = $_POST['last_pane'];
+			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+				// store the form values in the DB
+				$proc = new FormProcessor;
+				$proc->add_uneditables('id', 'applicant_id', 'user_id', 'chapter_id', 'program_year', 'expires_on', 'confirmed', 'finalized');
+				$proc->associate($applicant);
+				$proc->commit();
+				$applicant->save();
 
-			foreach ($subforms as $f => $d) {
-				$old = $applicant->$d;
-				$old->delete_all();
-				$new = $_POST[$f];
-				
-				if ($new) {
-					foreach ($new as $node) {
-						if ($node) {
-							foreach ($node as $n) {
-								if ($not_empty)
-									break;
+				$this->session['notice'] = 'Data Adik berhasil disimpan sementara. Silakan melanjutkan mengisi formulir.';
+				$this->session['last_pane'] = $_POST['last_pane'];
 
-								if (is_array($n)) {
-									foreach ($n as $o)
-										if ($o)
-											$not_empty = true;
+				foreach ($subforms as $f => $d) {
+					$old = $applicant->$d;
+					$old->delete_all();
+					$new = $_POST[$f];
+
+					if ($new) {
+						foreach ($new as $node) {
+							if ($node) {
+								foreach ($node as $n) {
+									if ($not_empty)
+										break;
+
+									if (is_array($n)) {
+										foreach ($n as $o)
+											if ($o)
+												$not_empty = true;
+									}
+									elseif ($n)
+										$not_empty = true;
 								}
-								elseif ($n)
-									$not_empty = true;
+								if ($not_empty) {
+									$sp = new FormProcessor($node);
+									$class_name = Inflector::classify($d);
+									$sb = new $class_name;
+									$sb->applicant_id = $applicant->id;
+									$sp->add_uneditables('id', 'applicant_id');
+									$sp->associate($sb);
+									$sp->commit();
+									$sb->save();
+								}
 							}
-							if ($not_empty) {
-								$sp = new FormProcessor($node);
-								$class_name = Inflector::classify($d);
-								$sb = new $class_name;
-								$sb->applicant_id = $applicant->id;
-								$sp->add_uneditables('id', 'applicant_id');
-								$sp->associate($sb);
-								$sp->commit();
-								$sb->save();
-							}
-						}
 
-						$not_empty = false;
+							$not_empty = false;
+						}
 					}
 				}
-			}
 
-			// // handle upload, if any.
-			if (isset($_FILES['picture']) && $_FILES['picture']['tmp_name']) {
-				$file = $_FILES['picture'];
-				$pic = new Picture;
-				$pic->upload_original($file);
-				$this->session['picture'] = $pic;
+				// // handle upload, if any.
+				if (isset($_FILES['picture']) && $_FILES['picture']['tmp_name']) {
+					$file = $_FILES['picture'];
+					$pic = new Picture;
+					$pic->upload_original($file);
+					$this->session['picture'] = $pic;
 			
-				Gatotkaca::redirect(array('controller' => 'applicant', 'action' => 'crop_picture'));
-				exit;
+					Gatotkaca::redirect(array('controller' => 'applicant', 'action' => 'crop_picture'));
+					exit;
+				}
+
+				// finalization process
+				if ($_POST['finalize']) {
+					// we validate the completeness of the form here first.
+					// $applicant->finalized = true;
+					// $applicant->save();
+					$try = $applicant->finalize();
+					if ($try) {
+						$applicant->save();
+						Gatotkaca::redirect(array('controller' => 'applicant', 'action' => 'finalized'));
+					}
+					else {
+						$errors = $applicant->validation_errors;
+						$errors = array_map(function($e) {
+							switch ($e) {
+								case 'incomplete':
+									return 'Formulir belum lengkap. Pastikan seluruh bagian formulir ini telah terisi.';
+								case 'picture':
+									return 'Adik belum mengunggah (upload) foto.';
+								case 'birth_date':
+									return 'Tanggal lahir Adik harus di antara <strong>1 September 1994</strong> dan <strong>1 April 1996</strong>';
+								default:
+									return $e;
+							}
+						}, $errors);
+						$this->session['form_errors'] = $errors;
+						$this->session['incomplete'] = $applicant->incomplete_fields;
+					}
+				}
+
+				$this->http_redirect($this->params);
+				// @header('Location: ' . PathsComponent::build_url($this->params) . $_POST['last_pane']);
 			}
 
-			// finalization process
-			if ($_POST['finalize']) {
-				// we validate the completeness of the form here first.
-				// $applicant->finalized = true;
-				// $applicant->save();
-				$try = $applicant->finalize();
-				if ($try) {
-					$applicant->save();
-					Gatotkaca::redirect(array('controller' => 'applicant', 'action' => 'finalized'));
-				}
-				else {
-					$errors = $applicant->validation_errors;
-					$errors = array_map(function($e) {
-						switch ($e) {
-							case 'incomplete':
-								return 'Formulir belum lengkap. Pastikan seluruh bagian formulir ini telah terisi.';
-							case 'picture':
-								return 'Adik belum mengunggah (upload) foto.';
-							case 'birth_date':
-								return 'Tanggal lahir Adik harus di antara <strong>1 September 1994</strong> dan <strong>1 April 1996</strong>';
-							default:
-								return $e;
-						}
-					}, $errors);
-					$this->session['form_errors'] = $errors;
-					$this->session['incomplete'] = $applicant->incomplete_fields;
-				}
-			}
-
-			$this->http_redirect($this->params);
-			// @header('Location: ' . PathsComponent::build_url($this->params) . $_POST['last_pane']);
-		}
-
-		$form = new FormDisplay;
-		$form->associate($applicant);
-		$this['form'] = $form;
-		$this['expires_on'] = $applicant->expires_on;
+			$form = new FormDisplay;
+			$form->associate($applicant);
+			$this['form'] = $form;
+			$this['expires_on'] = $applicant->expires_on;
 		
-		$this['applicant'] = $applicant;
+			$this['applicant'] = $applicant;
 		
-		$this['program_year'] = $applicant->program_year;
+			$this['program_year'] = $applicant->program_year;
 		
-		$this['last_pane'] = substr($this->session->flash('last_pane'), 1);
+			$this['last_pane'] = substr($this->session->flash('last_pane'), 1);
 
-		$applicant_siblings = $applicant->applicant_siblings;
-		$applicant_siblings->set_order_by('date_of_birth');
-		$applicant_siblings->set_order('ASC');
-		$sforms = array();
-		$i = 0;
-		foreach ($applicant_siblings as $s) {
-			$d = new FormDisplay;
-			$d->associate($s);
-			$d->make_subform("siblings[$i]");
-			$i++;
-			$sforms[] = $d;
-		}
-
-		$this['sibling_forms'] = $sforms;
-		
-		$subform_forms = array();
-		foreach ($subforms as $f => $d) {
-			$nodes = $applicant->$d;
+			$applicant_siblings = $applicant->applicant_siblings;
+			$applicant_siblings->set_order_by('date_of_birth');
+			$applicant_siblings->set_order('ASC');
+			$sforms = array();
 			$i = 0;
-			$forms = array();
-			if ($nodes) {
-				foreach ($nodes as $s) {
-					$d = new FormDisplay;
-					$d->associate($s);
-					$d->make_subform($f . '[' . $i . ']');
-					$i++;
-					$forms[] = $d;
-				}
+			foreach ($applicant_siblings as $s) {
+				$d = new FormDisplay;
+				$d->associate($s);
+				$d->make_subform("siblings[$i]");
+				$i++;
+				$sforms[] = $d;
 			}
 
-			$subform_forms[$f] = $forms;
-		}
+			$this['sibling_forms'] = $sforms;
 		
-		$this['subforms'] = $subform_forms;
+			$subform_forms = array();
+			foreach ($subforms as $f => $d) {
+				$nodes = $applicant->$d;
+				$i = 1;
+				$forms = array();
+				if ($nodes) {
+					foreach ($nodes as $s) {
+						$d = new FormDisplay;
+						$d->associate($s);
+						$d->make_subform($f . '[' . $i . ']');
+						$i++;
+						$forms[] = $d;
+					}
+				}
+
+				$subform_forms[$f] = $forms;
+			}
+		
+			$this['subforms'] = $subform_forms;
+		}
+		else {
+			$this['error'] = $error;
+		}
 	}
 
+
+	/**
+	 * View a read-only, complete version of an applicant's application form.
+	 *
+	 * Accessible either as an applicant or as an admin, with slight UI differences.
+	 */
+	public function details() {
+		$this->require_authentication();
+		
+		if ($this->session->user->capable_of('chapter_admin')) {
+			$this['admin'] = true;
+
+			if ($this->params['readonly'])
+				$readonly = true;
+
+			$id = $this->params['id'];
+			if (!$id)
+				$error = 'not_found';
+			else {
+				$applicant = Applicant::find($id);
+				if (!$applicant)
+					$error = 'not_found';
+
+				if (!$error && !$this->user->capable_of('national_admin') && ($this->user->chapter_id != $applicant->chapter_id))
+					$error = 'forbidden';
+			}
+		}
+		else {
+			$this->require_role('applicant');
+			$user_id = $this->session->user->id;
+			$applicant = $this->session->user->applicant;
+
+			if ($applicant->finalized || $applicant->is_expired())
+				$this->auth->land();
+		}
+
+		if (!$error) {
+
+			$applicant_id = $applicant->id;
+
+			$pictures = Picture::find(compact('applicant_id'));
+			$pictures->set_order('DESC');
+			$picture = $this['picture'] = $pictures->first();
+
+			$this['new'] = $this->session->flash('just_logged_in');
+			$this['errors'] = $this->session->flash('form_errors');
+			$this['incomplete'] = $this->session->flash('incomplete');
+			$this['notice'] = $this->session->flash('notice');
+
+			$subforms = array(	'siblings' => 'applicant_siblings',
+								'applicant_organizations' => 'applicant_organizations',
+								'applicant_arts_achievements' => 'applicant_arts_achievements',
+								'applicant_sports_achievements' => 'applicant_sports_achievements',
+								'applicant_other_achievements' => 'applicant_other_achievements',
+								'applicant_work_experiences' => 'applicant_work_experiences');
+
+			$this['a'] = $applicant;
+			
+			foreach ($subforms as $k => $sf)
+				$this[$k] = $applicant->$sf;
+
+			$form = new FormDisplay;
+			$form->associate($applicant);
+			$this['form'] = $form;
+			$this['expires_on'] = $applicant->expires_on;
+		
+			$this['applicant'] = $applicant;
+		
+			$this['program_year'] = $applicant->program_year;
+		
+			$this['last_pane'] = substr($this->session->flash('last_pane'), 1);
+
+			$applicant_siblings = $applicant->applicant_siblings;
+			$applicant_siblings->set_order_by('date_of_birth');
+			$applicant_siblings->set_order('ASC');
+			$sforms = array();
+			$i = 0;
+			foreach ($applicant_siblings as $s) {
+				$d = new FormDisplay;
+				$d->associate($s);
+				$d->make_subform("siblings[$i]");
+				$i++;
+				$sforms[] = $d;
+			}
+
+			$this['sibling_forms'] = $sforms;
+		
+			$subform_forms = array();
+			foreach ($subforms as $f => $d) {
+				$nodes = $applicant->$d;
+				$i = 0;
+				$forms = array();
+				if ($nodes) {
+					foreach ($nodes as $s) {
+						$d = new FormDisplay;
+						$d->associate($s);
+						$d->make_subform($f . '[' . $i . ']');
+						$i++;
+						$forms[] = $d;
+					}
+				}
+
+				$subform_forms[$f] = $forms;
+			}
+		
+			$this['subforms'] = $subform_forms;
+		}
+		else {
+			$this['error'] = $error;
+		}
+	}
 
 	/**
 	 * View applicant
 	 */
 	public function view() {
 		$this->require_role('chapter_staff');
-		
+
 		$id = $this->params['id'];
 		$applicant = Applicant::find($id);
 		
+		$this->session['applicant_back_to'] = $this->params;
+		
 		if (!$applicant)
-			$error = true;
+			$error = 'not_found';
 		else {
 			$this['applicant'] = $applicant;
 			$this['picture'] = $applicant->picture;
 		}
 		
-		$this['error'] = $error;
+		if (!$error && !$this->user->capable_of('national_admin') && ($applicant->chapter_id != $this->user->chapter_id))
+			$error = 'forbidden';
 		
-		$back_to = $this->session->flash('back_to');
-		if (!$back_to)
-			$back_to = array('controller' => 'applicant', 'action' => 'index');
-
-		$this['back_to'] = $back_to;
-		
-		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+		if (!$error && $_SERVER['REQUEST_METHOD'] == 'POST') {
 			$applicant->finalized = $_POST['finalized'];
 			$applicant->confirmed = $applicant->finalized ? $_POST['confirmed'] : false;
 			$applicant->save();
 		}
+		
+		if (!$error) {
+			$back_to = $this->session->flash('back_to');
+			if (!$back_to)
+				$back_to = array('controller' => 'applicant', 'action' => 'index');
+
+			$this['back_to'] = $back_to;
+
+			$this['can_edit'] = $this->user->capable_of('chapter_admin') && !$applicant->finalized;
+		}
+		else
+			$this['error'] = $error;
 	}
 
 	/**

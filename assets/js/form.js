@@ -20,7 +20,15 @@ recheckActivated = false;
 		n = $(".form-nav a[href='#" + s.attr('id') + "']");
 
 		v = f.getVal(this.attr('name'));
-		if ((!v || v == '0') && l.hasClass('required')) {
+
+		if (!l.length && (!v || v == '0')) {
+			l.addClass('recheck');
+			n.addClass('recheck');
+			this.addClass('invalid');
+			if (this.css('border-width') == 0)
+				this.parents('span').addClass('invalid');
+		}
+		if ((!v || v == '0') && (!l.length || l.hasClass('required'))) {
 			l.addClass('recheck');
 			n.addClass('recheck');
 			this.addClass('invalid');
@@ -87,22 +95,19 @@ recheckActivated = false;
 					afs.parents('tr').children('th.label').removeClass('recheck');
 					$(".form-nav a[href='#program']").removeClass('recheck');
 				}
-			})
+			});
 			
 			// Grades check
-			gr = [];
-			for (i=0; i<=8; i++) {
+			for (i=1; i<=8; i++) {
 				if (i != 6) {
-					gr.push('#grades_y' + i + 't1_rank');
-					gr.push('#grades_y' + i + 't1_total');
-					gr.push('#grades_y' + i + 't2_rank');
-					gr.push('#grades_y' + i + 't2_total');
+					$('#grades_y' + i + 't1_rank').recheck();
+					$('#grades_y' + i + 't1_total').recheck();
+					$('#grades_y' + i + 't2_rank').recheck();
+					$('#grades_y' + i + 't2_total').recheck();
 				}
 			}
-			gr.push('#grades_y10t1_rank');
-			gr.push('#grades_y10t1_total');
-			
-			$(gr.join(',')).recheck();
+			$('#grades_y10t1_rank').recheck();
+			$('#grades_y10t1_total').recheck();
 		}
 
 		recheckActivated = true;
@@ -181,19 +186,30 @@ $(document).ready(function(){
 				switchToTab(e.state);
 			else if (window.location.hash)
 				switchToTab(window.location.hash, true);
-			else
-				switchToTab(last_pane);
 		}
 	}
 
-	window.location.hash = last_pane;
-	window.onhashchange = function() { return false; }
-	$(document).scrollTop(0);
-	$(document).load(function() {
-		$(this).scrollTop(0);
-	})
-	if (!history.pushState)
-		switchToTab(last_pane, true)
+	if (last_pane) {
+		window.onhashchange = function(e) { e.preventDefault(); $(document).scrollTop(0); return false; }
+		window.location.hash = last_pane;
+		$(document).scrollTop(0);
+		$(document).load(function() {
+			$(this).scrollTop(0);
+		});
+		$(document).scrollTop(0);
+		if (!history.pushState)
+			switchToTab(last_pane, true);
+	}
+	else if (!window.location.hash) {
+		$(document).scrollTop(0);
+		window.onhashchange = function(e) { e.preventDefault(); $(document).scrollTop(0); return false; }
+		window.location.replace('#pribadi');
+		switchToTab('#pribadi', true);
+		$(document).load(function() {
+			$(this).scrollTop(0);
+		});
+		$(document).scrollTop(0);
+	}
 
 	if (firstTime) {
 		$('.message').hide();
@@ -264,6 +280,9 @@ $(document).ready(function(){
 	
 	// Siblings
 
+	$.fn.replaceKey = function(rand) {
+		this.attr('name', this.attr('name').replace('[#]', '[' + rand + ']'));
+	}
 	fac = function() {
 		$('td.sibling-name input').each(function() {
 			t = $(this);
@@ -280,7 +299,10 @@ $(document).ready(function(){
 		if (v > o) {
 			d = v - o - 1;
 			for (i=0; i<d; i++) {
-				$('.siblings-table tbody').append($('.prototype').clone().removeClass('prototype'));
+				cl = $('.prototype').clone().removeClass('prototype');
+				rand = Math.ceil(Math.random() * 1000).toString();
+				$('input, select', cl).each(function() { $(this).replaceKey(rand); } );
+				$('.siblings-table tbody').append(cl);
 			}
 		}
 		if (v <= o) {
