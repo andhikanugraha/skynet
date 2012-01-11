@@ -12,9 +12,10 @@ table.chapters {
 }
 table.chapters tr {
 	float: left;
-	width: 210px;
+	width: 200px;
 	margin-right: 40px;
 	margin-bottom: 40px;
+	height: 10em;
 }
 .chapter-code {
 	display: none;

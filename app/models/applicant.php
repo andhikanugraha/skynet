@@ -160,6 +160,16 @@ class Applicant extends HeliumPartitionedRecord {
 		else
 			return "XYZ" . strtoupper(substr(sha1(mt_rand()), 0, 16));
 	}
+	
+	/**
+	 *
+	 */
+	public function get_short_test_id() {
+		$base = "%s/%s";
+		$chapter_code = $this->chapter->chapter_code;
+		$local_id = $this->finalized ? str_pad($this->local_id, 4, '0', STR_PAD_LEFT) : 'XXXX';
+		return sprintf($base, $chapter_code, $local_id);
+	}
 
 	/**
 	 * Sanitize name

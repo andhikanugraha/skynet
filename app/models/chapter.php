@@ -16,6 +16,17 @@ class Chapter extends HeliumPartitionedRecord {
 		$this->add_vertical_partition('chapter_info');
 	}
 	
+	public function rebuild() {
+		if ($this->is_national_office()) {
+			$this->applicants = Applicant::find('all');
+			$this->registration_codes = RegistrationCode::find('all');
+		}
+		else {
+			$this->has_many('applicants');
+			$this->has_many('registration_codes');
+		}
+	}
+	
 	public function before_save() {
 		$this->chapter_code = strtoupper($this->chapter_code);
 	}

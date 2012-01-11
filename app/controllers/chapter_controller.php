@@ -136,4 +136,94 @@ class ChapterController extends AppController {
 
 		$this['timezones'] = array('Asia/Jakarta' => 'WIB', 'Asia/Ujung_Pandang' => 'WITA', 'Asia/Jayapura' => 'WIT');
 	}
+
+	/**
+	 * Control panel for a chapter (or national office, for that matter)
+	 */
+	public function view() {
+		if ($this->user->capable_of('national_admin')) {
+			$chapter_code = strtoupper($this->params['chapter_code']);
+			$chapter_id = $this->params['id'];
+			if ($chapter_id) {
+				$chapter = Chapter::find($chapter_id);
+			}
+			else {
+				$chapter = Chapter::find(compact('chapter_code'));
+				$chapter = $chapter->first();
+			}
+		}
+		elseif ($this->user->capable_of('chapter_staff')) {
+			$chapter = $this->user->chapter;
+		}
+		else {
+			$error = 'forbidden';
+		}
+
+		if (!$error && !$chapter) {
+			$error = 'chapter_not_found';
+		}
+		
+		if (!$error) {
+			$this['chapter'] = $chapter;
+			$this['national'] = $chapter->is_national_office();
+			foreach ($chapter->_columns() as $col) {
+				$this[$col] = $chapter->$col;
+			}
+			
+			$this['registration_codes'] = $chapter->registration_codes;
+			$this['code_count'] = $chapter->registration_codes->count_all();
+			
+			$ac = clone $chapter->registration_codes;
+			$ac->narrow('availability=0');
+			$this['ac'] = $ac;
+			$this['activated_code_count'] = $ac->count_all();
+			
+			$now = new HeliumDateTime;
+			$ec = clone $chapter->registration_codes;
+			$ec->narrow("availability=1 AND expires_on < '$now'");
+			$this['expired_code_count'] = $ec->count_all();
+			
+			$vc = clone $chapter->registration_codes;
+			$vc->narrow("availability=1 AND expires_on > '$now'");
+			$this['available_code_count'] = $vc->count_all();
+
+			$this['applicants'] = $chapter->applicants;
+			$this['total_applicant_count'] = $chapter->applicants->count_all();
+			
+			$aa = clone $chapter->applicants;
+			$aa->narrow("(confirmed=1 OR expires_on > '$now')");
+			$this['active_applicant_count'] = $aa->count_all();
+			
+			$ca = clone $chapter->applicants;
+			$ca->narrow('confirmed=1');
+			$this['confirmed_applicant_count'] = $ca->count_all();
+			
+			$this['applicant_tipping_point'] = $ca->count_all() == $aa->count_all();
+			
+			$fa = clone $chapter->applicants;
+			$fa->narrow('confirmed=0 AND finalized=1');
+			$this['finalized_applicant_count'] = $fa->count_all();
+			
+			$this['incomplete_applicant_count'] = $aa->count_all() - $fa->count_all() - $ca->count_all();
+			
+			$ea = clone $chapter->applicants;
+			$ea->narrow("confirmed=0 AND finalized=0 AND expires_on < '$now'");
+			$this['expired_applicant_count'] = $ea->count_all();
+			
+			$na = clone $chapter->applicants;
+			$na->narrow("confirmed=0 AND finalized=1 AND expires_on <'$now'");
+			$this['anomalous_applicant_count'] = $na->count_all();
+
+			$na = clone $chapter->applicants;
+			$na->set_order_by('id');
+			$na->set_order('DESC');
+			$na->narrow("sanitized_full_name != ''");
+			$na->set_batch_length(10);
+			
+			$this['na'] = $na;
+		}
+		else {
+			$this['error'] = $error;
+		}
+	}
 }
