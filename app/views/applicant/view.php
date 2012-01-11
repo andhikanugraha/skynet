@@ -68,8 +68,7 @@
 		<p class="more"><a href="<?php L(array('controller' => 'applicant', 'action' => 'details', 'id' => $applicant->id)) ?>">Lihat formulir selengkapnya</a></p>
 		<?php if ($can_edit): ?><p class="edit"><a href="<?php L(array('controller' => 'applicant', 'action' => 'form', 'id' => $applicant->id)) ?>">Edit formulir</a></p><?php endif; ?>
 	</div>
-	
-	
+
 	<div class="application-status">
 		<?php
 		$f = $applicant->finalized;
@@ -77,6 +76,21 @@
 		if ($f && $c):
 		elseif ($f && !$c):
 		?>
+		<table>
+			<tr>
+				<td class="label">Status Pendaftaran</td>
+				<td class="field"><strong>Belum konfirmasi</strong></td>
+			</tr>
+			<tr>
+				<td class="label">Batas Pendaftaran</td>
+				<td class="field"><?php echo $applicant->expires_on->format('j F Y') ?></td>
+			</tr>
+			<tr>
+				<td class="label">Tanda Peserta</td>
+				<td class="field"><a href="<?php L(array('controller' => 'applicant', 'action' => 'card', 'id' => $applicant->id)) ?>">Cetak</a></td>
+			</tr>
+		</table>
+
 		<form action="<?php L(array('controller' => 'applicant', 'action' => 'view', 'id' => $applicant->id)) ?>" method="POST" class="confirm-form">
 			<p>
 				<input type="hidden" name="id" value="<?php echo $applicant->id ?>">
@@ -87,6 +101,7 @@
 				<span class="instruction">Lakukan konfirmasi hanya jika <?php echo $applicant->sanitized_full_name ?> telah melengkapi seluruh persyaratan pendaftaran.</span>
 			</p>
 		</form>
+		<?php if ($this->user->capable_of('chapter_admin')): ?>
 		<form action="<?php L(array('controller' => 'applicant', 'action' => 'view', 'id' => $applicant->id)) ?>" method="POST" class="confirm-form">
 			<p>
 				<input type="hidden" name="id" value="<?php echo $applicant->id ?>">
@@ -97,6 +112,7 @@
 				<span class="instruction">Pembatalan finalisasi dilakukan hanya jika <?php echo $applicant->sanitized_full_name ?> salah mengisi formulir pendaftarannya.</span>
 			</p>
 		</form>
+		<?php endif; ?>
 
 		<?php
 		elseif (!$f && $c):

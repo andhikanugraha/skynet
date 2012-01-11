@@ -786,28 +786,42 @@ class ApplicantController extends AppController {
 	 *
 	 */
 	public function card() {
-		$this->require_role('applicant');
-		// $this->require_finalized();
-		// $this->check_expiry();
+		if ($this->session->user->capable_of('chapter_admin')) {
+			$this['admin'] = true;
 
-		$applicant = $this->user->applicant;
-// $applicant->finalize();
+			if ($this->params['readonly'])
+				$readonly = true;
 
-		// if (!$_POST['username'] || !$_POST['password'])
-		// 	Gatotkaca::redirect(array('controller' => 'applicant', 'action' => 'finalized'));
+			$id = $this->params['id'];
+			if (!$id)
+				$error = 'not_found';
+			else {
+				$applicant = Applicant::find($id);
+				if (!$applicant)
+					$error = 'not_found';
+
+				if (!$error && !$this->user->capable_of('national_admin') && ($this->user->chapter_id != $applicant->chapter_id))
+					$error = 'forbidden';
+			}
+		}
+		else {
+			$this->require_role('applicant');
+			$user_id = $this->session->user->id;
+			$applicant = $this->session->user->applicant;
+
+			if ($applicant->finalized || $applicant->is_expired())
+				$this->auth->land();
+		}
+		
+		if ($error)
+			$this->render = false;
 
 		$applicant_id = $applicant->id;
 		$picture = $applicant->picture;
 
-		$this['det'] = $applicant_detail;
 		$this['name'] = $applicant->sanitized_full_name;
 		$this['applicant'] = $applicant;
 		$this['picture'] = $picture;
-
-		// if ($_SERVER['REQUEST_METHOD'] == 'POST')
-		// 	$this->render();
-		// else
-		// 	Gatotkaca::redirect(array('controller' => 'applicant', 'action' => 'finalized'));
 	}
 
 	/**
