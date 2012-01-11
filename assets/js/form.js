@@ -17,7 +17,7 @@ recheckActivated = false;
 		l = $('label[for=' + this.attr('id') + ']');
 		f = $('#appform');
 		s = this.parents('fieldset');
-		n = $("a[href='#" + s.attr('id') + "']");
+		n = $(".form-nav a[href='#" + s.attr('id') + "']");
 
 		v = f.getVal(this.attr('name'));
 		if ((!v || v == '0') && l.hasClass('required')) {
@@ -31,7 +31,7 @@ recheckActivated = false;
 			t = $(this);
 			l = $('label[for=' + t.attr('id') + ']');
 			s = t.parents('fieldset');
-			n = $("a[href='#" + s.attr('id') + "']");
+			n = $(".form-nav a[href='#" + s.attr('id') + "']");
 
 			v = f.getVal(t.attr('name'));
 			if (v && v != '0') {
@@ -69,6 +69,40 @@ recheckActivated = false;
 				else
 					e.recheck();
 			});
+			
+			// Program check
+			afs = $('#program_afs');
+			yes = $('#program_yes');
+			$('#program_afs, #program_yes').each(function() {
+				if (!afs.attr('checked') && !yes.attr('checked')) {
+					afs.parents('tr').children('th.label').addClass('recheck');
+					$(".form-nav a[href='#program']").addClass('recheck');
+				}
+			}).change(function() {
+				if (!afs.attr('checked') && !yes.attr('checked')) {
+					$(this).parents('tr').children('th.label').addClass('recheck');
+					$(".form-nav a[href='#program']").addClass('recheck');
+				}
+				else {
+					afs.parents('tr').children('th.label').removeClass('recheck');
+					$(".form-nav a[href='#program']").removeClass('recheck');
+				}
+			})
+			
+			// Grades check
+			gr = [];
+			for (i=0; i<=8; i++) {
+				if (i != 6) {
+					gr.push('#grades_y' + i + 't1_rank');
+					gr.push('#grades_y' + i + 't1_total');
+					gr.push('#grades_y' + i + 't2_rank');
+					gr.push('#grades_y' + i + 't2_total');
+				}
+			}
+			gr.push('#grades_y10t1_rank');
+			gr.push('#grades_y10t1_total');
+			
+			$(gr.join(',')).recheck();
 		}
 
 		recheckActivated = true;
@@ -132,13 +166,13 @@ $(document).ready(function(){
 	//On Click Event
 	$(".form-nav li a").click(function(e) {
 		var activeTab = $(this).attr("href"); //Find the href attribute value to identify the active tab + content
-
-		switchToTab(activeTab);
 		
+		switchToTab(activeTab);
 		if (history.pushState)
 			history.pushState(activeTab, $(this).text(), activeTab);
-
-		e.preventDefault();
+		else {
+			e.preventDefault();
+		}
 	});
 
 	if (history.pushState) {
@@ -153,7 +187,11 @@ $(document).ready(function(){
 	}
 
 	window.location.hash = last_pane;
+	window.onhashchange = function() { return false; }
 	$(document).scrollTop(0);
+	$(document).load(function() {
+		$(this).scrollTop(0);
+	})
 	if (!history.pushState)
 		switchToTab(last_pane, true)
 
@@ -179,6 +217,7 @@ $(document).ready(function(){
 				$('.recheck', '#finalisasi').show();
 				$('.finalize-checkbox').hide();
 				e.preventDefault();
+				$('#finalize').removeAttr('checked');
 			}
 			else {
 				$('.recheck', '#finalisasi').hide();
@@ -197,8 +236,11 @@ $(document).ready(function(){
 			$('p.save button').css('visibility', 'hidden');
 			$('.form-page-nav.below').hide();
 
-			if (!$('.form-nav li a.recheck').length)
+			if (!$('.form-nav li a.recheck').length) {
 				$('.recheck', '#finalisasi').hide();
+				$('.finalize-checkbox').show();
+				$('#finalize-button:parent').fadeIn('fast').focus();
+			}
 			toggleFinalizeButton();
 		})
 		.bind('deactivate', function() {
@@ -219,5 +261,37 @@ $(document).ready(function(){
 	if (incomplete) {
 		activateRecheck();
 	}
+	
+	// Siblings
+
+	fac = function() {
+		$('td.sibling-name input').each(function() {
+			t = $(this);
+			if (!t.parent().parent().hasClass('prototype')) {
+				if (t.val())
+					t.parent().parent().removeClass('engineered').addClass('notempty');
+				else
+					t.parent().parent().addClass('engineered').removeClass('notempty');
+			}
+		})
+
+		v = parseInt($(this).val());
+		o = $('.siblings-table tbody tr').length - 1;
+		if (v > o) {
+			d = v - o - 1;
+			for (i=0; i<d; i++) {
+				$('.siblings-table tbody').append($('.prototype').clone().removeClass('prototype'));
+			}
+		}
+		if (v <= o) {
+			d = o - v + 1;
+			for (i=0; i<d; i++) {
+				$('tr.engineered').first().detach();
+			}
+		}
+	}
+	$('#number_of_children_in_family').click(fac);
+	$('#number_of_children_in_family').change(fac);
+	$('#number_of_children_in_family').keyup(fac);
 
 });
