@@ -14,7 +14,7 @@ $error_messages = array('username_availability' => 'Nama pengguna yang Adik pili
 
 
 <header class="page-title">
-	<p>Tahap 2 dari 5</p>
+	<p>Tahap 2 dari 4</p>
 	<h1>Pembuatan Akun</h1>
 </header>
 <nav class="actions-nav">
