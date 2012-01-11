@@ -111,6 +111,7 @@
 			</table>
 		</article>
 	</section>
+	<!--
 	<section class="tertiary">
 		<article class="event-calendar">
 			<header>
@@ -126,5 +127,6 @@
 			</dl>
 		</article>
 	</section>
+	-->
 </div>
 <?php $this->footer() ?>
