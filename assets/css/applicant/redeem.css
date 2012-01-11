@@ -5,7 +5,7 @@
 	width: 440px;
 }
 .token-box.focus {
-	border-color: #0064be;
+	border-color: #007ac2;
 }
 .token-box input {
 	display: block;
@@ -39,7 +39,7 @@ label {
 .token-entry {
 	margin-top: 25px;
 	padding-bottom: 30px;
-	border-bottom: 1px solid #d9e8f5;
+	border-bottom: 1px solid #d9ebf6;
 }
 .token-entry p {
 	margin: 0;

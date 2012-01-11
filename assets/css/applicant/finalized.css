@@ -10,7 +10,7 @@
 section.what {
 	width: 440px;
 	margin-right: 19px;
-	border-right: 1px solid #d9e8f5;
+	border-right: 1px solid #d9ebf6;
 	padding-right: 20px;
 	padding-bottom: 20px;
 }
@@ -19,7 +19,7 @@ section.how > p {
 	width: 30em;
 	line-height: 1.5;
 	font-size: 12px;
-	color: #66a2d8;
+	color: #66afda;
 	font-size: 15px;
 }
 dl.files {
@@ -36,7 +36,7 @@ dl.files dt:before {
 	display: block;
 	float: left;
 	content: counter(f) ". ";
-	color: #66a2d8;
+	color: #66afda;
 	margin-left: -20px;
 }
 dl.files dd.download-link {
@@ -76,7 +76,7 @@ section.how {
 }
 .how p time {
 	white-space: nowrap;
-	color: #0064be;
+	color: #007ac2;
 	font-weight: bold;
 }
 .how p {
@@ -93,13 +93,13 @@ dl.depots dt {
 	color: #000;
 }
 dl.depots dt.secondary:before {
-	color: #66a2d8;
+	color: #66afda;
 	content: "atau ";
 	font-style: italic;
 }
 dl.depots dd.map {
 	width: 458px;
-	border: 1px solid #d9e8f5;
+	border: 1px solid #d9ebf6;
 	margin-bottom: 10px;
 }
 dl.depots dd.map img,
@@ -121,7 +121,7 @@ dl.depots dd.schedule {
 dl.depots dd h3 {
 	margin: 0 0 5px;
 	font-size: 11px;
-	color: #66a2d8;
+	color: #66afda;
 }
 dl.depots dd.schedule ul {
 	padding: 0;
@@ -131,7 +131,7 @@ dl.depots dd.schedule ul {
 
 section.then {
 	clear: both;
-	border-top: 1px solid #d9e8f5;
+	border-top: 1px solid #d9ebf6;
 	width: 940px;
 }
 section.then p {

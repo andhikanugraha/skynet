@@ -4,10 +4,10 @@ table.applicants {
 }
 table.applicants td {
 	padding: 5px 0;
-	border-bottom: 1px solid #d9e8f5;
+	border-bottom: 1px solid #d9ebf6;
 }
 table.applicants th {
-	color: #0064be;
+	color: #007ac2;
 	text-align: left;
 	padding: 5px 0;
 	border-bottom: 1px solid #B6CEE5;
@@ -31,7 +31,7 @@ table.applicants .school {
 }
 
 table.applicants tr.unfinalized td.test-id {
-	color: #d9e8f5;
+	color: #d9ebf6;
 }
 table.applicants tr.expired td {
 	text-decoration: line-through;
@@ -43,7 +43,7 @@ table.applicants tr.expired td.expires-on {
 span.empty {
 	font-style: italic;
 	font-weight: normal;
-	color: #d9e8f5;
+	color: #d9ebf6;
 }
 
 .container,

@@ -3,7 +3,7 @@ body {
 }
 .container {
 	margin-top: -20px;
-	border-bottom: 1px solid #d9e8f5;
+	border-bottom: 1px solid #d9ebf6;
 }
 
 .message.extended {
@@ -34,14 +34,14 @@ body {
 	float: left;
 	padding-top: 20px;
 	padding-bottom: 40px;
-	border-right: 1px solid #d9e8f5;
+	border-right: 1px solid #d9ebf6;
 	margin-right: -1px;
 }
 .form-nav header h1 {
 	font-size: 12px;
 	margin-bottom: 11px;
 	padding-right: 20px;
-	color: #d9e8f5;
+	color: #d9ebf6;
 }
 .form-nav ol {
 	padding: 0;
@@ -56,7 +56,7 @@ body {
 	clear: both;
 }
 .form-nav li.finalize {
-	border-top: 1px solid #d9e8f5;
+	border-top: 1px solid #d9ebf6;
 	padding-top: 10px;
 }
 .form-nav li a {
@@ -64,7 +64,7 @@ body {
 /*	border-left: 1px solid transparent;*/
 	border-bottom: 1px solid transparent;
 	display: block;
-	color: #66a2d8;
+	color: #66afda;
 	padding: 5px 20px;
 	margin-bottom: 10px;
 	font-weight: 300;
@@ -72,9 +72,9 @@ body {
 .form-nav li a.active {
 	font-weight: bold;
 	letter-spacing: -.05em;
-	color: #0064be;
+	color: #007ac2;
 	background: #fff;
-	border-color: #d9e8f5;
+	border-color: #d9ebf6;
 }
 
 .form-fields {
@@ -82,7 +82,7 @@ body {
 	padding-left: 20px;
 	padding-bottom: 100px;
 	float: left;
-	border-left: 1px solid #d9e8f5;
+	border-left: 1px solid #d9ebf6;
 	position: relative;
 }
 
@@ -114,7 +114,7 @@ body {
 
 .subform caption,
 .form-table caption {
-	border-top: 1px solid #d9e8f5;
+	border-top: 1px solid #d9ebf6;
 	padding: 10px 0;
 	text-align: left;
 }
@@ -171,10 +171,10 @@ body {
 	width: 152px;
 }
 .phone-number.focus {
-	color: #0064be;
+	color: #007ac2;
 }
 .phone-number.focus input {
-	border-color: #0064be;
+	border-color: #007ac2;
 }
 .phone-number input {
 	border: none;
@@ -200,10 +200,10 @@ span.number {
 	margin: 1px 0;
 }
 span.number.focus {
-	color: #0064be;
+	color: #007ac2;
 }
 span.number.focus input {
-	border-color: #0064be;
+	border-color: #007ac2;
 }
 span.number input {
 	border: none;
@@ -267,7 +267,7 @@ fieldset h1 span {
 }
 .programs-table th,
 .programs-table td {
-	border-top: 1px solid #d9e8f5;
+	border-top: 1px solid #d9ebf6;
 }
 .programs-table ul {
 	padding: 0;
@@ -438,14 +438,14 @@ label.descriptive {
 .academics {
 	margin-top: 0;
 	border-collapse: collapse;
-	border-top: 1px solid #d9e8f5;
-	border-bottom: 1px solid #d9e8f5;
+	border-top: 1px solid #d9ebf6;
+	border-bottom: 1px solid #d9ebf6;
 }
 .academics .grade {
-	border-right: 1px solid #d9e8f5;
+	border-right: 1px solid #d9ebf6;
 }
 .academics .term-final {
-	border-left: 1px solid #d9e8f5;
+	border-left: 1px solid #d9ebf6;
 }
 .academics th strong {
 	color: inherit;
@@ -454,7 +454,7 @@ label.descriptive {
 }
 .academics th.term-first,
 .academics th.term-final {
-	border-top: 1px solid #d9e8f5;
+	border-top: 1px solid #d9ebf6;
 }
 .form-table table.academics th,
 .subform.academics th {
@@ -483,7 +483,7 @@ label.descriptive {
 	float: left;
 	width: 100%;
 	overflow: auto;
-	border-top: 1px solid #d9e8f5;
+	border-top: 1px solid #d9ebf6;
 	padding: 10px 0;
 }
 .picture-container img {
@@ -494,7 +494,7 @@ label.descriptive {
 .form-page-nav.above {
 	float: left;
 	width: 100%;
-	border-bottom: 1px solid #d9e8f5;
+	border-bottom: 1px solid #d9ebf6;
 	padding: 25px 0 5px;
 }
 .form-page-nav.below {
@@ -511,10 +511,10 @@ label.descriptive {
 	line-height: 20px;
 }
 .form-page-nav a {
-	color: #66a2d8;
+	color: #66afda;
 }
 .form-page-nav a:hover {
-	color: #0064be;
+	color: #007ac2;
 }
 .form-page-nav p.prev {
 	width: 220px;
