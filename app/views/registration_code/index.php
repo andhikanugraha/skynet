@@ -4,15 +4,15 @@
 		<header>Perhatian</header>
 		<p>Pastikan tidak ada PIN pendaftaran yang tercetak dua kali.</p>
 	</div> -->
-	<table class="batches">
-		<?php foreach ($batches as $b): ?>
-		<tr>
-			<td class="chapter_name"><?php echo $b->chapter_name ?></td>
-			<td class="expires_on"><?php echo $b->expires_on->format('l, j F Y, H.i.s ') . __($b->expires_on->getTimezone()->getName()) ?></td>
-			<td class="view"><a href="<?php echo $b->view_link ?>">view</a></td>
-		</tr>
+	<header>
+		<h1>PIN Pendaftaran<?php if ($chapter) echo 'Chapter ' . $chapter->chapter_name; ?></h1>
+	</header>
+	<dl class="batches">
+		<?php $pc = ''; foreach ($batches as $b): ?>
+		<?php if ($pc != $b->chapter_name): ?><dt>Chapter <?php echo $b->chapter_name ?></dt><?php $pc = $b->chapter_name; endif; ?>
+		<dd><a href="<?php echo $b->view_link ?>"><?php echo $b->expires_on->format('l, j F Y') ?></a></dd>
 
 		<?php endforeach; ?>
-	</table>
+	</dl>
 </div>
 <?php $this->footer(); ?>
