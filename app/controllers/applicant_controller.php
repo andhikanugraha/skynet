@@ -678,8 +678,10 @@ class ApplicantController extends AppController {
 		$this->require_finalized();
 		$this->check_expiry();
 		
-		if ($this->applicant->submitted)
-			Gatotkaca::redirect(array('controller' => 'applicant', 'action' => 'submitted'));
+		$this['applicant'] = $this->applicant;
+		
+		// if ($this->applicant->submitted)
+		// 	Gatotkaca::redirect(array('controller' => 'applicant', 'action' => 'submitted'));
 	}
 
 	/**
