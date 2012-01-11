@@ -282,7 +282,7 @@ class ApplicantController extends AppController {
 		// Filter by chapter
 		// This can only be used by national admin
 		if ($this->user->capable_of('national_admin')) {
-			if ($this->params['chapter_id']) {
+			if ($this->params['chapter_id'] && $this->params['chapter_id'] != 1) {
 				$applicants->narrow(array('chapter_id' => $this->params['chapter_id']));
 				$is_search = true;
 			}

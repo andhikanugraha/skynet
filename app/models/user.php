@@ -73,12 +73,12 @@ class User extends HeliumRecord {
 					$land = array('controller' => 'applicant', 'action' => 'form');
 
 				break;
-			case 'volunteer':
-				$land = array('controller' => 'volunteer');
-				break;
+			case 2:
+			case 3:
 			case 4:
+				$land = array('controller' => 'chapter', 'action' => 'view', 'chapter_code' => $this->chapter->chapter_code);
 			case 5:
-				$land = array('controller' => 'admin');
+				$land = array('controller' => 'chapter', 'action' => 'view', 'id' => 1);
 				break;
 			case 'sponsors.telkomsel':
 				$land = array('controller' => 'telkomsel');
