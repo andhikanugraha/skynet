@@ -3,7 +3,7 @@ body {
 }
 .container {
 	margin-top: -20px;
-	border-bottom: 1px solid #D9E5F1;
+	border-bottom: 1px solid #d9e8f5;
 }
 
 .message.extended {
@@ -34,14 +34,14 @@ body {
 	float: left;
 	padding-top: 20px;
 	padding-bottom: 40px;
-	border-right: 1px solid #D9E5F1;
+	border-right: 1px solid #d9e8f5;
 	margin-right: -1px;
 }
 .form-nav header h1 {
 	font-size: 12px;
 	margin-bottom: 11px;
 	padding-right: 20px;
-	color: #D9E5F1;
+	color: #d9e8f5;
 }
 .form-nav ol {
 	padding: 0;
@@ -56,7 +56,7 @@ body {
 	clear: both;
 }
 .form-nav li.finalize {
-	border-top: 1px solid #D9E5F1;
+	border-top: 1px solid #d9e8f5;
 	padding-top: 10px;
 }
 .form-nav li a {
@@ -64,7 +64,7 @@ body {
 /*	border-left: 1px solid transparent;*/
 	border-bottom: 1px solid transparent;
 	display: block;
-	color: #6698C9;
+	color: #66a2d8;
 	padding: 5px 20px;
 	margin-bottom: 10px;
 	font-weight: 300;
@@ -72,9 +72,9 @@ body {
 .form-nav li a.active {
 	font-weight: bold;
 	letter-spacing: -.05em;
-	color: #0054A5;
+	color: #0064be;
 	background: #fff;
-	border-color: #D9E5F1;
+	border-color: #d9e8f5;
 }
 
 .form-fields {
@@ -82,7 +82,7 @@ body {
 	padding-left: 20px;
 	padding-bottom: 100px;
 	float: left;
-	border-left: 1px solid #D9E5F1;
+	border-left: 1px solid #d9e8f5;
 	position: relative;
 }
 
@@ -109,12 +109,12 @@ body {
 .subform th {
 	text-align: left;
 	font-size: 11px;
-	color: #8fa2b6;
+	color: #82a5c3;
 }
 
 .subform caption,
 .form-table caption {
-	border-top: 1px solid #D9E5F1;
+	border-top: 1px solid #d9e8f5;
 	padding: 10px 0;
 	text-align: left;
 }
@@ -171,10 +171,10 @@ body {
 	width: 152px;
 }
 .phone-number.focus {
-	color: #0054A5;
+	color: #0064be;
 }
 .phone-number.focus input {
-	border-color: #0054A5;
+	border-color: #0064be;
 }
 .phone-number input {
 	border: none;
@@ -200,10 +200,10 @@ span.number {
 	margin: 1px 0;
 }
 span.number.focus {
-	color: #0054A5;
+	color: #0064be;
 }
 span.number.focus input {
-	border-color: #0054A5;
+	border-color: #0064be;
 }
 span.number input {
 	border: none;
@@ -249,7 +249,7 @@ table.form-table tr td.combined {
 }
 fieldset h1 span {
 	font-size: 12px;
-	color: #8fa2b6;
+	color: #82a5c3;
 	line-height: 1.3;
 	margin-left: 5px;
 }
@@ -260,14 +260,14 @@ fieldset h1 span {
 	line-height: 1.5;
 }
 .programs-table th {
-	color: #8fa2b6;
+	color: #82a5c3;
 	text-align: left;
 	padding: 10px 0;
 	width: 20%;
 }
 .programs-table th,
 .programs-table td {
-	border-top: 1px solid #d9e5f1;
+	border-top: 1px solid #d9e8f5;
 }
 .programs-table ul {
 	padding: 0;
@@ -438,14 +438,14 @@ label.descriptive {
 .academics {
 	margin-top: 0;
 	border-collapse: collapse;
-	border-top: 1px solid #D9E5F1;
-	border-bottom: 1px solid #D9E5F1;
+	border-top: 1px solid #d9e8f5;
+	border-bottom: 1px solid #d9e8f5;
 }
 .academics .grade {
-	border-right: 1px solid #D9E5F1;
+	border-right: 1px solid #d9e8f5;
 }
 .academics .term-final {
-	border-left: 1px solid #D9E5F1;
+	border-left: 1px solid #d9e8f5;
 }
 .academics th strong {
 	color: inherit;
@@ -454,7 +454,7 @@ label.descriptive {
 }
 .academics th.term-first,
 .academics th.term-final {
-	border-top: 1px solid #D9E5F1;
+	border-top: 1px solid #d9e8f5;
 }
 .form-table table.academics th,
 .subform.academics th {
@@ -483,7 +483,7 @@ label.descriptive {
 	float: left;
 	width: 100%;
 	overflow: auto;
-	border-top: 1px solid #D9E5F1;
+	border-top: 1px solid #d9e8f5;
 	padding: 10px 0;
 }
 .picture-container img {
@@ -494,7 +494,7 @@ label.descriptive {
 .form-page-nav.above {
 	float: left;
 	width: 100%;
-	border-bottom: 1px solid #d9e5f1;
+	border-bottom: 1px solid #d9e8f5;
 	padding: 25px 0 5px;
 }
 .form-page-nav.below {
@@ -511,10 +511,10 @@ label.descriptive {
 	line-height: 20px;
 }
 .form-page-nav a {
-	color: #6698C9;
+	color: #66a2d8;
 }
 .form-page-nav a:hover {
-	color: #0054A5;
+	color: #0064be;
 }
 .form-page-nav p.prev {
 	width: 220px;

@@ -20,17 +20,17 @@
 	margin: 0;
 	line-height: 0.5;
 	margin-left: -.05em;
-	color: #0054a5;
+	color: #0064be;
 }
 .content header p {
 	margin: 20px 0 0 0;
 	display: block;
 	font-size: 12px;
-	color: #6698c9;
+	color: #66a2d8;
 	letter-spacing: 0;
 }
 .content header p strong {
-	color: #0054a5;
+	color: #0064be;
 }
 
 form {

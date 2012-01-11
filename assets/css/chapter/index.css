@@ -19,7 +19,7 @@ table.chapters tr {
 .chapter-code {
 	display: none;
 	font-size: 12px;
-	color: #0054A5;
+	color: #0064be;
 	line-height: 0.8;
 }
 .chapter-name {
@@ -36,13 +36,13 @@ table.chapters tr {
 }
 .chapter-applicant-count,
 .chapter-user-count {
-	color: #6698c9;
+	color: #66a2d8;
 	text-transform: uppercase;
 	font-size: 11px;
 }
 .chapter-applicant-count span,
 .chapter-user-count span {
 	font-weight: bold;
-	color: #0054A5;
+	color: #0064be;
 	font-size: 13px;
 }

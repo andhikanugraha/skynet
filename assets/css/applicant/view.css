@@ -1,7 +1,7 @@
 header.applicant-header {
 	margin: 0 -20px;
 	padding: 0 20px 25px;
-	border-bottom: 1px solid #d9e5f1;
+	border-bottom: 1px solid #d9e8f5;
 	margin-bottom: 20px;
 }
 p.applicant-test-id {
@@ -10,7 +10,7 @@ p.applicant-test-id {
 	margin: 0 0 0 20px;
 	font-weight: 300;
 	letter-spacing: -.05em;
-	color: #0054a5;
+	color: #0064be;
 }
 h1.applicant-name {
 	font-size: 30px;
@@ -39,7 +39,7 @@ td {
 	padding: 5px 0;
 }
 td.label {
-	color: #8fa2b6;
+	color: #82a5c3;
 	width: 140px;
 }
 td.field {
@@ -47,7 +47,7 @@ td.field {
 }
 .form-preview ul {
 	margin-top: 20px;
-	border-top: 1px solid #d9e5f1;
+	border-top: 1px solid #d9e8f5;
 }
 
 .application-status {
@@ -68,12 +68,12 @@ span.instruction {
 	margin-top: 20px;
 	width: 280px;
 	background: #fff;
-	border: 1px solid #d9e5f1;
+	border: 1px solid #d9e8f5;
 	color: inherit;
 	text-shadow: none;
 }
 button.unfinalize-button:active,
 button.unfinalize-button:focus {
 	background: none;
-	border-color: #8fa2b6;
+	border-color: #82a5c3;
 }
