@@ -22,19 +22,22 @@ if (!$destination_title)
 		<?php endif; ?>
 	</header>
 	<?php if ($mode == 'fail'): ?>
-	<section class="errors">
+	<div class="message error">
 		<p>Perpaduan nama pengguna dan sandi yang Anda masukkan tidak cocok.</p>
-	</section>
+	</div>
+	<script>$(document).ready(function(){
+		$('input').click(function() { $('.message').slideUp() });
+	})</script>
 	<?php endif; ?>
 	
 	<form action="<?php L(array('controller' => 'auth', 'action' => 'login')) ?>" method="POST" class="auth-login-form">
 		<p>
 			<label for="username">Nama pengguna</label>
-			<input type="text" name="username" id="username" value="<?php echo $this->session->flash('username'); ?>" autofocus required>
+			<input type="text" class="medium" name="username" id="username" value="<?php echo $this->session->flash('username'); ?>" autofocus required>
 		</p>
 		<p>
 			<label for="password">Sandi</label>
-			<input type="password" name="password" id="password" required>
+			<input type="password" class="medium" name="password" id="password" required>
 		</p>
 		<p>
 			<input type="checkbox" name="remember" id="remember">

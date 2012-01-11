@@ -1,20 +1,20 @@
-.content {
-	background: url('../global/bg_top_blue.jpg') left -80px repeat-x;
+body {
+	background: url('../global/bg_top_blue.jpg') left top repeat-x;
 	height: 100%;
 }
 
 .container {
-	width: 320px;
-	margin: 0 auto 200px;
-	padding: 200px 0 0;
+	width: 300px;
+	margin: 0 auto;
+	padding: 120px 20px 15px;
+	border-bottom: 1px solid rgba(0, 72, 142, 0.3);
 }
 .content header {
 	letter-spacing: -.09em;
 	margin-left: -20px;
+	margin-right: -20px;
 	border-bottom: 1px solid rgba(0, 72, 142, 0.3);
-	width: 300px;
 	padding: 0 20px 20px 20px;
-	margin-bottom: 20px;
 }
 .content header h1 {
 	margin: 0;
@@ -23,7 +23,7 @@
 	color: #0064be;
 }
 .content header p {
-	margin: 20px 0 0 0;
+	margin: 15px 0 0 0;
 	display: block;
 	font-size: 12px;
 	color: #66a2d8;
@@ -32,13 +32,21 @@
 .content header p strong {
 	color: #0064be;
 }
+.global-footer {
+	position: relative;
+	background: transparent;
+	width: 300px;
+	padding-top: 15px;
+}
 
 form {
 	display: block;
+	margin-top: 30px;
 }
 
 form p {
 	text-align: left;
+	margin: 15px 0;
 }
 
 label {
@@ -67,7 +75,17 @@ button {
 	font-size: 14px;
 }
 
-.errors {
+.message {
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+.message p {
+	margin: 0;
+}
+.message.error {
+	background-color: rgba(255, 230, 224, 0.5);
+}
+/*.errors {
 	background: #fcc;
 	padding: 5px 14px;
 	margin-left: -14px;
@@ -79,7 +97,7 @@ button {
 .errors li {
 	margin-top: 5px;
 }
-
+*/
 strong.activate-link {
 	font-weight: normal;
 }
@@ -99,6 +117,6 @@ strong.activate-link a:active {
 	left: 1px;
 }
 
-.global-footer {
-	display: none;
+#remember {
+	margin-top: 2px;
 }
