@@ -283,7 +283,7 @@ fieldset h1 span {
 /*	font-size: 14px;*/
 	color: #000;
 	font-size: 15px;
-	letter-spacing: -.05em;
+/*	letter-spacing: -.05em;*/
 }
 .programs-table .program-length td {
 	font-size: 11px;
@@ -320,7 +320,7 @@ p.field textarea {
 
 #personality p label {
 	font-size: 15px;
-	letter-spacing: -.05em;
+/*	letter-spacing: -.05em;*/
 	color: #000;
 }
 #personality p textarea {

@@ -21,11 +21,11 @@ EOS;
 		}
 		else {
 			$headers['staggered_load'] = $headers['fade_all_load'] = <<<'EOS'
-document.write('<style>.global-nav, .content {display: none}</style>');
+document.write('<style>.global-nav, .content, .global-footer {display: none}</style>');
 
 EOS;
 			$footers['staggered_load'] = <<<'EOS'
-$('.global-nav').slideDown('slow', function() {$('.content').fadeIn('slow')});
+$('.global-nav').slideDown('slow', function() {$('.content').fadeIn('medium', function() {$('.global-footer').fadeIn('fast')})});
 
 EOS;
 		}
