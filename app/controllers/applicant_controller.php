@@ -103,7 +103,7 @@ class ApplicantController extends AppController {
 		}
 
 		$this['error'] = $this->session->flash('error');
-		$this['chapters'] = Chapter::find('all');
+		$this['chapters'] = Chapter::find('id != 1');
 	}
 
 	/**

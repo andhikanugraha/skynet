@@ -58,7 +58,7 @@
 	</section>
 	<section class="chapters">
 		<header>
-			<h1>Kantor-Kantor Bina Antarbudaya</h1>
+			<h1>Chapter-Chapter Bina Antarbudaya</h1>
 		</header>
 		<dl>
 			<?php foreach ($chapters as $c): ?>
