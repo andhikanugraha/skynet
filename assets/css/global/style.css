@@ -86,7 +86,7 @@ strong.activate-link a:active {
 .content {
 }
 .container {
-	width: 960px;
+	width: 940px;
 	margin: 0 auto;
 }
 
@@ -130,7 +130,7 @@ button:active {
 	color: #007ac2;
 }
 .page-title p {
-	width: 960px;
+	width: 940px;
 	margin: 0 auto;
 	font-size: 12px;
 	text-transform: uppercase;
@@ -138,7 +138,7 @@ button:active {
 }
 .page-title h1 {
 	color: #005587;
-	width: 960px;
+	width: 940px;
 	margin: 0 auto;
 	font-size: 34px;
 	letter-spacing: -.1em;
@@ -162,10 +162,10 @@ button:active {
 	border-bottom: 1px solid #d9ebf6;
 }
 .actions-nav ul {
-	width: 960px;
+	width: 940px;
 	margin: 0 auto 0;
 	padding: 0;
-	font-size: 20px;
+	font-size: 14px;
 	font-weight: 300;
 }
 .actions-nav li {
@@ -180,11 +180,6 @@ button:active {
 	font-weight: bold;
 	color: #007ac2;
 	letter-spacing: -0.05em;
-}
-
-.container {
-	width: 960px;
-	margin: 0 auto;
 }
 
 .global-footer {
