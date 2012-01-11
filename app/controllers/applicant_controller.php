@@ -625,9 +625,6 @@ class ApplicantController extends AppController {
 			$this->require_role('applicant');
 			$user_id = $this->session->user->id;
 			$applicant = $this->session->user->applicant;
-
-			if ($applicant->finalized || $applicant->is_expired())
-				$this->auth->land();
 		}
 
 		if (!$error) {
@@ -638,11 +635,6 @@ class ApplicantController extends AppController {
 			$pictures->set_order('DESC');
 			$picture = $this['picture'] = $pictures->first();
 
-			$this['new'] = $this->session->flash('just_logged_in');
-			$this['errors'] = $this->session->flash('form_errors');
-			$this['incomplete'] = $this->session->flash('incomplete');
-			$this['notice'] = $this->session->flash('notice');
-
 			$subforms = array(	'siblings' => 'applicant_siblings',
 								'applicant_organizations' => 'applicant_organizations',
 								'applicant_arts_achievements' => 'applicant_arts_achievements',
@@ -651,7 +643,7 @@ class ApplicantController extends AppController {
 								'applicant_work_experiences' => 'applicant_work_experiences');
 
 			$this['a'] = $applicant;
-			
+
 			foreach ($subforms as $k => $sf)
 				$this[$k] = $applicant->$sf;
 
@@ -808,11 +800,8 @@ class ApplicantController extends AppController {
 			$this->require_role('applicant');
 			$user_id = $this->session->user->id;
 			$applicant = $this->session->user->applicant;
-
-			if ($applicant->finalized || $applicant->is_expired())
-				$this->auth->land();
 		}
-		
+
 		if ($error)
 			$this->render = false;
 
@@ -822,6 +811,9 @@ class ApplicantController extends AppController {
 		$this['name'] = $applicant->sanitized_full_name;
 		$this['applicant'] = $applicant;
 		$this['picture'] = $picture;
+		
+		if (!$applicant->finalized)
+			$this->render = false;
 	}
 
 	/**
@@ -829,13 +821,11 @@ class ApplicantController extends AppController {
 	 */
 	public function finalized() {
 		$this->require_role('applicant');
-		$this->require_finalized();
-		$this->check_expiry();
+
+		$applicant = $this['applicant'] = $this->applicant;
 		
-		$this['applicant'] = $this->applicant;
-		
-		// if ($this->applicant->submitted)
-		// 	Gatotkaca::redirect(array('controller' => 'applicant', 'action' => 'submitted'));
+		if (!$applicant->finalized || $applicant->confirmed)
+			$this->auth->land();
 	}
 
 	/**

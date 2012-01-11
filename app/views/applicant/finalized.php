@@ -3,7 +3,20 @@
 	<p>Tahap 4 dari 4</p>
 	<h1>Pengumpulan Surat Pernyataan</h1>
 </header>
+<nav class="actions-nav expleft">
+	<ul>
+		<li><a href="<?php L(array('action' => 'details')) ?>">Lihat Formulir Pendaftaran</a></li>
+		<?php if (!$applicant->is_expired()): ?>
+		<li class="expires-on">Batas waktu pendaftaran: <span><?php echo $applicant->expires_on->format('l, j F Y') ?></span></li>
+		<?php endif; ?>
+	</ul>
+</nav>
 <div class="container">
+	<header class="applicant-header">
+		<p class="applicant-test-id"><?php echo $applicant->test_id ?></h1>
+		<h1 class="applicant-name"><?php echo $applicant->sanitized_full_name ?>&nbsp;</h1>
+	</header>
+	
 	<section class="what">
 		<p>Untuk menyelesaikan pendaftaran seleksi Bina Antarbudaya, Adik harus mengumpulkan berkas-berkas berikut ini:</p>
 		<dl class="files">

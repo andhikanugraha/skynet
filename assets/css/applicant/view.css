@@ -1,21 +1,3 @@
-header.applicant-header {
-	margin: 0 -20px;
-	padding: 0 20px 25px;
-	border-bottom: 1px solid #d9ebf6;
-	margin-bottom: 20px;
-}
-p.applicant-test-id {
-	float: right;
-	font-size: 30px;
-	margin: 0 0 0 20px;
-	font-weight: 300;
-	letter-spacing: -.05em;
-	color: #007ac2;
-}
-h1.applicant-name {
-	font-size: 30px;
-	font-weight: 600;
-}
 .picture-container {
 	width: 300px;
 	height: 400px;

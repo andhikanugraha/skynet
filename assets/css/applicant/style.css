@@ -27,29 +27,21 @@
 	font-weight: bold;
 }
 
-/* stage-title III */
-.stage-title {
-	width: 100%;
-	left: 0;
-	padding-top: 80px;
-	padding-bottom: 10px;
-	margin-bottom: 40px;
-	font-size: 40px;
-	background: -webkit-linear-gradient(#fff, #f6f6f6);
-	background: -moz-linear-gradient(#fff, #f6f6f6);
-	border-bottom: 1px solid #eee;
+header.applicant-header {
+	margin: 0 -20px;
+	padding: 0 20px 25px;
+	border-bottom: 1px solid #d9ebf6;
+	margin-bottom: 20px;
 }
-.stage-title h1 {
-	width: 640px;
-	margin: 0 auto;
-	font-size: 12px;
-	color: #999;
-	text-shadow: 1px 1px 0 #fff;
-}
-.stage-title h2 {
-	width: 640px;
-	margin: 0 auto;
-	font-size: 44px;
+p.applicant-test-id {
+	float: right;
+	font-size: 30px;
+	margin: 0 0 0 20px;
+	font-weight: 300;
 	letter-spacing: -.05em;
-	text-shadow: 1px 1px 0 #fff;
+	color: #007ac2;
+}
+h1.applicant-name {
+	font-size: 30px;
+	font-weight: 600;
 }

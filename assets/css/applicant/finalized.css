@@ -7,6 +7,9 @@
 .what, .when, .how, .where {
 	float: left;
 }
+header.applicant-header {
+	margin-bottom: 0;
+}
 section.what {
 	width: 440px;
 	margin-right: 19px;

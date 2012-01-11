@@ -413,7 +413,7 @@
 			<tr>
 				<td class="label"></td>
 				<td class="field">
-					<?php $form->checkbox('is_acceleration_class') ?> Saya adalah siswa kelas Akselerasi
+					<?php $form->checkbox('in_acceleration_class') ?> Saya adalah siswa kelas Akselerasi
 					<br>
 					<span class="instruction">Mohon maaf, untuk saat ini program YES tidak tersedia bagi siswa kelas akselerasi.</span>
 					<br>
@@ -422,7 +422,7 @@
 					$(document).ready(function() {
 						previously_selected_yes = $('#program_yes').attr('checked')
 						checkAcc = function() {
-							if ($('#is_acceleration_class').is(':checked')) {								
+							if ($('#in_acceleration_class').is(':checked')) {								
 								previously_selected_yes = $('#program_yes').attr('checked');
 								$('#program_yes').removeAttr('checked')
 								$('.programs-table .yes').hide();
@@ -437,7 +437,7 @@
 							}
 						}
 						checkAcc();
-						$('#is_acceleration_class').click(checkAcc);
+						$('#in_acceleration_class').click(checkAcc);
 					})
 					</script>
 				</td>

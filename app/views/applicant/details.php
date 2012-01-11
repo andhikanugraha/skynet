@@ -65,14 +65,12 @@ function print_address($a, $name, $kota = true, $provinsi = true, $kodepos = tru
 	</ul>
 </nav>
 <?php else: ?>
-<header class="page-title">
-	<p>Tahap 3 dari 4</p>
-	<h1>Formulir Pendaftaran</h1>
+<header class="page-title alt">
+	<h1>Transkrip Formulir Pendaftaran</h1>
 </header>
-<nav class="actions-nav expleft">
+<nav class="actions-nav">
 	<ul>
-		<li><a href="<?php L(array('action' => 'guide')) ?>">Panduan Pendaftaran</a></li>
-		<li class="expires-on">Batas waktu pendaftaran: <span><?php echo $expires_on->format('l, j F Y') ?></span></li>
+		<li><a href="<?php L($this->user->get_landing_page()) ?>">Kembali</a></li>
 	</ul>
 </nav>
 <?php endif; ?>
