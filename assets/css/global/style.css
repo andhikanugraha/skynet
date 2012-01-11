@@ -186,12 +186,14 @@ button:active {
 }
 
 .global-footer {
-	visibility: hidden;
 	clear: both;
-	width: 100%;
+	width: 940px;
+	margin: 0 auto;
 	padding: 40px 0;
-	text-align: center;
+	text-align: right;
 	background: white;
+}
+.global-footer img {
 }
 
 /**
