@@ -12,10 +12,10 @@
 	</ul>
 </nav>
 <div class="container">
-	<header class="applicant-header">
+	<!-- <header class="applicant-header">
 		<p class="applicant-test-id"><?php echo $applicant->test_id ?></h1>
 		<h1 class="applicant-name"><?php echo $applicant->sanitized_full_name ?>&nbsp;</h1>
-	</header>
+	</header> -->
 	
 	<section class="what">
 		<p>Untuk menyelesaikan pendaftaran seleksi Bina Antarbudaya, Adik harus mengumpulkan berkas-berkas berikut ini:</p>
@@ -81,8 +81,8 @@
 			?>
 			<dt class="<?php echo $first ? 'primary' : 'secondary'; $first = false; ?>"><?php echo $depot_name ?></dt>
 				<dd class="map">
-					<?php $params = array('markers' => $depot->depot_address, 'size' => '458x120', 'sensor' => 'false', 'scale' => 2); $params_enc = http_build_query($params, '', '&amp;') ?>
-					<a href="http://maps.google.com/maps?q=<?php echo urlencode($depot_address) ?>" title="Peta menuju <?php echo htmlspecialchars($depot_name) ?>"><img src="http://maps.googleapis.com/maps/api/staticmap?<?php echo $params_enc ?>" alt="Peta menuju <?php echo htmlspecialchars($depot_name) ?>" width="458" height="120"></a>
+					<?php $params = array('markers' => $depot->depot_address . ', Indonesia', 'size' => '458x120', 'sensor' => 'false', 'scale' => 2); $params_enc = http_build_query($params, '', '&amp;') ?>
+					<a href="http://maps.google.com/maps?q=<?php echo urlencode($depot_address) ?>,%20Indonesia" title="Peta menuju <?php echo htmlspecialchars($depot_name) ?>"><img src="http://maps.googleapis.com/maps/api/staticmap?<?php echo $params_enc ?>" alt="Peta menuju <?php echo htmlspecialchars($depot_name) ?>" width="458" height="120"></a>
 				</dd>
 				<dd class="address">
 					<h3>Alamat</h3>
