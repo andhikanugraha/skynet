@@ -1,38 +1,140 @@
-@import url(forms.css);
-
-.content p {
+/* Proper grid */
+.page-title h1,
+.page-title p,
+.container {
+	width: 940px;
+}
+.what, .when, .how, .where {
+	float: left;
+}
+section.what {
+	width: 440px;
+	margin-right: 19px;
+	border-right: 1px solid #D9E5F1;
+	padding-right: 20px;
+	padding-bottom: 20px;
+}
+section.what > p,
+section.how > p {
+	width: 30em;
 	line-height: 1.5;
+	font-size: 12px;
+	color: #8fa2b6;
+	font-size: 15px;
 }
-.reqs {
-	margin-left: 2.5em;
+dl.files {
+	margin-top: 30px;
 }
-.reqs li {
-	color: #333;
+dl.files dt {
+	margin-left: 20px;
+	counter-increment: f;
+	float: left;
+	color: #000;
+	font-size: 15px;
+}
+dl.files dt:before {
+	display: block;
+	float: left;
+	content: counter(f) ". ";
+	color: #8fa2b6;
+	margin-left: -20px;
+}
+dl.files dd.download-link {
+	padding-top: 4px;
+	float: right;
+}
+dl.files dd.download-link a {
+	padding: 4px 20px;
+	background: #0054a7 url(../global/buttongrad.png) center repeat-x;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
+	cursor: pointer;
+}
+dl.files dd.download-link a:active {
+	background: #002a52 url(../global/buttongrad-dark.png) center repeat-x;
+}
+dl.files dd.details {
+	clear: both;
+	padding: 15px 0 0;
+	margin-bottom: 30px;
+}
+dl.files dd.details ul {
+	padding: 0 0 0 20px;
+	list-style: none;
+}
+dl.files dd.details ul li {
+	line-height: 1.4;
 	margin-bottom: 5px;
 }
-form {
-	display: inline;
+
+section.how {
+	width: 460px;
+	float: left;
+	padding-bottom: 20px;
 }
-hr {
-	border-bottom: 1px solid #666;
+.how p time {
+	white-space: nowrap;
+	color: #000;
+	font-weight: bold;
 }
-.big {
-	color: #333;
-	font-size: 16px;
+.how p {
+	margin-bottom: 0;
 }
-.content {
-	padding-bottom: 80px;
+
+dl.depots {
 }
-.afsglobal {
-	color: #a00;
-	font-size: 16px;
+dl.depots dt {
+	clear: both;
+	padding-top: 30px;
+	margin-bottom: 15px;
+	font-size: 15px;
+	color: #000;
 }
-.when {
-	line-height: 1.5;
-	color: #333;
-	font-size: 16px;
-	margin-top: -10px;
+dl.depots dt.secondary:before {
+	color: #8fa2b6;
+	content: "atau ";
+	font-style: italic;
 }
-.content button {
-	font-size: 18px;
+dl.depots dd.map {
+	width: 458px;
+	border: 1px solid #d9e5f1;
+	margin-bottom: 10px;
+}
+dl.depots dd.map img,
+dl.depots dd.map a {
+	display: block;
+}
+dl.depots dd.address {
+	width: 220px;
+	float: left;
+}
+dl.depots dd.address address {
+	margin: 0;
+	line-height: 1.6;
+}
+dl.depots dd.schedule {
+	width: 220px;
+	float: left;
+}
+dl.depots dd h3 {
+	margin: 0 0 5px;
+	font-size: 11px;
+	color: #8fa2b6;
+}
+dl.depots dd.schedule ul {
+	padding: 0;
+	list-style: none;
+	line-height: 1.6;
+}
+
+section.then {
+	clear: both;
+	border-top: 1px solid #d9e5f1;
+	width: 940px;
+}
+section.then p {
+	width: 940px;
+	text-align: center;
 }
