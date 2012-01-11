@@ -60,15 +60,15 @@ class User extends HeliumRecord {
 	}
 
 	/**
-	 * @deprecated
+	 *
 	 */
 	public function get_landing_page() {
 		switch ($this->role) {
 			case 1:
 				if ($this->applicant->finalized)
-					$land = array();
+					$land = array('controller' => 'applicant', 'action' => 'finalized');
 				elseif ($this->applicant->confirmed)
-					$land = array();
+					$land = array('controller' => 'applicant', 'action' => 'confirmed');
 				else
 					$land = array('controller' => 'applicant', 'action' => 'form');
 

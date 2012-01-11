@@ -77,10 +77,13 @@ class AuthComponent extends HeliumComponent {
 	public function land() {
 		if ($this->is_logged_in()) {
 			$user = $this->session->user;
-			Gatotkaca::redirect($user->get_landing_page());
+			$land = $user->get_landing_page();
+
+			PathsComponent::redirect($land);
 		}
 		elseif ($lp = $this->session->flash('last_params'))
-			Gatotkaca::redirect($lp);
+			PathsComponent::redirect($lp);
+
 		exit;
 	}
 }

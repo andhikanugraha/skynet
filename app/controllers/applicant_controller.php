@@ -15,7 +15,7 @@ class ApplicantController extends AppController {
 	}
 
 	/**
-	 *
+	 * @deprecated
 	 */
 	private function check_expiry() {
 		if ($this->applicant && $this->applicant->expires_on->earlier_than('now'))
@@ -23,7 +23,7 @@ class ApplicantController extends AppController {
 	}
 
 	/**
-	 *
+	 * @deprecated
 	 */
 	private function check_submitted() {
 		if (!$this->applicant->submitted)
@@ -411,10 +411,8 @@ class ApplicantController extends AppController {
 			$user_id = $this->session->user->id;
 			$applicant = $this->session->user->applicant;
 
-			// if ($applicant->finalized)
-			// 	$this->auth->land();
-
-			// $this->check_expiry();
+			if ($applicant->finalized || $applicant->is_expired())
+				$this->auth->land();
 		}
 
 		$applicant_id = $applicant->id;
