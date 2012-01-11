@@ -1,6 +1,11 @@
-legend {
-	float: left;
-	width: 100%;
+form {
+	display: block;
+}
+.container header h1 {
+	margin: 30px 0;
+} 
+table.form-table {
+	float: none;
 }
 span.instruction {
 	display: block;
