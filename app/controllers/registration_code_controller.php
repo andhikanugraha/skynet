@@ -8,15 +8,15 @@
  */
 class RegistrationCodeController extends AppController {
 	public function index() {
-		$this->require_role('chadmin');
+		$this->require_role('chapter_admin');
 
 		$db = Helium::db();
-		$query = "SELECT chapter_id, chapter_code, chapter_name, chapter_timezone, expires_on FROM registration_codes LEFT JOIN chapters ON registration_codes.chapter_id = chapters.id GROUP BY expires_on, chapter_id";
+		$query = "SELECT chapter_id, chapter_code, chapter_name, chapter_timezone, expires_on FROM registration_codes LEFT JOIN chapters ON registration_codes.chapter_id = chapters.id";
 
 		if (!$this->session->user->capable_of('admin'))
 			$query .= $db->prepare(" WHERE chapter_id='%s'", $this->session->user->chapter_id);
 
-		$query .= " ORDER BY expires_on DESC, chapter_id ASC";
+		$query .= " GROUP BY expires_on, chapter_id ORDER BY chapter_id ASC, expires_on DESC";
 		$batches = $db->get_results($query);
 		if (!$batches)
 			$batches = array();
@@ -27,6 +27,13 @@ class RegistrationCodeController extends AppController {
 			$el->expires_on->setTimezone($el->chapter_timezone);
 			$el->view_link = PathsComponent::build_url(array('controller' => 'registration_code', 'action' => 'view', 'chapter_id' => $el->chapter_id, 'expires_on' => (string) $wib));
 		});
+		
+		if ($this->user->capable_of('national_admin'))
+			$chapter = false;
+		else
+			$chapter = $this->user->chapter;
+		
+		$this['chapter'] = $chapter;
 		
 		$this['batches'] = $batches;
 	}
@@ -42,7 +49,7 @@ class RegistrationCodeController extends AppController {
 			$error = 'incomplete_request';
 		}
 		
-		if (!$error && !$user->capable_of('admin') && $chapter_id != $this->session->user) {
+		if (!$error && !$user->capable_of('admin') && $chapter_id != $this->session->user->chapter_id) {
 			$error = 'access_forbidden';
 		}
 		
