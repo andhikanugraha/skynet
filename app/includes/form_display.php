@@ -160,18 +160,18 @@ class FormDisplay {
 	 * Form field display functions
 	 */
 	
-	private function get_escaped_value($name) {
+	protected function get_escaped_value($name) {
 		return htmlspecialchars($this->values[$name]);
 	}
 
-	private function __($string = '') {
+	protected function __($string = '') {
 		if (self::$translations[$string])
 			return self::$translations[$string];
 		else
 			return $string;
 	}
 	
-	private function name_to_id($name) {
+	protected function name_to_id($name) {
 		return str_replace(array('.', '[', ']'), '-', $name);
 	}
 

@@ -63,7 +63,10 @@
 					echo $applicant->applicant_address_postcode ? ' ' . $applicant->applicant_address_postcode : '';
 					echo $applicant->applicant_address_city ? ', ' . $applicant->applicant_address_province : $applicant->applicant_address_province; ?>
 				</td>
+			</tr>
 		</table>
+		<p class="more"><a href="<?php L(array('controller' => 'applicant', 'action' => 'details', 'id' => $applicant->id)) ?>">Lihat formulir selengkapnya</a></p>
+		<?php if ($can_edit): ?><p class="edit"><a href="<?php L(array('controller' => 'applicant', 'action' => 'form', 'id' => $applicant->id)) ?>">Edit formulir</a></p><?php endif; ?>
 	</div>
 	
 	

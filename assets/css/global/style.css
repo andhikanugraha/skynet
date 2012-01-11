@@ -357,3 +357,24 @@ legend {
 	color: #000;
 	margin-bottom: 10px;
 }
+
+p.more, p.edit {
+	clear: both;
+	margin-bottom: 0;
+}
+p.more + p.more, p.edit + p.edit,
+p.more + p.edit, p.edit + p.more {
+	margin-top: 3px;
+}
+p.more a, p.edit a {
+	font-size: 11px;
+	color: #66afda;
+}
+p.more a:after, p.edit a:after {
+	color: #d9ebf6;
+	content: " »";
+}
+p.more a:hover, p.edit a:hover {
+	color: #007ac2;
+	text-decoration: none;
+}

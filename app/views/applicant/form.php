@@ -1,26 +1,45 @@
 <?php $this->header('Formulir Pendaftaran'); ?>
 <?php if ($new) { ?><script>document.write('<style>.global-nav, .content {display: none}</style>');</script><?php } ?>
 <script src="<?php L('/assets/js/jquery-1.6.2.min.js') ?>"></script>
+<?php if ($admin): ?>
+<header class="page-title alt">
+	<h1>Pengelolaan Pendaftar</h1>
+</header>
+<nav class="actions-nav">
+	<ul>
+		<li><a href="<?php L($this->session->flash('applicant_back_to')) ?>">Kembali</a></li>
+	</ul>
+</nav>
+<?php else: ?>
 <header class="page-title">
 	<p>Tahap 3 dari 4</p>
 	<h1>Formulir Pendaftaran</h1>
 </header>
-<nav class="actions-nav">
+<nav class="actions-nav expleft">
 	<ul>
 		<li><a href="<?php L(array('action' => 'guide')) ?>">Panduan Pendaftaran</a></li>
 		<li class="expires-on">Batas waktu pendaftaran: <span><?php echo $expires_on->format('l, j F Y') ?></span></li>
 	</ul>
 </nav>
+<?php endif; ?>
 <div class="container">
 
-	<?php if ($new): ?>
+	<?php if ($new && !$admin): ?>
 	<div class="message extended">
 		<header>
 			<h1>Selamat datang di Formulir Pendaftaran</h1>
 		</header>
 		<p>Formulir ini terdiri atas <strong>sembilan bagian</strong> yang dapat diakses melalui tautan pada menu di sebelah kiri. Isilah seluruh formulir ini dengan <strong>lengkap</strong> dan <strong>teliti</strong>. Gunakan tombol <em>Simpan Sementara</em> di sebelah kanan atas ini untuk menyimpan sementara isian formulir untuk diisi kembali.</p>
-		<?php if (!$admin): ?><p>Setelah Adik selesai mengisi <strong>seluruh</strong> formulir ini, klik 'Finalisasi' di menu sebelah kiri.<br>Ingat, waktu Adik hanya sampai <strong><?php echo $this->applicant->expires_on->format('l, j F Y'); ?></strong>.</p><?php endif; ?>
+		<p>Setelah Adik selesai mengisi <strong>seluruh</strong> formulir ini, klik 'Finalisasi' di menu sebelah kiri.<br>Ingat, waktu Adik hanya sampai <strong><?php echo $this->applicant->expires_on->format('l, j F Y'); ?></strong>.</p>
 		<p class="hide"><a href="#">Sembunyikan pesan ini</a></p>
+	</div>
+
+	<?php elseif ($admin && $error): ?>
+	<div class="message error">
+		<header>
+			<h1>Peserta tidak dapat diubah</h1>
+		</header>
+		<p><?php $messages = array('not_found' => 'Peserta tidak ditemukan.', 'applicant_finalized' => 'Peserta sudah melakukan finalisasi.', 'forbidden' => 'Anda tidak boleh mengakses laman ini.'); echo $messages[$error]; ?></p>
 	</div>
 
 	<?php elseif ($errors): ?>
@@ -45,8 +64,10 @@
 	
 	<script>$(document).ready(function(){$('.message .hide a').click(function(e){e.preventDefault(); $(this).parent().parent().slideUp()})})</script>
 
-	<script>document.write('<style>.message {display: none}</style>');</script>
+	<?php if (!$admin) { ?><script>document.write('<style>.message {display: none}</style>');</script><?php } ?>
 
+
+<?php if (!$admin || !$error): ?>
 
 <form action="<?php L($this->params) ?>" enctype="multipart/form-data" method="POST" id="appform">
 
@@ -71,7 +92,7 @@
 		<li><a href="#reference">Referensi</a></li>
 		<li><a href="#rekomendasi">Rekomendasi</a></li>
 		<li><a href="#foto">Foto</a></li>
-		<?php if (!$readonly): ?>
+		<?php if (!$readonly && !$admin): ?>
 		<li class="finalize"><a href="#finalisasi">Finalisasi</a></li>
 		<?php endif; ?>
 	</ol>
@@ -353,8 +374,8 @@
 				<td class="sibling-job"><?php $s->text('occupation', 'short') ?></td>
 			</tr>
 			<?php endforeach; ?>
-			<?php for ($i = 0; $i < ($applicant->number_of_children_in_family - count($sibling_forms) - 1); $i++): $s = new FormDisplay; $s->make_subform('siblings[' . $i . ']') ?>
-			<tr class="engineered">
+			<?php for ($i = 0; $i < ($applicant->number_of_children_in_family - count($sibling_forms) - 1); $i++): $s = new FormDisplay; $s->make_subform('siblings[' . ($i + 1024) . ']') ?>
+			<tr class="phpengineered">
 				<td class="sibling-name"><?php $s->text('full_name', 'short') ?></td>
 				<td class="sibling-dob"><?php $s->date('date_of_birth', 50) ?></td>
 				<td class="sibling-job"><?php $s->text('occupation', 'short') ?></td>
@@ -976,7 +997,6 @@
 	<?php if ($picture): ?>
 	<div class="picture-container"><img src="<?php echo $picture->get_cropped_url(); ?>" width="300" height="400"></div>
 	<?php endif; ?>
-	<?php if (!$admin): ?>
 	<table class="form-table">
 		<tr>
 			<td class="label"><?php $form->label('picture', 'Unggah foto'  . ($picture ? ' baru' : ''),  ($picture ? '' : ' required')) ?></td>
@@ -984,9 +1004,7 @@
 				<input type="hidden" name="MAX_FILE_SIZE" value="2048000">
 				<input type="file" name="picture" id="picture" class="medium">
 				<br>
-				<span class="instruction">Maksimal 2MB</span>
-				<br>
-				<span class="instruction">Gunakan <strong>pas foto</strong>. Foto jenis lain tidak akan kami terima.</span>
+				<span class="instruction">Ukuran foto maksimal 2MB. Gunakan <strong>pas foto</strong>. Foto jenis lain tidak akan kami terima.</span>
 			</td>
 		</tr>
 		<tr>
@@ -996,7 +1014,6 @@
 			</td>
 		</tr>
 	</table>
-	<?php endif; ?>
 </fieldset>
 <?php if (!$admin): ?>
 <fieldset class="pane" id="finalisasi">
@@ -1023,7 +1040,7 @@
 <?php endif; ?>
 
 <script>
-	last_pane = '<?php echo $last_pane ? $last_pane : 'pribadi' ?>';
+	last_pane = '<?php echo $last_pane ? $last_pane : '' ?>';
 	firstTime = <?php echo $new ? 'true' : 'false' ?>;
 	incomplete = <?php echo $incomplete ? 'true' : 'false' ?>;
 	programYear = <?php echo $program_year ?>;
@@ -1041,5 +1058,9 @@
 
 </form>
 <br clear="all">
+
+<?php endif;?>
+
 </div>
+
 <?php $this->footer(); ?>

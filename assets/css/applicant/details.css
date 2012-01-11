@@ -91,9 +91,21 @@ body {
 }
 .form-table td.label {
 	width: 210px;
+	color: #82a5c3;
 }
 .form-table td.field {
 	width: 490px;
+	padding-top: 10px;
+}
+
+span.value,
+p.value {
+	font-weight: 600;
+	color: #000;
+}
+p.value {
+	line-height: 1.6;
+	margin: 0 0 5px;
 }
 
 .form-table td table,
@@ -400,11 +412,15 @@ p.field textarea {
 }
 
 label.subpoint {
+	margin-left: -110px;
+	padding-right: 10px;
+	margin-right: -.3em;
 	display: block;
 	display: inline-block;
 	width: 100px;
 	height: 20px;
-	margin-right: -.3em;
+	text-align: right;
+	color: #82a5c3;
 }
 
 fieldset {

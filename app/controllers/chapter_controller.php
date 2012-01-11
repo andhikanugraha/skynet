@@ -160,7 +160,7 @@ class ChapterController extends AppController {
 		}
 
 		if (!$error && !$chapter) {
-			$error = 'chapter_not_found';
+			$error = 'not_found';
 		}
 		
 		if (!$error) {

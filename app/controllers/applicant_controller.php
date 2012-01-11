@@ -655,7 +655,7 @@ class ApplicantController extends AppController {
 			foreach ($subforms as $k => $sf)
 				$this[$k] = $applicant->$sf;
 
-			$form = new FormDisplay;
+			$form = new FormTranscript;
 			$form->associate($applicant);
 			$this['form'] = $form;
 			$this['expires_on'] = $applicant->expires_on;
@@ -672,7 +672,7 @@ class ApplicantController extends AppController {
 			$sforms = array();
 			$i = 0;
 			foreach ($applicant_siblings as $s) {
-				$d = new FormDisplay;
+				$d = new FormTranscript;
 				$d->associate($s);
 				$d->make_subform("siblings[$i]");
 				$i++;
@@ -688,7 +688,7 @@ class ApplicantController extends AppController {
 				$forms = array();
 				if ($nodes) {
 					foreach ($nodes as $s) {
-						$d = new FormDisplay;
+						$d = new FormTranscript;
 						$d->associate($s);
 						$d->make_subform($f . '[' . $i . ']');
 						$i++;

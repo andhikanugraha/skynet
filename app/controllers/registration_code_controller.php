@@ -56,7 +56,7 @@ class RegistrationCodeController extends AppController {
 		if (!$error) {
 			$chapter = Chapter::find($chapter_id);
 			if (!$chapter)
-				$error = 'chapter_not_found';
+				$error = 'not_found';
 		}
 
 		if (!$error) {
@@ -97,7 +97,7 @@ class RegistrationCodeController extends AppController {
 			$timezone = $db->get_var($q);
 
 			if (!$timezone)
-				$error = 'chapter_not_found';
+				$error = 'not_found';
 
 			if (!$error) {
 				$e = $_POST['expires_on'];
