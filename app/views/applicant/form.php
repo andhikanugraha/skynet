@@ -2,7 +2,7 @@
 <?php if ($new) { ?><script>document.write('<style>.global-nav, .content {display: none}</style>');</script><?php } ?>
 <script src="<?php L('/assets/js/jquery-1.6.2.min.js') ?>"></script>
 <header class="page-title">
-	<p>Tahap 3 dari 5</p>
+	<p>Tahap 3 dari 4</p>
 	<h1>Formulir Pendaftaran</h1>
 </header>
 <nav class="actions-nav">
@@ -131,7 +131,7 @@
 				<?php $form->number('body_weight', 'very-short') ?> kg
 				<br>
 				<?php $form->label('blood_type', 'Gol. Darah', 'subpoint required') ?>
-				<?php $form->select('blood_type', array('O' => 'O', 'A' => 'A', 'B' => 'B', 'AB' => 'AB'), 'very-short')?>
+				<?php $form->select('blood_type', array('' => '', 'O' => 'O', 'A' => 'A', 'B' => 'B', 'AB' => 'AB'), 'very-short')?>
 			</td>
 		</tr>
 		<tr>
@@ -225,7 +225,6 @@
 	<?php
 
 	foreach(array('father' => 'Ayah', 'mother' => 'Ibu') as $n => $parent):
-		$n = strtolower($parent);
 	?>
 	<h1><?php echo $parent; ?></h1>
 	<table class="form-table">
@@ -368,45 +367,6 @@
 			</tr>
 		</tbody>
 	</table>
-	<script>
-		$(document).ready(function() {
-			fac = function() {
-				$('td.sibling-name input').each(function() {
-					t = $(this);
-					if (!t.parent().parent().hasClass('prototype')) {
-						if (t.val())
-							t.parent().parent().removeClass('engineered').addClass('notempty');
-						else
-							t.parent().parent().addClass('engineered').removeClass('notempty');
-					}
-				})
-
-				v = parseInt($(this).val());
-				o = $('.siblings-table tbody tr').length - 1;
-				if (v > o) {
-					$('.siblings-table').css('visibility', 'visible');
-					d = v - o - 1;
-					for (i=0; i<d; i++) {
-						$('.siblings-table tbody').append($('.prototype').clone().removeClass('prototype'));
-					}
-				}
-				if (v <= o) {
-					if (v == 1) {
-						$('.siblings-table').css('visibility', 'hidden');
-					}
-					else {
-						d = o - v + 1;
-						for (i=0; i<d; i++) {
-							$('tr.engineered').first().detach();
-						}
-					}
-				}
-			}
-			$('#number_of_children_in_family').click(fac);
-			$('#number_of_children_in_family').change(fac);
-			$('#number_of_children_in_family').keyup(fac);
-		})
-	</script>
 </fieldset>
 
 <fieldset class="pane" id="pendidikan">
@@ -562,8 +522,8 @@
 			</td>
 		</tr>
 		<tr>
-			<td class="label"><?php $form->label('elementary_graduation_year', 'Tahun Ijazah', 'required') ?></td>
-			<td class="field"><?php $form->select_year('elementary_graduation_year', date('Y') - 5, date('Y') - 3); ?></td>
+			<td class="label"><?php $form->label('elementary_school_graduation_year', 'Tahun Ijazah', 'required') ?></td>
+			<td class="field"><?php $form->select_year('elementary_school_graduation_year', date('Y') - 5, date('Y') - 3); ?></td>
 		</tr>
 	</table>
 
@@ -1050,6 +1010,9 @@
 	<p class="recheck">
 		Adik belum dapat melakukan finalisasi karena Adik belum mengisi formulir dengan lengkap. Lengkapi bagian-bagian  formulir yang ditandai dengan warna merah sebelum kembali ke laman ini. Adik masih bisa menyimpan sementara formulir ini jika Adik perlu.
 	</p>
+	<p class="recheck">
+		Tekan tombol 'Simpan Sementara' untuk menonaktifkan penandaan kolom-kolom.
+	</p>
 	<p class="finalize-checkbox">
 		<input type="checkbox" name="finalize" value="true" id="finalize"> <label for="finalize"><strong>Saya mengerti.</strong></label>
 	</p>
@@ -1062,8 +1025,10 @@
 <script>
 	last_pane = '<?php echo $last_pane ? $last_pane : 'pribadi' ?>';
 	firstTime = <?php echo $new ? 'true' : 'false' ?>;
-	incomplete = <?php echo $incomplete ? 'true' : 'false' ?>
+	incomplete = <?php echo $incomplete ? 'true' : 'false' ?>;
+	programYear = <?php echo $program_year ?>;
 </script>
+<!-- <?php var_dump($incomplete) ?> -->
 <script src="<?php L('/assets/js/form.js') ?>"></script>
 
 <nav class="form-page-nav below">
