@@ -1,0 +1,6 @@
+table.form-table {
+	width: 620px;
+}
+tr.first td {
+	border-top: none;
+}

@@ -1,0 +1,81 @@
+table.users {
+	width: 940px;
+	border-collapse: collapse;
+	margin: 0 -10px;
+}
+table.users td {
+	padding: 5px 0;
+	border-bottom: 1px solid #d9ebf6;
+}
+table.users th {
+	color: #82a5c3;
+	text-align: left;
+	padding: 5px 0;
+	border-bottom: 1px solid #B6CEE5;
+}
+table.users .username {
+	padding-left: 10px;
+}
+table.users td.username {
+	font-weight: 600;
+}
+table.users td.email,
+table.users td.role {
+	font-size: 11px;
+}
+table.users tr:hover td {
+	background: #f2f6fa;
+}
+
+table.users .checkbox {
+	width: 25px;
+}
+table.users .test-id {
+	width: 160px;
+}
+table.users .name,
+table.users .school {
+	width: 300px;
+}
+
+table.users tr.unfinalized td.test-id {
+	color: #d9ebf6;
+}
+table.users tr.expired td {
+	text-decoration: line-through;
+}
+table.users tr.expired td.expires-on {
+	color: #b23b23;
+}
+
+span.empty {
+	font-style: italic;
+	font-weight: normal;
+	color: #d9ebf6;
+}
+
+li.page-selector {
+	float: right;
+	margin-right: 0;
+}
+li.page-selector a {
+	margin-left: 10px;
+}
+li.applicant-count {
+	float: right;
+}
+.page-selector
+.stage-selector {
+	float: left;
+}
+.filter a {
+	margin: 0 0 0 10px;
+	font-size: 14px;
+}
+.stage-selector a {
+	margin: 0 10px 0 0;
+}
+.filter  a.active {
+	letter-spacing: -0.5px;
+	font-weight: bold;
+}
