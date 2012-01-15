@@ -43,7 +43,7 @@
 			</tr>
 			<tr>
 				<td class="label">Tempat, Tgl Lahir</td>
-				<td class="field"><?php echo $applicant->place_of_birth ?>, <?php echo $applicant->date_of_birth->format('j F Y') ?></td>
+				<td class="field"><?php echo $applicant->place_of_birth ? $applicant->place_of_birth . ', ' : ''; echo $applicant->date_of_birth->format('j F Y') ?></td>
 			</tr>
 			<tr>
 				<td class="label">Alamat Surel</td>
@@ -73,24 +73,34 @@
 		<?php
 		$f = $applicant->finalized;
 		$c = $applicant->confirmed;
-		if ($f && $c):
-		elseif ($f && !$c):
 		?>
 		<table>
 			<tr>
 				<td class="label">Status Pendaftaran</td>
-				<td class="field"><strong>Belum konfirmasi</strong></td>
+				<td class="field"><strong><?php
+				if ($f && $c)
+					echo 'Sudah konfirmasi';
+				elseif ($f && !$c)
+					echo $applicant->is_expired() ? 'Harap cek keberadaan berkas' : 'Belum konfirmasi';
+				elseif (!$f)
+					echo $applicant->is_expired() ? 'Kadaluarsa' : 'Belum finalisasi';
+				?></strong></td>
 			</tr>
+			<?php if (!$c): ?>
 			<tr>
 				<td class="label">Batas Pendaftaran</td>
 				<td class="field"><?php echo $applicant->expires_on->format('j F Y') ?></td>
 			</tr>
+			<?php endif; ?>
 			<tr>
-				<td class="label">Tanda Peserta</td>
-				<td class="field"><a href="<?php L(array('controller' => 'applicant', 'action' => 'card', 'id' => $applicant->id)) ?>">Cetak</a></td>
+				<td class="label">Nama Pengguna</td>
+				<td class="field"><a href="<?php L(array('controller' => 'user', 'action' => 'edit', 'id' => $applicant->user_id)) ?>"><?php echo $applicant->user->username ?></a></td>
 			</tr>
 		</table>
-
+		<?php
+		if ($f && $c):
+		elseif ($f && !$c):
+		?>
 		<form action="<?php L(array('controller' => 'applicant', 'action' => 'view', 'id' => $applicant->id)) ?>" method="POST" class="confirm-form">
 			<p>
 				<input type="hidden" name="id" value="<?php echo $applicant->id ?>">
@@ -121,17 +131,6 @@
 			$applicant->save();
 		else:
 		?>
-		<table>
-			<tr>
-				<td class="label">Status Pendaftaran</td>
-				<td class="field"><strong><?php echo $applicant->is_expired() ? 'Kadaluarsa' : 'Belum finalisasi' ?></strong></td>
-			</tr>
-			<tr>
-				<td class="label">Batas Pendaftaran</td>
-				<td class="field"><?php echo $applicant->expires_on->format('j F Y') ?></td>
-			</tr>
-		</table>
-
 		<?php
 		endif;
 		?>
