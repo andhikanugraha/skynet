@@ -338,9 +338,12 @@ class Applicant extends HeliumPartitionedRecord {
 			$check['program'] = false;
 		}
 
-		// $ttl = $_POST['ttl']['tanggal'];
-		// $bd = new HeliumDateTime("$ttl[year]-$ttl[month]-$ttl[day]");
-		// $check['birth_date'] = $bd->later_than('1994-08-31') && $bd->earlier_than('1996-04-02');
+		$bd = $this->date_of_birth;
+		$lower = ($this->program_year - 19) . '-09-01';
+		$upper = ($this->program_year - 17) . '-04-01';
+		$check['birth_date'] = $bd->later_than($lower) && $bd->earlier_than($upper);
+		
+		echo $lower . '/' . $upper;
 
 		foreach ($check as $c => $v) {
 			if (!$v)
