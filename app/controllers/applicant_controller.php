@@ -351,7 +351,7 @@ class ApplicantController extends AppController {
 			$applicants->set_order('ASC');
 
 		// -- Pagination --
-		$batch_length = 10;
+		$batch_length = 100;
 		$applicants->set_batch_length($batch_length);
 		if (!$this->params['page'])
 			$this->params['page'] = 1;
