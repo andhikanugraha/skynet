@@ -726,7 +726,7 @@ class ApplicantController extends AppController {
 		}
 		
 		if (!$error) {
-			$back_to = $this->session->flash('back_to');
+			$back_to = $this->session['back_to'];
 			if (!$back_to)
 				$back_to = array('controller' => 'applicant', 'action' => 'index');
 
@@ -825,6 +825,18 @@ class ApplicantController extends AppController {
 		$applicant = $this['applicant'] = $this->applicant;
 		
 		if (!$applicant->finalized || $applicant->confirmed)
+			$this->auth->land();
+	}
+
+	/**
+	 *
+	 */
+	public function confirmed() {
+		$this->require_role('applicant');
+
+		$applicant = $this['applicant'] = $this->applicant;
+
+		if (!$applicant->confirmed)
 			$this->auth->land();
 	}
 
