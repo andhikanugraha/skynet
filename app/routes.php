@@ -14,8 +14,8 @@ $route('/daftar/transkrip', array('controller' => 'applicant', 'action' => 'tran
 $route('/admin/applicant/%id%', array('controller' => 'applicant', 'action' => 'form'));
 $route('/daftar/formulir', array('controller' => 'applicant', 'action' => 'form'));
 
-$route('/kantornasional', array('controller' => 'chapter', 'action' => 'view', 'id' => 1));
-$route('/chapters/%chapter_code%', array('controller' => 'chapter', 'action' => 'view'));
+// $route('/kantornasional', array('controller' => 'chapter', 'action' => 'view', 'id' => 1));
+// $route('/chapters/%chapter_code%', array('controller' => 'chapter', 'action' => 'view'));
 
 $route('/ic', array('controller' => 'admin', 'action' => 'issue_registration_code'));
 $route('/ac/%id%', array('controller' => 'applicant', 'action' => 'confirm'));

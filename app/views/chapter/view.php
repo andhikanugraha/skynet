@@ -109,6 +109,7 @@
 				</tr>
 				<?php endif; ?>
 			</table>
+			<p class="edit"><a href="<?php L(array('controller' => 'chapter', 'action' => 'edit', 'id' => $id)) ?>">Edit informasi chapter</a></p>
 		</article>
 	</section>
 	<!--
