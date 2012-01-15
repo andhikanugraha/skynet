@@ -225,18 +225,19 @@ class Applicant extends HeliumPartitionedRecord {
 			'/([a-z])([0-9])/i' => '$1 $2',
 		);
 		$school = preg_replace(array_keys($spaces), $spaces, $school);
-		
+
 		// sanitize SMAN -> SMA Negeri, etc.
 		$uniform = array(
 			'/\s+/' => ' ',
+			'/^Sekolah Menengah Atas/i' => 'SMA',
+			'/^Sekolah Menengah Kejuruan/i' => 'SMK',
+			'/^Madrasah Aliyah\s/' => 'MA ',
+			'/^Madrasah Tsanawiyah\s/' => 'MTs ',
 			'/^SM(A|K|P) ?N\s/i' => 'SM$1 Negeri ',
 			'/^SM(A|P) ?K\s/i' => 'SM$1 Kristen ',
 			'/^SM(A|P) ?T\s/i' => 'SM$1 Terpadu ',
 			'/^M(A|Ts) ?N\s/i' => 'M$1 Negeri ',
-			'/Sekolah Menengah Atas/i' => 'SMA',
-			'/Sekolah Menengah Kejuruan/i' => 'SMK',
-			'/^Madrasah Aliyah\s/' => 'MA ',
-			'/^Madrasah Tsanawiyah\s/' => 'MTs ',
+			'/^SMA ([0-9]+)\s/i' => 'SMA Negeri $1 ',
 			'/\sKota\s/i' => ' ',
 			'/\sSwasta\s/i' => ' ',
 			'/Kab\s/i' => 'Kabupaten ',
@@ -271,7 +272,14 @@ class Applicant extends HeliumPartitionedRecord {
 		}
 
 		// revert abbreviations
-		$abbreviations = array('SMA ', 'SMK ', 'SMP ', 'SD ', 'MA ', 'MTs ', 'MI ', 'BPK ', 'BPI ', 'IBS ', 'ITUS ');
+		$abbreviations = array(	'SMA ', 'SMK ', 'SMP ', 'SD ',
+								'MA ', 'MTs ', 'MI ',
+								'BPK ', // (Yayasan)
+								'BPI ', // (Yayasan)
+								'IBS ', // Islamic Boarding School
+								'ITUS ', // Islam Terpadu Umar Sjarifuddin
+								'PMT ', // Pesantren Modern Terpadu
+								);
 		$school = str_ireplace($abbreviations, $abbreviations, $school);
 
 		return $school;
