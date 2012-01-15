@@ -30,9 +30,9 @@
 		<?php if (!$national) : ?><p class="chapter-code"><?php echo $chapter->chapter_code ?></p><?php endif; ?>
 		<h1><?php if (!$national) echo 'Chapter '; echo $chapter->chapter_name ?></h1>
 	</header>
-	<form action="<?php L(array('action' => 'create')) ?>" method="POST">
+	<form action="<?php L(array('action' => 'edit', 'id' => $chapter->id)) ?>" method="POST">
 		<fieldset class="chapter-details">
-			<legend>Edit Informasi Chapter</legend>
+			<legend>Informasi Chapter</legend>
 			<div class="fields">
 				<table class="form-table">
 					<tr>
