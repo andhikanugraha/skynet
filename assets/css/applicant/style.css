@@ -16,17 +16,6 @@
 	letter-spacing: -0.05em;
 }
 
-.page-title p {
-	text-transform: uppercase;
-	text-shadow: none;
-	color: inherit;
-	letter-spacing: -.05em;
-}
-.page-title h1 {
-	letter-spacing: -.1em;
-	font-weight: bold;
-}
-
 header.applicant-header {
 	margin: 0 -20px;
 	padding: 0 20px 25px;

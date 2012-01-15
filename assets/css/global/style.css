@@ -123,8 +123,8 @@ button:active {
 
 .page-title {
 	background: url('bg_top_blue.jpg') left -80px repeat-x;
-	padding-top: 80px;
-	padding-bottom: 20px;
+	padding-top: 75px;
+	padding-bottom: 15px;
 	margin-bottom: 40px;
 	border-bottom: 1px solid #b6cee5;
 	color: #007ac2;
@@ -135,14 +135,16 @@ button:active {
 	font-size: 12px;
 	text-transform: uppercase;
 	letter-spacing: -.05em;
+	padding: 0 20px;
 }
 .page-title h1 {
 	color: #005587;
 	width: 940px;
 	margin: 0 auto;
-	font-size: 34px;
+	font-size: 40px;
 	letter-spacing: -.1em;
-	font-weight: bold;
+	font-weight: 600;
+	padding: 0 20px;
 }
 
 /* Alternate, low-profile view for page-title */
