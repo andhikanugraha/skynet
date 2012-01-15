@@ -219,6 +219,13 @@ class Applicant extends HeliumPartitionedRecord {
 		// do replacing here as it will affect subsequent patterns
 		$school = preg_replace(array_keys($mispell), $mispell, $school);
 		
+		$spaces = array(
+			'/\s/' => ' ',
+			'/([0-9])([a-z])/i' => '$1 $2',
+			'/([a-z])([0-9])/i' => '$1 $2',
+		);
+		$school = preg_replace(array_keys($spaces), $spaces, $school);
+		
 		// sanitize SMAN -> SMA Negeri, etc.
 		$uniform = array(
 			'/\s+/' => ' ',
@@ -233,7 +240,6 @@ class Applicant extends HeliumPartitionedRecord {
 			'/\sKota\s/i' => ' ',
 			'/\sSwasta\s/i' => ' ',
 			'/Kab\s/i' => 'Kabupaten ',
-			'/([0-9])([a-z])/i' => '$1 $2',
 		);
 		$school = preg_replace(array_keys($uniform), $uniform, $school);
 
@@ -256,6 +262,13 @@ class Applicant extends HeliumPartitionedRecord {
 		}
 		
 		$school = preg_replace(array_keys($specific), $specific, $school);
+		
+		$doubles = array('Negeri');
+		foreach ($doubles as $double) {
+			$pattern = "/$double\s$double/i";
+			$replace = $double;
+			$school = preg_replace($pattern, $replace, $school);
+		}
 
 		// revert abbreviations
 		$abbreviations = array('SMA ', 'SMK ', 'SMP ', 'SD ', 'MA ', 'MTs ', 'MI ', 'BPK ', 'BPI ', 'IBS ', 'ITUS ');
