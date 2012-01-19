@@ -1,7 +1,7 @@
 <?php $this->header('Pengaturan'); ?>
-<header class="page-title">
+<!-- <header class="page-title">
 	<h1>Pengaturan</h1>
-</header>
+</header> -->
 <div class="container">
 	<?php if ($error): ?>
 	<div class="message error">
@@ -46,7 +46,7 @@
 			<?php $form->password('retype_password', 'medium', null, true) ?>
 		</p>
 		<p>
-			<button type="submit">Ubah sandilewat</button>
+			<button type="submit">Simpan</button>
 		</p>
 	</form>
 </div>

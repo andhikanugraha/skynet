@@ -7,6 +7,9 @@
 		case 'create':
 			$title = 'Pengguna Baru';
 			break;
+		case 'prefs':
+			$title = 'Pengaturan';
+			break;
 		case 'index':
 		default:
 			$title = 'Pengelolaan Pengguna';
