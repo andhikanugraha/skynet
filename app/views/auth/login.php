@@ -36,7 +36,7 @@ if (!$destination_title)
 			<input type="text" class="medium" name="username" id="username" value="<?php echo $this->session->flash('username'); ?>" autofocus required>
 		</p>
 		<p>
-			<label for="password">Sandi</label>
+			<label for="password">Sandilewat</label>
 			<input type="password" class="medium" name="password" id="password" required>
 		</p>
 		<p>
@@ -46,12 +46,12 @@ if (!$destination_title)
 		<p>
 			<button type="submit">Masuk</button>
 		</p>
-		<?php if ($can_register): ?>
-		<p class="alt">
-			Belum punya akun? <br>
-			<strong class="activate-link"><a href="<?php L(array('controller' => 'applicant', 'action' => 'redeem')) ?>">Aktifkan PIN Pendaftaran</a></strong>
+		<p>
+			<a href="<?php L(array('controller' => 'user', 'action' => 'forgot')) ?>">Saya lupa sandilewat saya</a>
 		</p>
-		<?php endif; ?>
+		<p>
+			<a href="<?php L(array('controller' => 'applicant', 'action' => 'create')) ?>">Saya belum punya akun</a>
+		</p>
 	</form>
 </div>
 <?php $this->footer(); ?>
