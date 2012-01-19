@@ -1,5 +1,6 @@
 table.applicants {
 	width: 960px;
+	margin: 0 -10px;
 	border-collapse: collapse;
 }
 table.applicants td {
@@ -7,7 +8,7 @@ table.applicants td {
 	border-bottom: 1px solid #d9ebf6;
 }
 table.applicants th {
-	color: #007ac2;
+	color: #82a5c3;
 	text-align: left;
 	padding: 5px 0;
 	border-bottom: 1px solid #B6CEE5;
@@ -21,13 +22,14 @@ table.applicants tr.unfinalized:hover td.test-id {
 
 table.applicants .checkbox {
 	width: 25px;
+	padding-left: 10px;
 }
 table.applicants .test-id {
 	width: 160px;
 }
 table.applicants .name,
 table.applicants .school {
-	width: 300px;
+	width: 295px;
 }
 
 table.applicants tr.unfinalized td.test-id {
@@ -44,16 +46,6 @@ span.empty {
 	font-style: italic;
 	font-weight: normal;
 	color: #d9ebf6;
-}
-
-.container,
-.stage-title h1,
-.stage-title h2 {
-	width: 960px;
-}
-table {
-	clear: left;
-	width: 960px;
 }
 
 li.page-selector {
