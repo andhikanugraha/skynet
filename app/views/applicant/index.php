@@ -13,10 +13,11 @@ function LL($target) {
 </header>
 <nav class="actions-nav">
 	<ul>
-		<?php foreach(array('' => 'Seluruh Pendaftar', 'confirmed' => 'Sudah Konfirmasi', 'finalized' => 'Sudah Finalisasi', 'expired' => 'Kadaluarsa') as $i => $j): ?>
+		<?php foreach(array('' => $chapter ? 'Chapter ' . $chapter->chapter_name : 'Seluruh Pendaftar', 'confirmed' => 'Terkonfirmasi', 'finalized' => 'Terfinalisasi', 'incomplete' => 'Sedang Mengisi', 'expired' => 'Kadaluarsa') as $i => $j): ?>
 		<li><a href="<?php LL(array('stage' => $i)) ?>"<?php if ($i == $current_stage) echo 'class="active"' ?>><?php echo $j ?></a></li>
 
 		<?php endforeach; ?>
+		<li><a href="<?php L(array('action' => 'search')) ?>">Pencarian</a></li>
 		<li class="page-selector">Halaman
 		<?php for ($i = 1; $i <= $total_pages; $i++): ?>
 			<a href="<?php LL(array('page' => $i)) ?>"<?php if ($i == $current_page) echo 'class="active"' ?>><?php echo $i ?></a>

@@ -285,11 +285,13 @@ class ApplicantController extends AppController {
 			if ($this->params['chapter_id'] && $this->params['chapter_id'] != 1) {
 				$applicants->narrow(array('chapter_id' => $this->params['chapter_id']));
 				$is_search = true;
+				$chapter = Chapter::find($this->params['chapter_id']);
 			}
 		}
 		// Otherwise, only list applicants from user's chapter
 		else {
 			$applicants->narrow(array('chapter_id' => $this->user->chapter_id));
+			$chapter = $this->user->chapter;
 		}
 		
 		// Filter by stage
@@ -310,6 +312,9 @@ class ApplicantController extends AppController {
 				break;
 			case 'anomaly':
 				$applicants->narrow(array('confirmed' => false, 'expired' => true, 'finalized' => true));
+				break;
+			case 'incomplete':
+				$applicants->narrow(array('confirmed' => false, 'expired' => false, 'finalized' => false));
 				break;
 		}
 		
@@ -363,6 +368,7 @@ class ApplicantController extends AppController {
 
 		// Applicants is now ready for listing.
 		$this['applicants'] = $applicants;
+		$this['chapter'] = $chapter;
 		$this['total_pages'] = $applicants->get_number_of_batches();
 		$this['current_page'] = $page;
 		$this['first'] = $first;
