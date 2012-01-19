@@ -25,6 +25,8 @@ class Chapter extends HeliumPartitionedRecord {
 			$this->has_many('applicants');
 			$this->has_many('registration_codes');
 		}
+
+		$this->has_many('users');
 	}
 	
 	public function before_save() {

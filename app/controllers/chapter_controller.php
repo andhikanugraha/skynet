@@ -224,6 +224,11 @@ class ChapterController extends AppController {
 
 			$this['na'] = $na;
 			
+			$volunteers = clone $chapter->users;
+			$volunteers->narrow('role != 1');
+			$volunteers->set_batch_length(10);
+			$this['volunteers'] = $volunteers;
+			
 			$this->session['chapter_back_to'] = $this->params;
 		}
 		else {

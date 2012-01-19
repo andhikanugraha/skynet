@@ -111,6 +111,21 @@
 			</table>
 			<p class="edit"><a href="<?php L(array('controller' => 'chapter', 'action' => 'edit', 'id' => $id)) ?>">Edit informasi chapter</a></p>
 		</article>
+		<article class="users">
+			<header>
+				<h1>Akun Pengguna</h1>
+			</header>
+			<p class="summary">
+				Akun volunteer <?php if (!$national) echo 'Chapter '; echo $chapter_name ?> yang terdaftar:<br>
+				<?php foreach ($volunteers as $v): ?>
+				<a href="<?php L(array('controller' => 'user', 'action' => 'edit', 'id' => $v->id)) ?>"><?php echo $v->username ?></a>
+				
+				<?php endforeach; ?>
+			</p>
+			<p class="more"><a href="<?php L(array('controller' => 'user', 'action' => 'index')) ?>">Lihat daftar selengkapnya</a></p>
+			<p class="more"><a href="<?php L(array('controller' => 'auth', 'action' => 'login')) ?>">Masuk sebagai pengguna lain</a></p>
+			<p class="more"><a href="<?php L(array('controller' => 'user', 'action' => 'create')) ?>">Tambahkan akun pengguna baru</a></p>
+		</article>
 	</section>
 	<!--
 	<section class="tertiary">
