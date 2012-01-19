@@ -92,6 +92,12 @@
 				<td class="field"><?php echo $applicant->expires_on->format('j F Y') ?></td>
 			</tr>
 			<?php endif; ?>
+			<?php if ($f): ?>
+			<tr>
+				<td class="label">Tanda Peserta</td>
+				<td class="field"><a href="<?php L(array('controller' => 'applicant', 'action' => 'card', 'id' => $applicant->id)) ?>">Cetak</a></td>
+			</tr>
+			<?php endif; ?>
 			<tr>
 				<td class="label">Nama Pengguna</td>
 				<td class="field"><a href="<?php L(array('controller' => 'user', 'action' => 'edit', 'id' => $applicant->user_id)) ?>"><?php echo $applicant->user->username ?></a></td>
@@ -130,8 +136,20 @@
 			$applicant->confirmed = false;
 			$applicant->save();
 		else:
+			if ($applicant->validate() && $this->user->capable_of('chapter_admin')):
 		?>
+		<form action="<?php L(array('controller' => 'applicant', 'action' => 'view', 'id' => $applicant->id)) ?>" method="POST" class="confirm-form">
+			<p>
+				<input type="hidden" name="id" value="<?php echo $applicant->id ?>">
+				<input type="hidden" name="finalized" value="1">
+				<input type="hidden" name="confirmed" value="0">
+				<button type="submit" class="confirm-button">Finalisasi</button>
+				<br>
+				<span class="instruction">Formulir pendaftaran <?php echo $applicant->sanitized_full_name ?> telah lengkap.</span>
+			</p>
+		</form>
 		<?php
+			endif;
 		endif;
 		?>
 	</div>
