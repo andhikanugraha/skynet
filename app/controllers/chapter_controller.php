@@ -141,7 +141,7 @@ class ChapterController extends AppController {
 	 * Control panel for a chapter (or national office, for that matter)
 	 */
 	public function view() {
-		$this->require_authentication();
+		$this->require_role('chapter_staff');
 
 		if ($this->user->capable_of('national_admin')) {
 			$chapter_code = strtoupper($this->params['chapter_code']);
@@ -149,10 +149,12 @@ class ChapterController extends AppController {
 			if ($chapter_id) {
 				$chapter = Chapter::find($chapter_id);
 			}
-			else {
+			elseif ($chapter_code) {
 				$chapter = Chapter::find(compact('chapter_code'));
 				$chapter = $chapter->first();
 			}
+			else
+				$chapter = $this->user->chapter;
 		}
 		elseif ($this->user->capable_of('chapter_staff')) {
 			$chapter = $this->user->chapter;

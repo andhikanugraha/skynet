@@ -141,7 +141,7 @@ button:active {
 	margin-bottom: 40px;
 	border-bottom: 1px solid #b6cee5;
 	color: #007ac2;
-	text-shadow: 1px 1px 0 #fff;
+	text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.4);
 }
 .page-title hgroup {
 	width: 940px;

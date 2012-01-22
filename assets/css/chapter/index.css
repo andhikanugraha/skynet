@@ -12,19 +12,18 @@ table.chapters {
 }
 table.chapters tr {
 	float: left;
-	width: 200px;
+	width: 260px;
 	margin-right: 40px;
 	margin-bottom: 40px;
-	height: 10em;
+	height: 14em;
 }
 .chapter-code {
 	display: none;
-	font-size: 12px;
-	color: #007ac2;
-	line-height: 0.8;
+	font-size: 15px;
+	color: #000;
 }
 .chapter-name {
-	font-weight: bold;
+	font-weight: 600;
 	letter-spacing: -.05em;
 	font-size: 24px;
 	color: #000;
@@ -33,17 +32,13 @@ table.chapters tr {
 }
 .chapter-address,
 .chapter-email {
+	font-size: 15px;
 	margin-bottom: 5px;
 }
-.chapter-applicant-count,
-.chapter-user-count {
-	color: #005587;
-	text-transform: uppercase;
+td.actions {
 	font-size: 11px;
 }
 .chapter-applicant-count span,
 .chapter-user-count span {
 	font-weight: bold;
-	color: #007ac2;
-	font-size: 13px;
 }

@@ -82,7 +82,7 @@ class Applicant extends HeliumPartitionedRecord {
 	 */
 	public function before_save() {
 		// Sanitized entries
-		$this->sanitized_full_name = $this->sanitize_name($this->full_name);
+		$this->sanitized_full_name = $this->sanitize_name($this->first_name . ' ' . $this->middle_name . ' ' . $this->last_name);
 
 		if ($this->applicant_address_city) {
 			$city = $this->applicant_address_city;

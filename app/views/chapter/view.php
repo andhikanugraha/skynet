@@ -4,7 +4,11 @@
 </header>
 <nav class="actions-nav">
 	<ul>
-	<?php if (true): // Registration phase ?>
+	<?php if ($chapter->is_national_office()): ?>
+		<li><a href="<?php L(array('controller' => 'chapter', 'action' => 'index')) ?>">Daftar Chapter</a></li>
+		<li><a href="<?php L(array('controller' => 'applicant', 'action' => 'index')) ?>">Daftar Pendaftar</a></li>
+		<li><a href="<?php L(array('controller' => 'chapter', 'action' => 'edit', 'id' => $id)) ?>">Edit Informasi Kantor Nasional</a></li>
+	<?php elseif (true): // Registration phase ?>
 		<li><a href="<?php L(array('controller' => 'registration_code', 'action' => 'issue')) ?>">Terbitkan PIN Pendaftaran</a></li>
 		<li><a href="<?php L(array('controller' => 'applicant', 'action' => 'index')) ?>">Daftar Pendaftar</a></li>
 		<li><a href="<?php L(array('controller' => 'chapter', 'action' => 'edit', 'id' => $id)) ?>">Edit Informasi Chapter</a></li>
