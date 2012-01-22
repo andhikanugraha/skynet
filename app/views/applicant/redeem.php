@@ -1,12 +1,14 @@
 <?php $this->header('Aktivasi PIN Pendaftaran'); $this->fx('staggered_load'); ?>
 
 <header class="page-title">
-	<p>Tahap 1 dari 4</p>
-	<h1>Pengaktifan PIN Pendaftaran</h1>
+	<hgroup>
+		<h1>Tahap 1/4</h1>
+		<h2>Pengaktifan PIN Pendaftaran</h2>
+	</hgroup>
 </header>
 <nav class="actions-nav">
 	<ul>
-		<li><a href="<?php L(array('controller' => 'home', 'action' => 'index')) ?>">Kembali ke Beranda</a></li>
+		<li><a href="<?php L(array('controller' => 'home', 'action' => 'index')) ?>" class="return">Kembali ke Beranda</a></li>
 		<li><a href="<?php L(array('action' => 'guide')) ?>">Panduan Pendaftaran</a></li>
 	</ul>
 </nav>
@@ -35,7 +37,7 @@
 			</p>
 			<?php endif; ?>
 			<p>
-				<label for="token">Masukkan enam belas huruf PIN pendaftaran Adik</label>
+				<label for="token">Untuk memulai pendaftaran, masukkan enam belas huruf PIN pendaftaran Adik</label>
 				<span class="token-box">
 					<input type="text" name="token" id="token" width="16" maxlength="16" autofocus required>
 					<button type="submit">Lanjut</button>
@@ -62,7 +64,7 @@
 		</header>
 		<dl>
 			<?php foreach ($chapters as $c): ?>
-			<dt><?php if (!$c->is_national_office()) { echo 'Chapter '; } echo $c->chapter_name ?></dt>
+			<dt><?php echo $c->chapter_name ?></dt>
 			<dd>
 				<ul>
 					<li><?php echo nl2br($c->chapter_address) ?></li>

@@ -1,8 +1,9 @@
 .token-box {
 	display: block;
+	margin: 0 auto;
 	border: 1px solid #B6CEE5;
 	vertical-align: middle;
-	width: 440px;
+	width: 600px;
 }
 .token-box.focus {
 	border-color: #007ac2;
@@ -10,14 +11,14 @@
 .token-box input {
 	display: block;
 	float: left;
-	width: 340px;
+	width: 500px;
 	border: none;
 	font-size: 20px;
 	padding: 0 10px 0;
-	font-weight: bold;
 	text-transform: uppercase;
-	letter-spacing: 1px;
 	line-height: 20px;
+	text-align: center;
+	letter-spacing: .4em;
 }
 .token-box input:focus {
 	outline: none;
@@ -30,16 +31,18 @@ button {
 
 label {
 	display: block;
-	color: #000;
-	margin-bottom: 10px;
+	color: #005587;
+	margin-bottom: 15px;
 /*	letter-spacing: -.05em;*/
 	font-size: 15px;
+	text-align: center;
 }
 
 .token-entry {
-	margin-top: 25px;
-	padding-bottom: 30px;
+	padding-top: 60px;
+	padding-bottom: 90px;
 	border-bottom: 1px solid #d9ebf6;
+	margin: 0 -10px;
 }
 .token-entry p {
 	margin: 0;

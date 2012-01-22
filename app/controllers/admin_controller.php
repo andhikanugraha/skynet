@@ -60,14 +60,14 @@ class AdminController extends GatotkacaController {
 		$applicants->add_additional_column('expired', 'expires_on < CURRENT_TIMESTAMP');
 		switch ($this->params['stage']) {
 			case 'expired':
-				$applicants->narrow(array('expired' => true, 'submitted' => false));
+				$applicants->narrow(array('expired' => true, 'confirmed' => false));
 				break;
 			case 'unexpired':
 				$applicants->narrow(array('expired' => false));
-				$applicants->widen(array('submitted' => true));
+				$applicants->widen(array('confirmed' => true));
 				break;
 			case 'confirmed':
-				$applicants->narrow(array('submitted' => true));
+				$applicants->narrow(array('confirmed' => true));
 				break;
 			case 'upcoming':
 				$up = new HeliumDateTime;
@@ -78,10 +78,10 @@ class AdminController extends GatotkacaController {
 				$int = 7 - $w;
 				$up->modify('+' . $int . ' days');
 				$up = (string) $up;
-				$applicants->narrow(array('expires_on' => $up, 'submitted' => false));
+				$applicants->narrow(array('expires_on' => $up, 'confirmed' => false));
 				break;
 			case 'anomaly':
-				$applicants->narrow(array('submitted' => false, 'expired' => true, 'finalized' => true));
+				$applicants->narrow(array('confirmed' => false, 'expired' => true, 'finalized' => true));
 				break;
 			// case 'school':
 			// 	$school = $this->params['school'];
@@ -143,7 +143,7 @@ class AdminController extends GatotkacaController {
 			$cols['E'] = $add['email'];
 			$exp = new HeliumDateTime($a['expires_on']);
 			$cols['F'] = $exp->format('d F Y');
-			if ($a['submitted']) {
+			if ($a['confirmed']) {
 			 	$cols['G'] = 'Confirmed';
 				$confirmed[] = $cols;
 			}
@@ -364,7 +364,7 @@ class AdminController extends GatotkacaController {
 		if ($_SERVER['REQUEST_METHOD'] == 'POST' && $migratable) {
 
 			// fetch all confirmed applicants
-			$confirmed_applicants = $db->get_results('SELECT applicants.id, nama_lengkap AS full_name, pendidikan_sma_nama_sekolah AS school FROM applicants LEFT JOIN applicant_details ON applicants.id=applicant_details.id WHERE submitted=1 ORDER BY applicants.id ASC');
+			$confirmed_applicants = $db->get_results('SELECT applicants.id, nama_lengkap AS full_name, pendidikan_sma_nama_sekolah AS school FROM applicants LEFT JOIN applicant_details ON applicants.id=applicant_details.id WHERE confirmed=1 ORDER BY applicants.id ASC');
 
 			if (!$confirmed_applicants) {
 				$error = 'Failed retrieving applicants.';
@@ -443,7 +443,7 @@ class AdminController extends GatotkacaController {
 			}
 		}
 		else {
-			$this['eligible_applicants_count'] = $db->get_var('SELECT COUNT(*) FROM applicants WHERE submitted=1');
+			$this['eligible_applicants_count'] = $db->get_var('SELECT COUNT(*) FROM applicants WHERE confirmed=1');
 		}
 
 		$this['error'] = $error;

@@ -14,13 +14,15 @@ $error_messages = array('username_availability' => 'Nama pengguna yang Adik pili
 
 
 <header class="page-title">
-	<p>Tahap 2 dari 4</p>
-	<h1>Pembuatan Akun</h1>
+	<hgroup>
+		<h1>Tahap 2/4</h1>
+		<h2>Pembuatan Akun</h2>
+	</hgroup>
 </header>
 <nav class="actions-nav">
 	<ul>
-		<li><a href="<?php L(array('action' => 'redeem')) ?>">Aktifkan PIN lainnya</a></li>
-		<li><a href="<?php L(array('controller' => 'home', 'action' => 'index')) ?>">Kembali ke Beranda</a></li>
+		<li><a href="<?php L(array('action' => 'redeem')) ?>" class="return">Aktifkan PIN lainnya</a></li>
+		<li><a href="<?php L(array('controller' => 'home', 'action' => 'index')) ?>" class="return">Kembali ke Beranda</a></li>
 		<li><a href="<?php L(array('action' => 'guide')) ?>">Panduan Pendaftaran</a></li>
 		<li class="expires-on">Batas waktu pendaftaran: <span><?php echo $expires_on->format('l, j F Y') ?></span></li>
 	</ul>
@@ -37,7 +39,7 @@ $error_messages = array('username_availability' => 'Nama pengguna yang Adik pili
 
 	<section class="intro">		
 		<header>
-			<h1>PIN pendaftaran berhasil dimasukkan</h1>
+			<h1>PIN Pendaftaran Berhasil Dimasukkan</h1>
 		</header>
 		<p class="hello">Untuk melanjutkan proses pendaftaran, Adik perlu membuat akun. Akun ini digunakan untuk mengisi formulir pendaftaran dan mengubah isian formulir tersebut sebelum finalisasi.</p>
 		<p>Adik akan terdaftar pada Bina Antarbudaya Chapter <strong><?php echo $chapter_name ?></strong>. Jika Adik memperoleh PIN pendaftaran selain dari Chapter <?php echo $chapter_name ?>, hubungi panitia chapter tempat Adik memperoleh PIN pendaftaran Adik.</p>
@@ -49,16 +51,16 @@ $error_messages = array('username_availability' => 'Nama pengguna yang Adik pili
 		</header>
 		<form action="<?php L(array('controller' => 'applicant', 'action' => 'create')) ?>" method="POST" validate>
 			<table class="form-table">
-				<tr>
-					<td class="label"><?php $form->label('username', 'Nama pengguna', 'required') ?></td>
+				<tr class="noborder">
+					<td class="label"><?php $form->label('username', 'Username', 'required') ?></td>
 					<td class="field"><input type="text" name="username" id="username" class="medium" value="<?php echo $this->session->flash('username'); ?>" autofocus required> <span class="instruction">Terdiri atas paling sedikit empat karakter, dan hanya boleh terdiri atas huruf, angka, garisbawah (_), tanda sambung (-). Tidak boleh mengandung spasi.</span></td>
 				</tr>
 				<tr>
-					<td class="label"><?php $form->label('password', 'Sandilewat', 'required')?></td>
+					<td class="label"><?php $form->label('password', 'Password', 'required')?></td>
 					<td class="field"><input type="password" name="password" class="medium" id="password" required> <span class="instruction">Terdiri atas paling sedikit delapan karakter.</span></td>
 				</tr>
 				<tr>
-					<td class="label"><?php $form->label('retype_password', 'Ulang Sandilewat', 'required')?></td>
+					<td class="label"><?php $form->label('retype_password', 'Ulangi Password', 'required')?></td>
 					<td class="field"><input type="password" name="retype_password" id="retype_password" class="medium" required></td>
 				</tr>
 				<tr>
@@ -66,8 +68,10 @@ $error_messages = array('username_availability' => 'Nama pengguna yang Adik pili
 					<td class="field"><select class="medium" name="_" disabled><option><?php echo $chapter_name ?></option></select> <span class="instruction">Jika Adik membeli PIN pendaftaran selain dari Chapter <?php echo $chapter_name ?>, hubungi panitia chapter tempat Adik memperoleh PIN pendaftaran Adik.</span></td>
 				</tr>
 				<tr>
-					<td class="label"><?php $form->label('email', 'Alamat surel (e-mail)', 'required') ?></td>
-					<td class="field"><input type="email" name="email" id="email" class="medium" value="<?php echo $this->session->flash('email'); ?>" required></td>
+					<td class="label"><?php $form->label('email', 'Alamat E-mail', 'required') ?></td>
+					<td class="field"><input type="email" name="email" id="email" class="medium" value="<?php echo $this->session->flash('email'); ?>" required>
+						<br>
+						<span class="instruction">Alamat e-mail ini akan digunakan untuk administrasi Adik sepanjang seleksi. <strong>Gunakan alamat e-mail yang tetap.</strong></span></td>
 				</tr>
 				<tr>
 					<td class="label"></td>

@@ -47,6 +47,9 @@ class Applicant extends HeliumPartitionedRecord {
 		$this->belongs_to('chapter');
 
 		$this->has_one('picture');
+		
+		$this->has_one('selection_one_assigment');
+		$this->has_one('selection_two_assigment');
 
 		$this->has_many('applicant_siblings');
 		$this->has_many('applicant_organizations');
@@ -90,10 +93,10 @@ class Applicant extends HeliumPartitionedRecord {
 		else
 			$city = $this->chapter->chapter_name;
 		$this->sanitized_high_school_name = $this->sanitize_school($this->high_school_name, $city);
-		
+
 		if ($this->in_acceleration_class)
 			$this->program_yes = false;
-		
+
 		if (!$this->finalized && !$this->test_id)
 			$this->test_id = $this->generate_test_id();
 	}
@@ -150,7 +153,7 @@ class Applicant extends HeliumPartitionedRecord {
 	public function generate_test_id() {
 		$chapter_code = $this->chapter->chapter_code;
 		if ($this->finalized) {
-			$base = "INAYPsc/%s-%s/%s/%s";
+			$base = "YBA/YP%s-%s/%s/%s";
 			$program_year = 2014;
 			$start_year = $program_year - 1;
 			$ycl = substr($start_year, 2);
@@ -342,8 +345,6 @@ class Applicant extends HeliumPartitionedRecord {
 		$lower = ($this->program_year - 19) . '-09-01';
 		$upper = ($this->program_year - 17) . '-04-01';
 		$check['birth_date'] = $bd->later_than($lower) && $bd->earlier_than($upper);
-		
-		echo $lower . '/' . $upper;
 
 		foreach ($check as $c => $v) {
 			if (!$v)

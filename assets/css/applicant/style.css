@@ -2,18 +2,18 @@
 /*	padding-top: 40px;*/
 }
 .actions-nav ul {
-	font-size: 14px;
-	line-height: 1;
+/*	font-size: 14px;*/
+/*	line-height: 1;*/
 }
 
 .actions-nav li.expires-on {
-	color: #007ac2;
 	float: right;
 	margin-right: 0;
 }
 .actions-nav li.expires-on span {
 	font-weight: bold;
 	letter-spacing: -0.05em;
+	color: #005587;
 }
 
 header.applicant-header {

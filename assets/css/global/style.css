@@ -20,32 +20,38 @@ a:hover {
 	text-decoration: underline;
 }
 
-.global-nav {
-	height: 80px;
-	background: #003c81 url(global-nav.jpg);
+.global-header {
+	height: 70px;
+	background: #003c81 url(global-nav.jpg) fixed;
 	color: #ccdded;
 	text-shadow: 1px 1px 0 #003b73;
 }
-.global-nav a, .user-controls .chapter {
+.global-header a, .user-controls .chapter {
 	color: #fff;
 	color: rgba(255, 255, 255, 0.8);
 }
-.global-nav a:hover {
+.global-header a:hover {
 	color: #fff;
 }
 .user-controls a, .user-controls .chapter {
 	margin-left: 10px;
 }
-.global-nav .expires_on {
+.global-header .expires_on {
 	color: #fff;
+}
+.global-header div.container {
+	width: 940px;
+	padding: 0 20px;
+	margin: 0 auto;
 }
 
 header.masthead {
 	float: left;
+	margin-left: -15px;
 }
 header.masthead a {
 	display: block;
-	padding: 14px 20px 13px;
+	padding: 14px 20px 13px 0;
 }
 .binabud-logo a:hover {
 }
@@ -55,9 +61,9 @@ header.masthead a {
 
 .user-controls {
 	float: right;
-	line-height: 80px;
+	line-height: 70px;
 	vertical-align: middle;
-	padding: 0 40px;
+	padding: 0 0 0 40px;
 }
 span.username {
 	font-weight: bold;
@@ -84,10 +90,14 @@ strong.activate-link a:active {
 }
 
 .content {
+	float: left;
+	width: 100%;
 }
 .container {
 	width: 940px;
-	margin: 0 auto;
+	margin: -1px auto;
+	padding-top: 1px;
+	clear: both;
 }
 
 i, em {
@@ -122,12 +132,19 @@ button:active {
 }
 
 .page-title {
-	background: url('bg_top_blue.jpg') left -80px repeat-x;
-	padding-top: 75px;
-	padding-bottom: 15px;
+	float: left;
+	width: 100%;
+	background: url('bg_top_blue.jpg') fixed left top repeat-x;
+	padding-top: 30px;
+	padding-bottom: 25px;
 	margin-bottom: 40px;
 	border-bottom: 1px solid #b6cee5;
 	color: #007ac2;
+}
+.page-title hgroup {
+	width: 940px;
+	margin: 0 auto;
+	padding: 0 20px;
 }
 .page-title p {
 	width: 940px;
@@ -137,14 +154,22 @@ button:active {
 	letter-spacing: -.05em;
 	padding: 0 20px;
 }
-.page-title h1 {
+.page-title h1,
+.page-title h2 {
 	color: #005587;
-	width: 940px;
-	margin: 0 auto;
-	font-size: 40px;
+	float: left;
+	font-size: 26px;
 	letter-spacing: -.1em;
 	font-weight: 600;
-	padding: 0 20px;
+}
+.page-title h1 {
+	padding-right: .4em;
+	font-weight: normal;
+	color: #007ac2;
+}
+.page-title h1:after {
+	content: "›";
+	padding-left: .4em;
 }
 
 /* Alternate, low-profile view for page-title */
@@ -159,24 +184,27 @@ button:active {
 }
 
 .actions-nav {
+	float: left;
+	width: 100%;
 	margin: -40px 0 20px;
-	padding: 10px 0;
-	border-bottom: 1px solid #d9ebf6;
+	padding: 15px 0;
+	border-bottom: 1px solid #b6cee5;
+	background: url("bg_top_light_blue.jpg") fixed;
 }
 .actions-nav ul {
 	width: 940px;
 	margin: 0 auto 0;
 	padding: 0;
-	font-size: 14px;
-	font-weight: 300;
+	font-size: 13px;
+	font-weight: normal;
+	line-height: 1;
 }
 .actions-nav li {
 	display: inline;
 	margin-right: 20px;
 }
-.actions-nav li a {
-/*	color: #b6cee5;*/
-	color: #66afda;
+.actions-nav li a.return:before {
+	content: "« ";
 }
 .actions-nav li a.active {
 	font-weight: bold;
@@ -328,18 +356,21 @@ span.instruction {
 	display: inline-block;
 	margin-top: 2px;
 	font-size: 11px;
-	color: #82a5c3;
+	color: #457b9c;
 	line-height: 1.2;
 }
 span.instruction strong,
 span.instruction em {
-	color: #007ac2;
+	color: inherit;
 }
 input, textarea, select {
 	font: inherit;
 }
 .form-table {
 	margin-top: 20px;
+}
+.form-table tr.noborder td {
+	border-top-color: transparent;
 }
 .form-table td {
 	border-top: 1px solid #d9ebf6;

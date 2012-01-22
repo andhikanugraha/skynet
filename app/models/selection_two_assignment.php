@@ -7,7 +7,7 @@
  * @package applicant
  */
 class SelectionTwoAssignment extends HeliumRecord {
-	public $selection_two_assignment_id;
+	public $id;
 	public $applicant_id;
 	public $english_chamber_id;
 	public $english_chamber_local_id;

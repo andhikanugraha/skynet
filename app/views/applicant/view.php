@@ -27,7 +27,7 @@
 		<?php endif; ?>
 	</div>
 	
-	<?php echo new HeliumDateTime('0000-00-00', 'Asia/Jakarta') ?><div class="form-preview">
+	<div class="form-preview">
 		<h2>Tentang <?php echo $applicant->sanitized_full_name ?></h2>
 		<table>
 			<?php if ($applicant->finalized): ?>
@@ -136,7 +136,7 @@
 			$applicant->confirmed = false;
 			$applicant->save();
 		else:
-			if ($applicant->validate() && $this->user->capable_of('chapter_admin')):
+			if ($applicant->validate() && $this->user->capable_of('chapter_admin') && !$applicant->is_expired()):
 		?>
 		<form action="<?php L(array('controller' => 'applicant', 'action' => 'view', 'id' => $applicant->id)) ?>" method="POST" class="confirm-form">
 			<p>
