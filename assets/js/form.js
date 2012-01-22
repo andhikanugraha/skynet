@@ -140,7 +140,7 @@ $(document).ready(function(){
 			$(activeTab).trigger('activate');
 			
 			if (direct) {
-				$(document).scrollTop(0);
+				// $(document).scrollTop(0);
 				$(activeTab).addClass('active').show();
 			}
 			else
@@ -182,6 +182,7 @@ $(document).ready(function(){
 
 	if (history.pushState) {
 		window.onpopstate = function(e) {
+			e.preventDefault();
 			if (e.state)
 				switchToTab(e.state);
 			else if (window.location.hash)
@@ -201,14 +202,9 @@ $(document).ready(function(){
 			switchToTab(last_pane, true);
 	}
 	else if (!window.location.hash) {
-		$(document).scrollTop(0);
 		window.onhashchange = function(e) { e.preventDefault(); $(document).scrollTop(0); return false; }
 		window.location.replace('#pribadi');
 		switchToTab('#pribadi', true);
-		$(document).load(function() {
-			$(this).scrollTop(0);
-		});
-		$(document).scrollTop(0);
 	}
 
 	if (firstTime) {
@@ -266,7 +262,7 @@ $(document).ready(function(){
 			toggleFinalizeButton();
 		});
 
-	$('#foto')
+	$('#foto, #countryprefs')
 		.bind('activate', function() {
 			$('.form-page-nav.below').hide();
 		})
@@ -324,6 +320,7 @@ $(document).ready(function(){
 			previously_selected_yes = $('#program_yes').attr('checked');
 			$('#program_yes').removeAttr('checked')
 			$('.programs-table .yes').hide();
+			$('#country-prefs-td').attr('colspan', 1);
 		}
 		else {
 			if (previously_selected_yes)
@@ -332,11 +329,38 @@ $(document).ready(function(){
 				$('#program_yes').removeAttr('checked');
 
 			$('.programs-table .yes').show();
+			$('#country-prefs-td').attr('colspan', 2);
 		}
 	}
 	checkAcc();
 	$('#in_acceleration_class').click(checkAcc);
+
+	$('input[type=file]').change(function() { $(this).parents('form').submit() });
 	
+	// Country Preference Ordering
+	$('#country-pref-td select').change(function() {
+		t = $(this);
+		v = t.val();
+		p = t.data('prev-value');
+		t.data('prev-value', v);
+		siblings = $('select', t.parents('li').siblings());
+		// enable all options
+		siblings.each(function() {
+			$('option[value=' + p + ']', this).removeAttr('disabled');
+		});
+		
+		// disable options with the same value as this one, except if it's empty
+		if (v) siblings.each(function() {
+			$('option[value=' + v + ']', this).attr('disabled', 'disabled');
+		});
+	});
 	
-	$('input[type=file]').change(function() { $(this).parents('form').submit() })
+	afscheck = function(d) {
+		if ($('#program_afs').prop('checked'))
+			$(".form-nav a[href='#countryprefs']").slideDown();
+		else
+			$(".form-nav a[href='#countryprefs']").hide();
+	}
+	afscheck();
+	$('#program_afs').change(afscheck);
 });

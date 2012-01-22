@@ -3,9 +3,8 @@
 <script src="<?php L('/assets/js/jquery-1.6.2.min.js') ?>"></script>
 <?php if ($admin): ?>
 <header class="page-title">
-	<?php print_r($applicant) ?>
 	<hgroup>
-		<h1><a href="<?php L(array('controller' => 'chapter', 'action' => 'view', 'chapter_code' => $applicant->chapter->chapter_code)) ?>"><?php echo $applicant->chapter->get_title() ?></a></h1>
+		<h1><a href="<?php L(array('controller' => 'chapter', 'action' => 'view', 'chapter_code' => $applicant->chapter->chapter_code)) ?>"><?php echo $this->user->chapter->get_title() ?></a></h1>
 		<h2>Pengelolaan <?php echo $applicant->confirmed ? 'Peserta' : 'Pendaftar' ?></h2>
 	</hgroup>
 </header>
@@ -90,6 +89,7 @@
 	<ol>
 		<li><a href="#pribadi">Data Pribadi</a></li>
 		<li><a href="#program">Pilihan Program</a></li>
+		<li><a href="#countryprefs">Pilihan Negara</a></li>
 		<li><a href="#keluarga">Keluarga</a></li>
 		<li><a href="#pendidikan">Pendidikan</a></li>
 		<li><a href="#kegiatan">Kegiatan</a></li>
@@ -111,9 +111,21 @@
 <fieldset class="pane" id="pribadi">
 	<legend>Data Pribadi</legend>
 	<table class="form-table">
-		<tr>
+		<!-- <tr>
 			<td class="label"><?php $form->label('full_name', 'Nama Lengkap', 'required') ?></td>
 			<td class="field"><?php $form->text('full_name', 'long'); ?> <span class="instruction">Isi sesuai dengan Akte Kelahiran.</span></td>
+		</tr> -->
+		<tr>
+			<td class="label"><?php $form->label('first_name', 'Nama Depan', 'required') ?></td>
+			<td class="field"><?php $form->text('first_name', 'medium'); ?></td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label('middle_name', 'Nama Tengah') ?></td>
+			<td class="field"><?php $form->text('middle_name', 'medium'); ?></td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label('last_name', 'Nama Belakang') ?></td>
+			<td class="field"><?php $form->text('last_name', 'medium'); ?></td>
 		</tr>
 		<tr>
 			<td class="label"><?php $form->label('place_of_birth', 'Tempat dan Tanggal Lahir', 'required') ?></td>
@@ -237,6 +249,47 @@
 				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 			</td>
 		</tr>
+	</table>	
+</fieldset>
+
+<fieldset class="pane" id="countryprefs">
+	<legend>Pilihan Negara (AFS)</legend>
+	<table class="form-table country-preference">
+		<tr>
+			<td class="label">Preferensi Negara</th>
+			<td class="field" id="country-pref-td" colspan="2">
+				<ol>
+				<?php
+				for ($i = 1; $i <= 10; $i++) {
+					$name = 'country_preference_' . $i;
+					$countries = array( '' => '(Pilih Negara)',
+										'USA' => 'Amerika Serikat',
+										'NED' => 'Belanda',
+										'BFL' => 'Belgia (Flanders)',
+										'BFR' => 'Belgia (Wallonia)',
+										'FRA' => 'Perancis',
+										'GER' => 'Jerman',
+										'ITA' => 'Italia',
+										'JPN' => 'Jepang',
+										'NOR' => 'Norwegia',
+										'SUI' => 'Swiss' );
+					ksort($countries);
+					echo "<li>";
+					$form->select($name, $countries, 'medium-short countrypref');
+					echo "</li>\n";
+				}
+				?>
+				</ol>
+				<span class="instruction">Pilih urutan negara tujuan yang Adik kehendaki <em>jika</em> Adik diterima di AFS Year Program.</span>
+			</td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label('country_preference_other', 'Pilihan Negara Lainnya') ?></td>
+			<td class="field">
+			<?php $form->text('country_preference_other', 'medium') ?>
+			<br>
+			<span class="instruction">Isilah dengan negara lain yang ingin Adik kunjungi untuk pertukaran pelajar di luar pilihan negara di atas, bila ada.</span>
+			</td>
 	</table>
 </fieldset>
 
@@ -436,7 +489,7 @@
 	
 	<table class="academics sma subform">
 		<caption>
-			<?php $form->label('grades_y10t1_rank', 'Data prestasi', 'required') ?>
+			<?php $form->label('grades_y10t1_average', 'Data prestasi', 'required') ?>
 		</caption>
 		<thead>
 			<tr>
@@ -451,8 +504,8 @@
 		<tbody>
 			<tr>
 				<td class="grade">X</td>
-				<td class="term-initial average"><?php $form->text('grades_y10t1_rank', 'very-short l') ?></td>
-				<td class="term-initial subjects"><?php $form->text('grades_y10t1_total', 'very-short r') ?></td>
+				<td class="term-initial average"><?php $form->text('grades_y10t1_average', 'very-short l') ?></td>
+				<td class="term-initial subjects"><?php $form->text('grades_y10t1_subjects', 'very-short r') ?></td>
 			</tr>
 		</tbody>
 	</table>
@@ -475,7 +528,7 @@
 
 	<table class="academics smp subform">
 		<caption>
-			<?php $form->label('grades_y7t1_rank', 'Data prestasi', 'required') ?>
+			<?php $form->label('grades_y7t1_average', 'Data prestasi', 'required') ?>
 		</caption>
 		<thead>
 			<tr>
@@ -496,10 +549,10 @@
 			foreach($grades as $i => $g): ?>
 			<tr>
 				<td class="grade"><?php echo $g; ?></td>
-				<td class="term-initial average"><?php $form->text('grades_y' . $i . 't1_rank', 'very-short l') ?></td>
-				<td class="term-initial subjects"><?php $form->text('grades_y' . $i . 't1_total', 'very-short r') ?></td>
-				<td class="term-final average"><?php $form->text('grades_y' . $i . 't2_rank', 'very-short l') ?></td>
-				<td class="term-final subjects"><?php $form->text('grades_y' . $i . 't2_total', 'very-short r') ?></td>
+				<td class="term-initial average"><?php $form->text('grades_y' . $i . 't1_average', 'very-short l') ?></td>
+				<td class="term-initial subjects"><?php $form->text('grades_y' . $i . 't1_subjects', 'very-short r') ?></td>
+				<td class="term-final average"><?php $form->text('grades_y' . $i . 't2_average', 'very-short l') ?></td>
+				<td class="term-final subjects"><?php $form->text('grades_y' . $i . 't2_subjects', 'very-short r') ?></td>
 			</tr>
 			<?php endforeach; ?>
 		</tbody>
@@ -523,7 +576,7 @@
 
 	<table class="academics sd subform">
 		<caption>
-			<?php $form->label('grades_y1t1_rank', 'Data prestasi', 'required') ?>
+			<?php $form->label('grades_y1t1_average', 'Data prestasi', 'required') ?>
 		</caption>
 		<thead>
 			<tr>
@@ -544,10 +597,10 @@
 			foreach($grades as $i => $g): ?>
 			<tr>
 				<td class="grade"><?php echo $g; ?></td>
-				<td class="term-initial average"><?php $form->text('grades_y' . $i . 't1_rank', 'very-short l') ?></td>
-				<td class="term-initial subjects"><?php $form->text('grades_y' . $i . 't1_total', 'very-short r') ?></td>
-				<td class="term-final average"><?php $form->text('grades_y' . $i . 't2_rank', 'very-short l') ?></td>
-				<td class="term-final subjects"><?php $form->text('grades_y' . $i . 't2_total', 'very-short r') ?></td>
+				<td class="term-initial average"><?php $form->text('grades_y' . $i . 't1_average', 'very-short l') ?></td>
+				<td class="term-initial subjects"><?php $form->text('grades_y' . $i . 't1_subjects', 'very-short r') ?></td>
+				<td class="term-final average"><?php $form->text('grades_y' . $i . 't2_average', 'very-short l') ?></td>
+				<td class="term-final subjects"><?php $form->text('grades_y' . $i . 't2_subjects', 'very-short r') ?></td>
 			</tr>
 			<?php endforeach; ?>
 		</tbody>
@@ -591,6 +644,7 @@
 			<tr>
 				<th class="name">Nama Organisasi</th>
 				<th class="kind">Jenis Kegiatan</th>
+				<th class="level">Tingkat</th>
 				<th class="achv">Jabatan</th>
 				<th class="year">Tahun</th>
 			</tr>
@@ -602,6 +656,16 @@
 			<tr class="notempty">
 				<td class="name"><?php $s->text('name', 'short') ?></td>
 				<td class="kind"><?php $s->text('kind', 'short') ?></td>
+				<td class="level"><?php $s->select('level', array(
+					'' => '(Tingkat)',
+					'school' => 'Sekolah',
+					'neighborhood' => 'RT/RW',
+					'district' => 'Kecamatan',
+					'city' => 'Kabupaten/Kota',
+					'province' => 'Provinsi',
+					'national' => 'Nasional',
+					'international' => 'Internasional'
+				), 'short')?></td>
 				<td class="achv"><?php $s->text('position', 'short') ?></td>
 				<td class="year"><?php $s->select_year('year', date('Y') - 12, date('Y')) ?></td>
 			</tr>
@@ -612,6 +676,16 @@
 			<tr>
 				<td class="name"><?php $s->text('name', 'short') ?></td>
 				<td class="kind"><?php $s->text('kind', 'short') ?></td>
+				<td class="level"><?php $s->select('level', array(
+					'' => '(Tingkat)',
+					'school' => 'Sekolah',
+					'neighborhood' => 'RT/RW',
+					'district' => 'Kecamatan',
+					'city' => 'Kabupaten/Kota',
+					'province' => 'Provinsi',
+					'national' => 'Nasional',
+					'international' => 'Internasional'
+				), 'short')?></td>
 				<td class="achv"><?php $s->text('position', 'short') ?></td>
 				<td class="year"><?php $s->select_year('year', date('Y') - 12, date('Y')) ?></td>
 			</tr>
@@ -637,6 +711,7 @@
 			<tr>
 				<th class="name">Jenis</th>
 				<th class="kind">Kejuaraan</th>
+				<th class="level">Tingkat</th>
 				<th class="achv">Prestasi</th>
 				<th class="year">Tahun</th>
 			</tr>
@@ -648,6 +723,16 @@
 			<tr class="notempty">
 				<td class="name"><?php $s->text('championship', 'short') ?></td>
 				<td class="kind"><?php $s->text('kind', 'short') ?></td>
+				<td class="level"><?php $s->select('level', array(
+					'' => '(Tingkat)',
+					'school' => 'Sekolah',
+					'neighborhood' => 'RT/RW',
+					'district' => 'Kecamatan',
+					'city' => 'Kabupaten/Kota',
+					'province' => 'Provinsi',
+					'national' => 'Nasional',
+					'international' => 'Internasional'
+				), 'short')?></td>
 				<td class="achv"><?php $s->text('achievement', 'short') ?></td>
 				<td class="year"><?php $s->select_year('year', date('Y') - 12, date('Y')) ?></td>
 			</tr>
@@ -658,6 +743,16 @@
 			<tr>
 				<td class="name"><?php $s->text('championship', 'short') ?></td>
 				<td class="kind"><?php $s->text('kind', 'short') ?></td>
+				<td class="level"><?php $s->select('level', array(
+					'' => '(Tingkat)',
+					'school' => 'Sekolah',
+					'neighborhood' => 'RT/RW',
+					'district' => 'Kecamatan',
+					'city' => 'Kabupaten/Kota',
+					'province' => 'Provinsi',
+					'national' => 'Nasional',
+					'international' => 'Internasional'
+				), 'short')?></td>
 				<td class="achv"><?php $s->text('achievement', 'short') ?></td>
 				<td class="year"><?php $s->select_year('year', date('Y') - 12, date('Y')) ?></td>
 			</tr>

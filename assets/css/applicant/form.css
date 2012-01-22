@@ -273,7 +273,25 @@ fieldset h1 span {
 .programs-table ul {
 	padding: 0;
 }
-.programs-table li {
+.country-preference td.field,
+.country-preference td.field select {
+	font-size: 11px;
+}
+.country-preference td ol {
+	float: left;
+	margin-bottom: 5px;
+	width: 200px;
+}
+.country-preference ol {
+	padding-left: 2em;
+}
+.country-preference #country-pref-td span.instruction {
+	float: left;
+	display: block;
+	width: 200px;
+	line-height: 1.4;
+}
+.programs-table ul li {
 	list-style: none;
 }
 .programs-table td {
