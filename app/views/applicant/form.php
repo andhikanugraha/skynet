@@ -2,12 +2,16 @@
 <?php if ($new) { ?><script>document.write('<style>.global-header, .content {display: none}</style>');</script><?php } ?>
 <script src="<?php L('/assets/js/jquery-1.6.2.min.js') ?>"></script>
 <?php if ($admin): ?>
-<header class="page-title alt">
-	<h1>Pengelolaan Pendaftar</h1>
+<header class="page-title">
+	<?php print_r($applicant) ?>
+	<hgroup>
+		<h1><a href="<?php L(array('controller' => 'chapter', 'action' => 'view', 'chapter_code' => $applicant->chapter->chapter_code)) ?>"><?php echo $applicant->chapter->get_title() ?></a></h1>
+		<h2>Pengelolaan <?php echo $applicant->confirmed ? 'Peserta' : 'Pendaftar' ?></h2>
+	</hgroup>
 </header>
 <nav class="actions-nav">
 	<ul>
-		<li><a href="<?php L($this->session->flash('applicant_back_to')) ?>">Kembali</a></li>
+		<li><a href="<?php L($this->session->flash('applicant_back_to')) ?>" class="return">Kembali</a></li>
 	</ul>
 </nav>
 <?php else: ?>
@@ -154,7 +158,9 @@
 				<?php $form->number('body_weight', 'very-short') ?> kg
 				<br>
 				<?php $form->label('blood_type', 'Gol. Darah', 'subpoint required') ?>
-				<?php $form->select('blood_type', array('' => '', 'O' => 'O', 'A' => 'A', 'B' => 'B', 'AB' => 'AB'), 'very-short')?>
+				<?php $form->select('blood_type', array('' => '',
+					'O+' => 'O+', 'A+' => 'A+', 'B+' => 'B+', 'AB+' => 'AB+',
+					'O-' => 'O-', 'A-' => 'A-', 'B-' => 'B-', 'AB-' => 'AB-'), 'very-short')?>
 			</td>
 		</tr>
 		<tr>

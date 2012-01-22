@@ -22,7 +22,7 @@ section.how > p {
 	width: 30em;
 	line-height: 1.5;
 	font-size: 12px;
-	color: #66afda;
+	color: #005587;
 	font-size: 15px;
 }
 dl.files {
@@ -39,7 +39,7 @@ dl.files dt:before {
 	display: block;
 	float: left;
 	content: counter(f) ". ";
-	color: #66afda;
+	color: #005587;
 	margin-left: -20px;
 }
 dl.files dd.download-link {
@@ -79,7 +79,6 @@ section.how {
 }
 .how p time {
 	white-space: nowrap;
-	color: #007ac2;
 	font-weight: bold;
 }
 .how p {
@@ -96,7 +95,7 @@ dl.depots dt {
 	color: #000;
 }
 dl.depots dt.secondary:before {
-	color: #66afda;
+	color: #005587;
 	content: "atau ";
 	font-style: italic;
 }
@@ -123,8 +122,7 @@ dl.depots dd.schedule {
 }
 dl.depots dd h3 {
 	margin: 0 0 5px;
-	font-size: 11px;
-	color: #66afda;
+	color: #005587;
 }
 dl.depots dd.schedule ul {
 	padding: 0;

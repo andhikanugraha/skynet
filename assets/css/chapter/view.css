@@ -1,3 +1,10 @@
+header.page-title h1 {
+	font-size: 40px;
+	font-weight: normal;
+	letter-spacing: -3px;
+	padding-top: 30px;
+}
+
 .content section {
 	clear: both;
 	margin: 0 -20px 15px;
@@ -17,7 +24,7 @@
 	font-size: 15px;
 	letter-spacing: 0;
 	margin: 0 0 15px 0;
-	color: #66afda;
+	color: #005587;
 }
 
 table.summary {

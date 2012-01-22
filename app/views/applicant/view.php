@@ -1,6 +1,9 @@
 <?php $this->header(); ?>
-<header class="page-title alt">
-	<h1>Pengelolaan Pendaftar</h1>
+<header class="page-title">
+	<hgroup>
+		<h1><a href="<?php L(array('controller' => 'chapter', 'action' => 'view', 'chapter_code' => $applicant->chapter->chapter_code)) ?>"><?php echo $applicant->chapter->get_title() ?></a></h1>
+		<h2>Pengelolaan <?php echo $applicant->confirmed ? 'Peserta' : 'Pendaftar' ?></h2>
+	</hgroup>
 </header>
 <nav class="actions-nav">
 	<ul>
@@ -27,7 +30,7 @@
 		<?php endif; ?>
 	</div>
 	
-	<div class="form-preview">
+	<section class="form-preview">
 		<h2>Tentang <?php echo $applicant->sanitized_full_name ?></h2>
 		<table>
 			<?php if ($applicant->finalized): ?>
@@ -67,9 +70,9 @@
 		</table>
 		<p class="more"><a href="<?php L(array('controller' => 'applicant', 'action' => 'details', 'id' => $applicant->id)) ?>">Lihat formulir selengkapnya</a></p>
 		<?php if ($can_edit): ?><p class="edit"><a href="<?php L(array('controller' => 'applicant', 'action' => 'form', 'id' => $applicant->id)) ?>">Edit formulir</a></p><?php endif; ?>
-	</div>
+	</section>
 
-	<div class="application-status">
+	<section class="application-status">
 		<?php
 		$f = $applicant->finalized;
 		$c = $applicant->confirmed;
@@ -152,7 +155,7 @@
 			endif;
 		endif;
 		?>
-	</div>
+	</section>
 
 	<?php endif; ?>
 </div>

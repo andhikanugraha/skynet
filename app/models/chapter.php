@@ -56,5 +56,9 @@ class Chapter extends HeliumPartitionedRecord {
 	public function get_mappable_address() {
 		return $this->get_inline_address() . ', Indonesia';
 	}
+	
+	public function get_title() {
+		return $this->is_national_office() ? $this->chapter_name : 'Chapter ' . $this->chapter_name;
+	}
 }
 

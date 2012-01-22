@@ -1,9 +1,18 @@
 <?php $this->header() ?>
+<header class="page-title">
+	<h1><?php echo $chapter->get_title() ?></h1>
+</header>
+<nav class="actions-nav">
+	<ul>
+	<?php if (true): // Registration phase ?>
+		<li><a href="<?php L(array('controller' => 'registration_code', 'action' => 'issue')) ?>">Terbitkan PIN Pendaftaran</a></li>
+		<li><a href="<?php L(array('controller' => 'applicant', 'action' => 'index')) ?>">Daftar Pendaftar</a></li>
+		<li><a href="<?php L(array('controller' => 'chapter', 'action' => 'edit', 'id' => $id)) ?>">Edit Informasi Chapter</a></li>
+	<?php endif; ?>
+	</ul>
+</nav>
+
 <div class="container">
-	<header class="chapter-header">
-		<?php if (!$national) : ?><p class="chapter-code"><?php echo $chapter_code ?></p><?php endif; ?>
-		<h1><?php if (!$national) echo 'Chapter '; echo $chapter_name ?></h1>
-	</header>
 	<section class="primary">
 		<article class="registration-codes">
 			<header>

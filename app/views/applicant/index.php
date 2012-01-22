@@ -9,7 +9,10 @@ function LL($target) {
 }
 ?>
 <header class="page-title">
-	<h1>Pengelolaan Pendaftar</h1>
+	<hgroup>
+		<h1><a href="<?php L(array('controller' => 'chapter', 'action' => 'view', 'chapter_code' => $applicant->chapter->chapter_code)) ?>"><?php echo $this->user->chapter->get_title() ?></a></h1>
+		<h2>Pengelolaan <?php echo $post_registration ? 'Peserta' : 'Pendaftar' ?></h2>
+	</hgroup>
 </header>
 <nav class="actions-nav">
 	<ul>

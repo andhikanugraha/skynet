@@ -1,7 +1,9 @@
 <?php $this->header('Pengumpulan Berkas'); ?>
 <header class="page-title">
-	<p>Tahap 4 dari 4</p>
-	<h1>Pengumpulan Surat Pernyataan</h1>
+	<hgroup>
+		<h1>Tahap 4/4</h1>
+		<h2>Pengumpulan Surat Pernyataan</h2>
+	</hgroup>
 </header>
 <nav class="actions-nav expleft">
 	<ul>

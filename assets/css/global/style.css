@@ -20,80 +20,81 @@ a:hover {
 	text-decoration: underline;
 }
 
-.global-header {
+header.global-header {
 	height: 70px;
 	background: #003c81 url(global-nav.jpg) fixed;
 	color: #ccdded;
 	text-shadow: 1px 1px 0 #003b73;
 }
-.global-header a, .user-controls .chapter {
+header.global-header a {
 	color: #fff;
 	color: rgba(255, 255, 255, 0.8);
 }
-.global-header a:hover {
+header.global-header  a:hover {
 	color: #fff;
+	text-decoration: none;
 }
-.user-controls a, .user-controls .chapter {
-	margin-left: 10px;
+
+header.global-header header.masthead {
+	float: left;
+	margin-left: -15px;
 }
-.global-header .expires_on {
-	color: #fff;
+header.global-header header.masthead a {
+	display: block;
+	padding: 14px 20px 13px 0;
 }
-.global-header div.container {
+header.global-header .binabud-logo a:hover {
+}
+header.global-header .binabud-logo img {
+	display: block;
+}
+
+header.global-header div.container {
 	width: 940px;
 	padding: 0 20px;
 	margin: 0 auto;
 }
 
-header.masthead {
-	float: left;
-	margin-left: -15px;
-}
-header.masthead a {
-	display: block;
-	padding: 14px 20px 13px 0;
-}
-.binabud-logo a:hover {
-}
-.binabud-logo img {
-	display: block;
-}
-
-.user-controls {
+header.global-header ul.user-controls {
 	float: right;
-	line-height: 70px;
+	line-height: 20px;
 	vertical-align: middle;
-	padding: 0 0 0 40px;
+	padding: 25px 0 25px 40px;
 }
-span.username {
-	font-weight: bold;
+header.global-header ul.user-controls li {
+	float: left;
+	list-style: none outside;
+	margin-left: 15px;
+}
+header.global-header ul.user-controls li + li {
+	padding-left: 15px;
+	border-left: 1px solid rgba(255, 255, 255, 0.2);
+}
+header.global-header ul.user-controls li.username {
 	color: white;
+	font-weight: 600;
 }
-strong.activate-link {
-	margin-right: 10px;
-}
-strong.activate-link a {
-	padding: 3px 10px;
-	border: 1px solid #ccdded;
+header.global-header ul.user-controls li.login a {
+	color: white;
+	font-weight: 600;
+	margin-left: 10px;
+	padding: 5px 10px;
+	border: 1px solid rgba(255, 255, 255, 0.6);
+	box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.4);
 	border-radius: 3px;
-	box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
+	background: rgba(0, 0, 0, 0.2);
 }
-strong.activate-link a:active {
+header.global-header ul.user-controls li.login a:active {
 	position: relative;
 	top: 1px;
 	left: 1px;
-}
-.user-controls a.login {
-	color: white;
-	font-weight: bold;
-	text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
 }
 
 .content {
 	float: left;
 	width: 100%;
 }
-.container {
+.content .container {
 	width: 940px;
 	margin: -1px auto;
 	padding: 1px 20px 0;
@@ -140,6 +141,7 @@ button:active {
 	margin-bottom: 40px;
 	border-bottom: 1px solid #b6cee5;
 	color: #007ac2;
+	text-shadow: 1px 1px 0 #fff;
 }
 .page-title hgroup {
 	width: 940px;
@@ -154,13 +156,25 @@ button:active {
 	letter-spacing: -.05em;
 	padding: 0 20px;
 }
-.page-title h1,
-.page-title h2 {
+.page-title h1 {
+	color: #005587;
+	font-size: 26px;
+	letter-spacing: -.1em;
+	font-weight: 600;
+	width: 940px;
+	margin: 0 auto;
+	padding: 0 20px;
+}
+.page-title hgroup h1,
+.page-title hgroup h2 {
 	color: #005587;
 	float: left;
 	font-size: 26px;
 	letter-spacing: -.1em;
 	font-weight: 600;
+	padding: 0;
+	margin: 0;
+	width: auto;
 }
 .page-title hgroup h1 {
 	padding-right: .4em;
@@ -170,17 +184,6 @@ button:active {
 .page-title hgroup h1:after {
 	content: "›";
 	padding-left: .4em;
-}
-
-/* Alternate, low-profile view for page-title */
-.page-title.alt {
-	padding-top: 10px;
-	padding-bottom: 10px;
-}
-.page-title.alt h1 {
-	font-size: 20px;
-	font-weight: normal;
-	letter-spacing: -1px;
 }
 
 .actions-nav {
@@ -202,6 +205,9 @@ button:active {
 .actions-nav li {
 	display: inline;
 	margin-right: 20px;
+}
+.actions-nav li a {
+	text-shadow: 1px 1px 0 #fff;
 }
 .actions-nav li a.return:before {
 	content: "« ";
@@ -415,13 +421,10 @@ p.more + p.edit, p.edit + p.more {
 }
 p.more a, p.edit a {
 	font-size: 11px;
-	color: #66afda;
 }
 p.more a:after, p.edit a:after {
-	color: #d9ebf6;
 	content: " »";
 }
 p.more a:hover, p.edit a:hover {
 	color: #007ac2;
-	text-decoration: none;
 }

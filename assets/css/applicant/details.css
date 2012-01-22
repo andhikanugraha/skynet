@@ -1,10 +1,6 @@
 body {
 	overflow-y: scroll;
 }
-.container {
-	margin-top: -20px;
-	border-bottom: 1px solid #d9ebf6;
-}
 
 .message.extended {
 	padding-top: 20px;
@@ -64,7 +60,6 @@ body {
 /*	border-left: 1px solid transparent;*/
 	border-bottom: 1px solid transparent;
 	display: block;
-	color: #66afda;
 	padding: 5px 20px;
 	margin-bottom: 10px;
 	font-weight: 300;
@@ -527,10 +522,8 @@ label.descriptive {
 	line-height: 20px;
 }
 .form-page-nav a {
-	color: #66afda;
 }
 .form-page-nav a:hover {
-	color: #007ac2;
 }
 .form-page-nav p.prev {
 	width: 200px;

@@ -56,12 +56,15 @@ function print_address($a, $name, $kota = true, $provinsi = true, $kodepos = tru
 ?>
 <script src="<?php L('/assets/js/jquery-1.6.2.min.js') ?>"></script>
 <?php if ($admin): ?>
-<header class="page-title alt">
-	<h1>Pengelolaan Pendaftar</h1>
+<header class="page-title">
+	<hgroup>
+		<h1><a href="<?php L(array('controller' => 'chapter', 'action' => 'view', 'chapter_code' => $applicant->chapter->chapter_code)) ?>"><?php echo $applicant->chapter->get_title() ?></a></h1>
+		<h2><?php echo $applicant->sanitized_full_name ?></h2>
+	</hgroup>
 </header>
 <nav class="actions-nav">
 	<ul>
-		<li><a href="<?php L($this->session->flash('applicant_back_to')) ?>">Kembali</a></li>
+		<li><a href="<?php L(array('controller' => 'applicant', 'action' => 'view', 'id' => $applicant->id)) ?>" class="return">Kembali</a></li>
 	</ul>
 </nav>
 <?php else: ?>

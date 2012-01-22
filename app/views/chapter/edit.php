@@ -1,4 +1,19 @@
 <?php $this->header(); ?>
+
+<?php if ($chapter): ?>
+<header class="page-title">
+	<hgroup>
+		<h1><a href="<?php L(array('controller' => 'chapter', 'action' => 'view', 'chapter_code' => $chapter->chapter_code)) ?>"><?php echo $chapter->get_title() ?></a></h1>
+		<h2>Edit Informasi Chapter</h2>
+	</hgroup>
+</header>
+<nav class="actions-nav">
+	<ul>
+		<li><a href="<?php L(array('controller' => 'chapter', 'action' => 'view', 'chapter_code' => $chapter->chapter_code)) ?>" class="return">Kembali</a></li>
+	</ul>
+</nav>
+<?php endif; ?>
+
 <div class="container">
 	<?php if ($error): ?>
 	<div class="message error">
@@ -26,10 +41,6 @@
 		<header>Informasi chapter berhasil disimpan.</header>
 	</div>
 	<?php endif; ?>
-	<header class="chapter-header">
-		<?php if (!$national) : ?><p class="chapter-code"><?php echo $chapter->chapter_code ?></p><?php endif; ?>
-		<h1><?php if (!$national) echo 'Chapter '; echo $chapter->chapter_name ?></h1>
-	</header>
 	<form action="<?php L(array('action' => 'edit', 'id' => $chapter->id)) ?>" method="POST">
 		<fieldset class="chapter-details">
 			<legend>Informasi Chapter</legend>
