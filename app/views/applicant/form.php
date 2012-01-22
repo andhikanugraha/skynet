@@ -1,5 +1,5 @@
 <?php $this->header('Formulir Pendaftaran'); ?>
-<?php if ($new) { ?><script>document.write('<style>.global-nav, .content {display: none}</style>');</script><?php } ?>
+<?php if ($new) { ?><script>document.write('<style>.global-header, .content {display: none}</style>');</script><?php } ?>
 <script src="<?php L('/assets/js/jquery-1.6.2.min.js') ?>"></script>
 <?php if ($admin): ?>
 <header class="page-title alt">
@@ -12,8 +12,10 @@
 </nav>
 <?php else: ?>
 <header class="page-title">
-	<p>Tahap 3 dari 4</p>
-	<h1>Formulir Pendaftaran</h1>
+	<hgroup>
+		<h1>Tahap 3/4</h1>
+		<h2>Formulir Pendaftaran</h2>
+	</hgroup>
 </header>
 <nav class="actions-nav expleft">
 	<ul>
@@ -127,8 +129,8 @@
 			</td>
 		</tr>
 		<tr>
-			<td class="label"><?php $form->label('applicant_email', 'Alamat Surel (E-mail)', 'required') ?></td>
-			<td class="field"><?php $form->email('applicant_email', 'long'); ?> <span class="instruction">Seluruh pengumuman mengenai seleksi akan dikirim ke alamat surel ini.</span></td>
+			<td class="label"><?php $form->label('applicant_email', 'Alamat E-mail', 'required') ?></td>
+			<td class="field"><?php $form->email('applicant_email', 'long'); ?> <span class="instruction">Seluruh pengumuman mengenai seleksi akan dikirim ke alamat ini.</span></td>
 		</tr>
 		<tr>
 			<td class="label"><?php $form->label('applicant_address_street', 'Alamat Lengkap', 'required') ?></td>
@@ -223,18 +225,10 @@
 		<tr class="program-info">
 			<th class="label"></th>
 			<td class="afs">
-				<p>For more than 90 years in the world and 55 years in Indonesia, AFS Program has offered young people exciting and dynamic learning opportunities through intercultural programs. At its core are programs that include physical exchanges, service learning, and volunteerism that directly impact youth engagement and create opportunities that build long-lasting understanding and respect for differences.</p>
-				<p>AFS Program gives you opportunities to develop yourself to become young Indonesian future leaders by having a worthwhile exchanges experience in another country, where you would learn about yourselves, learning how we perceive others who are especially different from us, learn how to build a good relationship, positive communication and ability to work together in fostering respect, empathy and understanding towards others.</p>
-				<p>You will experience living with a host family and attend school in a foreign country. Of course, you will definitely experience a totally new way of life, new culture, lifestyle and family values, new language and finally gain intercultural skills.</p>
-				<p>To make the most of your experience, create good relationship with your host family, get involved in the many curricular and extracurricular activities available at your local school and local community. AFS also organizes activities so that you can meet other participants from over 50 AFS countries to provide you with the ultimate intercultural experience!</p>
-				<p>If you are interested in experiencing a “new world”, having an one year experience abroad as a young Indonesian ambassador, sign up for the AFS Year program!</p>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 			</td>
 			<td class="yes">
-				<p>The Kennedy-Lugar Youth Exchange and Study (YES) Program was established in October, 2002 and sponsored by The Bureau of Educational and Cultural Affairs (ECA) to provide scholarships for high school students from countries with significant Muslim populations to spend up to one academic year in the U.S.</p>
-				<p>Students will spend one year in United States of America. Students live with host families, attend high school, and engage in activities to learn about American society and values, acquire leadership skills, and help educate Americans about Indonesia and our cultures.</p>
-				<p>Upon their return the students will apply their leadership skills in Indonesia. In addition, alumni groups will help participants continue to be involved with many community service activities including: mentoring younger children, and much more.</p>
-				<p>YES can support students with disabilities and encourages their participation. The Bureau of Educational and Cultural Affairs (ECA) works with a separate organization to provide students with disabilities with leadership-building workshops and appropriate information and support as needed to enhance their year in the United States.</p>
-				<p>The YES program is administered by the YES Consortium and its partners in each country.</p>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 			</td>
 		</tr>
 	</table>
@@ -258,24 +252,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td class="label"><?php $form->label($n . '_education', 'Pendidikan Terakhir') ?></td>
-			<td class="field"><?php $form->text($n . '_education', 'long'); ?></td>
-		</tr>
-		<tr>
-			<td class="label"><?php $form->label($n . '_occupation', 'Pekerjaan/Jabatan') ?></td>
-			<td class="field">
-				<?php $form->text($n . '_occupation', 'long'); ?>
-				<br>
-				<span class="instruction long">Isilah dengan rinci &ndash; bila wiraswasta, cantumkan bidangnya; bila swasta, cantumkan jabatan dan nama perusahaannya.</span>
-			</td>
-		</tr>
-		<!-- Remove Pangkat/Golongan for now; it's a bit absurd -->
-		<!-- <tr>
-			<td class="label"><?php $form->label($n . '_job_title', 'Pangkat/Golongan') ?></td>
-			<td class="field"><?php $form->text($n . '_job_title', 'long'); ?></td>
-		</tr> -->
-		<tr>
-			<td class="label"><?php $form->label($n . '_office_email', 'Alamat Surel (E-mail)') ?></td>
+			<td class="label"><?php $form->label($n . '_office_email', 'Alamat E-mail ' . $parent) ?></td>
 			<td class="field"><?php $form->text($n . '_office_email', 'long') ?></td>
 		</tr>
 		<tr>
@@ -283,10 +260,28 @@
 			<td class="field"><?php $form->tel($n . '_office_mobilephone', 'long') ?></td>
 		</tr>
 		<tr>
-			<td class="label"><?php $form->label($n . '_office_name', 'Nama dan Alamat Kantor') ?></td>
+			<td class="label"><?php $form->label($n . '_education', 'Pendidikan Terakhir ' . $parent) ?></td>
+			<td class="field"><?php $form->text($n . '_education', 'long'); ?></td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label($n . '_occupation', 'Pekerjaan/Jabatan ' . $parent) ?></td>
 			<td class="field">
-				<?php $form->text($n . '_office_name', 'long'); ?>
+				<?php $form->text($n . '_occupation', 'long'); ?>
 				<br>
+				<span class="instruction long">Isilah dengan rinci &ndash; bila wiraswasta, cantumkan bidangnya; bila swasta, cantumkan jabatan dan nama perusahaannya.</span>
+			</td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label($n . '_job_title', 'Pangkat/Golongan ' . $parent) ?></td>
+			<td class="field"><?php $form->text($n . '_job_title', 'long'); ?></td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label($n . '_office_name', 'Instansi/Perusahaan ' . $parent) ?></td>
+			<td class="field"><?php $form->text($n . '_office_name', 'long'); ?></td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label($n . '_office_address_street', 'Alamat Kantor ' . $parent) ?></td>
+			<td class="field">
 				<?php $form->address($n . '_office', true, true, false, true, false, true, false) ?>
 			</td>
 		</tr>
@@ -309,7 +304,7 @@
 			<td class="field"><?php $form->text('guardian_relationship_to_applicant', 'long'); ?></td>
 		</tr>
 		<tr>
-			<td class="label"><?php $form->label('guardian_email', 'Alamat Surel (E-mail)') ?></td>
+			<td class="label"><?php $form->label('guardian_email', 'Alamat E-mail Wali') ?></td>
 			<td class="field"><?php $form->text('guardian_email', 'long') ?></td>
 		</tr>
 		<tr>
@@ -322,18 +317,17 @@
 			<td class="field"><?php $form->text('guardian_education', 'long'); ?></td>
 		</tr> -->
 		<tr>
-			<td class="label"><?php $form->label('guardian_occupation', 'Pekerjaan/Jabatan') ?></td>
+			<td class="label"><?php $form->label('guardian_occupation', 'Pekerjaan/Jabatan Wali') ?></td>
 			<td class="field">
 				<?php $form->text('guardian_occupation', 'long'); ?>
 				<br>
 				<span class="instruction long">Isilah dengan rinci &ndash; bila wiraswasta, cantumkan bidangnya; bila swasta, cantumkan jabatan dan nama perusahaannya.</span>
 			</td>
 		</tr>
-		<!-- Remove Pangkat/Golongan for now; it's a bit absurd -->
-		<!-- <tr>
-			<td class="label"><?php $form->label('guardian_job_title', 'Pangkat/Golongan') ?></td>
+		<tr>
+			<td class="label"><?php $form->label('guardian_job_title', 'Pangkat/Golongan Wali') ?></td>
 			<td class="field"><?php $form->text('guardian_job_title', 'long'); ?></td>
-		</tr> -->
+		</tr>
 		<tr>
 			<td class="label"><?php $form->label('guardian_office_name', 'Nama dan Alamat Kantor') ?></td>
 			<td class="field">
@@ -411,38 +405,6 @@
 				</td>
 			</tr>
 			<tr>
-				<td class="label"></td>
-				<td class="field">
-					<?php $form->checkbox('in_acceleration_class') ?> Saya adalah siswa kelas Akselerasi
-					<br>
-					<span class="instruction">Mohon maaf, untuk saat ini program YES tidak tersedia bagi siswa kelas akselerasi.</span>
-					<br>
-					<!-- span class="instruction" id="acceleration-instruction"><strong>Jika iya</strong>, pastikan kamu mengisi Surat Pernyataan Siswa Akselerasi yang dapat diunduh di halaman <a href="<?php L(array('controller'=>'applicant', 'action'=>'guide')); ?>">Panduan</a>.</span -->
-					<script>
-					$(document).ready(function() {
-						previously_selected_yes = $('#program_yes').attr('checked')
-						checkAcc = function() {
-							if ($('#in_acceleration_class').is(':checked')) {								
-								previously_selected_yes = $('#program_yes').attr('checked');
-								$('#program_yes').removeAttr('checked')
-								$('.programs-table .yes').hide();
-							}
-							else {
-								if (previously_selected_yes)
-									$('#program_yes').attr('checked', 'checked');
-								else
-									$('#program_yes').removeAttr('checked');
-
-								$('.programs-table .yes').show();
-							}
-						}
-						checkAcc();
-						$('#in_acceleration_class').click(checkAcc);
-					})
-					</script>
-				</td>
-			</tr>
-			<tr>
 				<td class="label"><?php $form->label('high_school_address_street', 'Alamat Sekolah') ?></td>
 				<td class="field"><?php $form->address('high_school', false, false, false, true, false, true, false); ?></td>
 			</tr>
@@ -451,10 +413,18 @@
 				<td class="field"><?php $form->select_year('high_school_admission_year', date('Y') - 2, date('Y') - 1, false); ?></td>
 			</tr>
 			<tr>
-				<td class="label"><?php $form->label('high_school_graduation_month', 'Bulan Keluar', 'required') ?></td>
-				<td class="field"><?php $form->select_month('high_school_graduation_month'); ?>
-				<?php $form->select_year('high_school_graduation_year', date('Y') + 1, date('Y') + 2); ?></td>
+				<td class="label"><?php $form->label('high_school_graduation_year', 'Tahun Keluar', 'required') ?></td>
+				<td class="field"><?php $form->select_year('high_school_graduation_year', date('Y') + 1, date('Y') + 2); ?></td>
 			</tr>
+				<tr>
+					<td class="label"></td>
+					<td class="field">
+						<?php $form->checkbox('in_acceleration_class') ?> Saya adalah siswa kelas Akselerasi
+						<br>
+						<span class="instruction">Program YES tidak tersedia bagi siswa kelas akselerasi.</span>
+					</td>
+				</tr>
+
 		</tr>
 	</table>
 	
@@ -465,20 +435,18 @@
 		<thead>
 			<tr>
 				<th rowspan="2" class="grade">Kelas</th>
-				<th>Ranking ke ... dari ... siswa <strong>atau Rata-Rata Nilai (jika tidak ada ranking)</strong></th>
+				<th colspan="2" class="term term-initial">Semester I</th>
 			</tr>
 			<tr>
-				<th class="term-first">Semester I</th>
+				<th class="term-initial average">Rata-Rata Nilai</th>
+				<th class="term-initial subjects">Jumlah Mata Pelajaran</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
 				<td class="grade">X</td>
-				<td class="term-first">
-					<?php $form->text('grades_y10t1_rank', 'very-short l') ?>
-					dari
-					<?php $form->text('grades_y10t1_total', 'very-short r') ?>
-				</td>
+				<td class="term-initial average"><?php $form->text('grades_y10t1_rank', 'very-short l') ?></td>
+				<td class="term-initial subjects"><?php $form->text('grades_y10t1_total', 'very-short r') ?></td>
 			</tr>
 		</tbody>
 	</table>
@@ -506,11 +474,14 @@
 		<thead>
 			<tr>
 				<th rowspan="2" width="60" class="grade">Kelas</th>
-				<th colspan="2">Ranking ke ... dari ... siswa <strong>atau Rata-Rata Nilai (jika tidak ada ranking)</strong></th>
+				<th colspan="2" class="term term-initial">Semester I</th>
+				<th colspan="2" class="term term-final">Semester II</th>
 			</tr>
 			<tr>
-				<th class="term-first">Semester I</th>
-				<th class="term-final">Semester II</th>
+				<th class="term-initial average">Rata-Rata Nilai</th>
+				<th class="term-initial subjects">Jumlah Mata Pelajaran</th>
+				<th class="term-final average">Rata-Rata Nilai</th>
+				<th class="term-final subjects">Jumlah Mata Pelajaran</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -519,14 +490,10 @@
 			foreach($grades as $i => $g): ?>
 			<tr>
 				<td class="grade"><?php echo $g; ?></td>
-				<td class="term-first">
-					<?php $form->text('grades_y' . $i . 't1_rank', 'very-short l') ?> dari
-					<?php $form->text('grades_y' . $i . 't1_total', 'very-short r') ?>
-				</td>
-				<td class="term-final">
-					<?php $form->text('grades_y' . $i . 't2_rank', 'very-short l') ?> dari
-					<?php $form->text('grades_y' . $i . 't2_total', 'very-short r') ?>
-				</td>
+				<td class="term-initial average"><?php $form->text('grades_y' . $i . 't1_rank', 'very-short l') ?></td>
+				<td class="term-initial subjects"><?php $form->text('grades_y' . $i . 't1_total', 'very-short r') ?></td>
+				<td class="term-final average"><?php $form->text('grades_y' . $i . 't2_rank', 'very-short l') ?></td>
+				<td class="term-final subjects"><?php $form->text('grades_y' . $i . 't2_total', 'very-short r') ?></td>
 			</tr>
 			<?php endforeach; ?>
 		</tbody>
@@ -555,11 +522,14 @@
 		<thead>
 			<tr>
 				<th rowspan="2" width="60" class="grade">Kelas</th>
-				<th colspan="2">Ranking ke ... dari ... siswa <strong>atau Rata-Rata Nilai (jika tidak ada ranking)</strong></th>
+				<th colspan="2" class="term term-initial">Semester I</th>
+				<th colspan="2" class="term term-final">Semester II</th>
 			</tr>
 			<tr>
-				<th class="term-first">Semester I</th>
-				<th class="term-final">Semester II</th>
+				<th class="term-initial average">Rata-Rata Nilai</th>
+				<th class="term-initial subjects">Jumlah Mata Pelajaran</th>
+				<th class="term-final average">Rata-Rata Nilai</th>
+				<th class="term-final subjects">Jumlah Mata Pelajaran</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -568,14 +538,10 @@
 			foreach($grades as $i => $g): ?>
 			<tr>
 				<td class="grade"><?php echo $g; ?></td>
-				<td class="term-first">
-					<?php $form->text('grades_y' . $i . 't1_rank', 'very-short l') ?> dari
-					<?php $form->text('grades_y' . $i . 't1_total', 'very-short r') ?>
-				</td>
-				<td class="term-final">
-					<?php $form->text('grades_y' . $i . 't2_rank', 'very-short l') ?> dari
-					<?php $form->text('grades_y' . $i . 't2_total', 'very-short r') ?>
-				</td>
+				<td class="term-initial average"><?php $form->text('grades_y' . $i . 't1_rank', 'very-short l') ?></td>
+				<td class="term-initial subjects"><?php $form->text('grades_y' . $i . 't1_total', 'very-short r') ?></td>
+				<td class="term-final average"><?php $form->text('grades_y' . $i . 't2_rank', 'very-short l') ?></td>
+				<td class="term-final subjects"><?php $form->text('grades_y' . $i . 't2_total', 'very-short r') ?></td>
 			</tr>
 			<?php endforeach; ?>
 		</tbody>
@@ -819,7 +785,7 @@
 			<td class="field"><?php $form->text('short_term_travel_purpose', 'long') ?></td>
 		</tr>
 	</table>
-	<h1>Pernahkah Adik melawat/berpergian dalam jangka panjang ke luar negeri?</h1>
+	<h1>Pernahkah Adik tinggal di luar negeri?</h1>
 	<table class="form-table">
 		<tr>
 			<td class="label"><?php $form->label('long_term_travel_destination', 'Jika pernah, ke mana?') ?></td>
@@ -1004,7 +970,7 @@
 				<input type="hidden" name="MAX_FILE_SIZE" value="2048000">
 				<input type="file" name="picture" id="picture" class="medium">
 				<br>
-				<span class="instruction">Ukuran foto maksimal 2MB. Gunakan <strong>pas foto</strong>. Foto jenis lain tidak akan kami terima.</span>
+				<span class="instruction">Gunakan <strong>pas foto berwarna</strong>. Ukuran berkas maksimal 2MB. </span>
 			</td>
 		</tr>
 		<tr>

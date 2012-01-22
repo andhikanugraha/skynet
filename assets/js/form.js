@@ -213,7 +213,7 @@ $(document).ready(function(){
 
 	if (firstTime) {
 		$('.message').hide();
-		$('.global-nav').slideDown('slow', function() {
+		$('.global-header').slideDown('slow', function() {
 			$(document).scrollTop(0);
 			$('.content').fadeIn('slow', function() {
 				$('.message').slideDown()
@@ -221,7 +221,7 @@ $(document).ready(function(){
 		});
 	}
 	else {
-		$('.global-nav, .content').fadeIn('fast', function() { $('.message').slideDown() })
+		$('.global-header, .content').fadeIn('fast', function() { $('.message').slideDown() })
 	}
 
 	toggleFinalizeButton = function(e) {
@@ -316,4 +316,27 @@ $(document).ready(function(){
 	$('#number_of_children_in_family').change(fac);
 	$('#number_of_children_in_family').keyup(fac);
 
+	$('#keluarga input[type=number]').attr('min', 1);
+
+	previously_selected_yes = $('#program_yes').attr('checked')
+	checkAcc = function() {
+		if ($('#in_acceleration_class').is(':checked')) {								
+			previously_selected_yes = $('#program_yes').attr('checked');
+			$('#program_yes').removeAttr('checked')
+			$('.programs-table .yes').hide();
+		}
+		else {
+			if (previously_selected_yes)
+				$('#program_yes').attr('checked', 'checked');
+			else
+				$('#program_yes').removeAttr('checked');
+
+			$('.programs-table .yes').show();
+		}
+	}
+	checkAcc();
+	$('#in_acceleration_class').click(checkAcc);
+	
+	
+	$('input[type=file]').change(function() { $(this).parents('form').submit() })
 });

@@ -29,7 +29,7 @@ table.summary th {
 }
 table.summary th.label {
 	text-align: left;
-	color: #82a5c3;
+	color: #457b9c;
 	width: 100px;
 }
 table.summary td.field {
@@ -50,7 +50,7 @@ ul.counts li {
 	width: 50px;
 	font-size: 11px;
 	margin-bottom: 15px;
-	color: #82a5c3;
+	color: #457b9c;
 }
 ul.counts li + li {
 	padding-left: 20px;

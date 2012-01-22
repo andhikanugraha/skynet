@@ -1,10 +1,6 @@
 body {
 	overflow-y: scroll;
 }
-.container {
-	margin-top: -20px;
-	border-bottom: 1px solid #d9ebf6;
-}
 
 .message.extended {
 	padding-top: 20px;
@@ -30,18 +26,16 @@ body {
 	position: relative;
 	background: white;
 	text-align: right;
-	width: 219px;
+	width: 229px;
 	float: left;
-	padding-top: 20px;
+	padding-top: 30px;
 	padding-bottom: 40px;
 	border-right: 1px solid #d9ebf6;
 	margin-right: -1px;
+	margin-left: -10px;
 }
 .form-nav header h1 {
-	font-size: 12px;
-	margin-bottom: 11px;
-	padding-right: 20px;
-	color: #d9ebf6;
+	display: none;
 }
 .form-nav ol {
 	padding: 0;
@@ -56,15 +50,19 @@ body {
 	clear: both;
 }
 .form-nav li.finalize {
-	border-top: 1px solid #d9ebf6;
+	border-top: 1px solid #ecf5fb;
+	margin-right: 1px;
 	padding-top: 10px;
+}
+.form-nav li.finalize a {
+	margin-right: -1px;
 }
 .form-nav li a {
 	border-top: 1px solid transparent;
 /*	border-left: 1px solid transparent;*/
 	border-bottom: 1px solid transparent;
 	display: block;
-	color: #66afda;
+	color: #007ac2;
 	padding: 5px 20px;
 	margin-bottom: 10px;
 	font-weight: 300;
@@ -109,7 +107,7 @@ body {
 .subform th {
 	text-align: left;
 	font-size: 11px;
-	color: #82a5c3;
+	color: #457b9c;
 }
 
 .subform caption,
@@ -164,11 +162,14 @@ body {
 .phone-number {
 	display: inline-block;
 	padding: 0 3px;
-	color: #b6cee5;
+	color: #dfe8ee;
 	border: 1px solid;
 	line-height: 1;
 	margin: 2px 0;
 	width: 152px;
+}
+.phone-number:hover {
+	color: #acc4d3;
 }
 .phone-number.focus {
 	color: #007ac2;
@@ -187,7 +188,7 @@ body {
 .phone-number .short {
 	width: 95px;
 	padding-left: 5px;
-	border-left: 1px solid #b6cee5;
+	border-left: 1px solid #dfe8ee;
 }
 
 span.number {
@@ -222,8 +223,8 @@ table.form-table tr td.combined {
 }
 
 .container fieldset legend {
-	color: #000;
-	font-size: 24px;
+	color: #005587;
+	font-size: 22px;
 	padding-top: 40px;
 	margin-bottom: 40px;
 	float: left;
@@ -249,7 +250,7 @@ table.form-table tr td.combined {
 }
 fieldset h1 span {
 	font-size: 12px;
-	color: #82a5c3;
+	color: #457b9c;
 	line-height: 1.3;
 	margin-left: 5px;
 }
@@ -260,7 +261,7 @@ fieldset h1 span {
 	line-height: 1.5;
 }
 .programs-table th {
-	color: #82a5c3;
+	color: #457b9c;
 	text-align: left;
 	padding: 10px 0;
 	width: 20%;
@@ -370,7 +371,7 @@ p.field textarea {
 }
 
 #finalisasi button {
-	font-size: 24px;
+	font-size: 22px;
 }
 #finalisasi li {
 	padding-left: 40px;
@@ -442,9 +443,18 @@ label.descriptive {
 	border-bottom: 1px solid #d9ebf6;
 }
 .academics .grade {
+	width: 12%;
 	border-right: 1px solid #d9ebf6;
 }
-.academics .term-final {
+.academics .average,
+.academics .subjects {
+	width: 22%;
+}
+.academics.sma .average,
+.academics.sma .subjects {
+	width: 44%;
+}
+.academics .term-final.average {
 	border-left: 1px solid #d9ebf6;
 }
 .academics th strong {
@@ -452,7 +462,7 @@ label.descriptive {
 	font-weight: normal;
 	text-decoration: underline;
 }
-.academics th.term-first,
+.academics th.term-initial,
 .academics th.term-final {
 	border-top: 1px solid #d9ebf6;
 }
@@ -469,6 +479,10 @@ label.descriptive {
 	vertical-align: middle;
 	text-align: center;
 }
+.academics td.term-initial,
+.academics td.term-final {
+	font-size: 11px;
+}
 .academics input {
 	margin: 0 5px;
 }
@@ -476,7 +490,7 @@ label.descriptive {
 	padding: 5px 0;
 }
 .academics tbody tr:nth-child(odd) td {
-	background: #f6f6f6;
+	background: #f9fcfe;
 }
 
 .picture-container {
@@ -492,10 +506,11 @@ label.descriptive {
 }
 
 .form-page-nav.above {
+	margin: 0 -10px;
 	float: left;
 	width: 100%;
 	border-bottom: 1px solid #d9ebf6;
-	padding: 25px 0 5px;
+	padding: 25px 10px 5px;
 }
 .form-page-nav.below {
 	float: left;
@@ -509,12 +524,6 @@ label.descriptive {
 	float: left;
 	vertical-align: middle;
 	line-height: 20px;
-}
-.form-page-nav a {
-	color: #66afda;
-}
-.form-page-nav a:hover {
-	color: #007ac2;
 }
 .form-page-nav p.prev {
 	width: 200px;

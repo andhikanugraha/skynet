@@ -21,17 +21,17 @@ EOS;
 		}
 		else {
 			$headers['staggered_load'] = $headers['fade_all_load'] = <<<'EOS'
-document.write('<style>.global-nav, .content, .global-footer {display: none}</style>');
+document.write('<style>.global-header, .content, .global-footer {display: none}</style>');
 
 EOS;
 			$footers['staggered_load'] = <<<'EOS'
-$('.global-nav').slideDown('slow', function() {$('.content').fadeIn('medium', function() {$('.global-footer').fadeIn('fast')})});
+$('.global-header').slideDown('slow', function() {$('.content').fadeIn('medium', function() {$('.global-footer').fadeIn('fast')})});
 
 EOS;
 		}
 
 		$footers['fade_all_load'] = <<<'EOS'
-$('.global-nav, .content').fadeIn('fast');
+$('.global-header, .content').fadeIn('fast');
 
 EOS;
 

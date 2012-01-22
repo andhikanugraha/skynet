@@ -96,7 +96,7 @@ strong.activate-link a:active {
 .container {
 	width: 940px;
 	margin: -1px auto;
-	padding-top: 1px;
+	padding: 1px 20px 0;
 	clear: both;
 }
 
@@ -162,12 +162,12 @@ button:active {
 	letter-spacing: -.1em;
 	font-weight: 600;
 }
-.page-title h1 {
+.page-title hgroup h1 {
 	padding-right: .4em;
 	font-weight: normal;
 	color: #007ac2;
 }
-.page-title h1:after {
+.page-title hgroup h1:after {
 	content: "›";
 	padding-left: .4em;
 }
@@ -284,9 +284,22 @@ input[type=email],
 input[type=number],
 input[type=tel],
 input[type=date],
+select,
 textarea {
-	border: 1px solid #b6cee5;
+	border: 1px solid #dfe8ee;
+	background: white;
 	padding: 1px 0;
+}
+input[type=text]:hover,
+input[type=password]:hover,
+input[type=email]:hover,
+input[type=number]:hover,
+input[type=tel]:hover,
+input[type=date]:hover,
+select:hover,
+textarea:hover {
+	outline: none;
+	border-color: #acc4d3;
 }
 input[type=text]:focus,
 input[type=password]:focus,
@@ -294,6 +307,7 @@ input[type=email]:focus,
 input[type=number]:focus,
 input[type=tel]:focus,
 input[type=date]:focus,
+select:focus,
 textarea:focus {
 	outline: none;
 	border-color: #007ac2;
@@ -384,7 +398,7 @@ input, textarea, select {
 	width: 70%;
 	line-height: 1.4;
 	vertical-align: middle;
-	padding-top: 6px;
+	padding-top: 7px;
 }
 legend {
 	color: #000;

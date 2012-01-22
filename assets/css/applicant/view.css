@@ -21,7 +21,7 @@ td {
 	padding: 5px 0;
 }
 td.label {
-	color: #82a5c3;
+	color: #457b9c;
 	width: 140px;
 }
 td.field {
@@ -57,5 +57,5 @@ span.instruction {
 button.unfinalize-button:active,
 button.unfinalize-button:focus {
 	background: none;
-	border-color: #82a5c3;
+	border-color: #457b9c;
 }
