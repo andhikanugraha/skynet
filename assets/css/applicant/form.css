@@ -348,17 +348,18 @@ p.field textarea {
 
 #kegiatan .subform .name,
 #kegiatan .subform .kind,
-#kegiatan .subform .achv {
-	width: 206px;
+#kegiatan .subform .achv,
+#kegiatan .subform .level {
+	width: 146px;
 }
 #kegiatan .subform .chmp {
-	width: 412px;
+	width: 302px;
 }
 #kegiatan .subform .ngo {
-	width: 279px;
+	width: 219px;
 }
 #kegiatan .subform .period {
-	width: 142px;
+	width: 82px;
 }
 #kegiatan .subform .year {
 	width: 82px;
@@ -366,22 +367,30 @@ p.field textarea {
 #kegiatan .subform .name input,
 #kegiatan .subform .kind input,
 #kegiatan .subform .achv input {
-	width: 190px;
+	width: 136px;
+}
+#kegiatan .subform .level select {
+	width: 146px;
+	padding: 0;
 }
 #kegiatan .subform .chmp input {
-	width: 396px;
+	width: 292px;
 }
 #kegiatan .subform .ngo input {
-	width: 263px;
+	width: 209px;
 }
 #kegiatan .subform .year select {
 	width: 82px;
 }
 #kegiatan .subform .period input {
-	width: 132px;
+	width: 72px;
 }
 #kegiatan .subform {
 	margin-bottom: 20px;
+}
+
+p.single-bool label {
+	padding-left: 5px;
 }
 
 .message.errors a {
@@ -389,7 +398,8 @@ p.field textarea {
 }
 
 #finalisasi button {
-	font-size: 22px;
+	font-size: 15px;
+	padding: 10px 30px;
 }
 #finalisasi li {
 	padding-left: 40px;
@@ -427,7 +437,7 @@ label.subpoint {
 }
 
 fieldset {
-	min-height: 36em;
+	min-height: 42em;
 }
 fieldset p {
 	line-height: 1.5;

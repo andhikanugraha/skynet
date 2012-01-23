@@ -307,7 +307,7 @@
 			<td class="field">
 				<?php $form->text($n . '_full_name', 'long'); ?>
 				<br>
-				<span class="instruction">Isilah dengan nama lengkap.</span>
+				<span class="instruction">Isilah dengan nama lengkap. Apabila telah wafat, cantumkan (Alm).</span>
 			</td>
 		</tr>
 		<tr>
@@ -315,7 +315,7 @@
 			<td class="field"><?php $form->text($n . '_office_email', 'long') ?></td>
 		</tr>
 		<tr>
-			<td class="label"><?php $form->label($n . '_office_mobilephone', 'Nomor Ponsel') ?></td>
+			<td class="label"><?php $form->label($n . '_office_mobilephone', 'Nomor Ponsel ' . $parent) ?></td>
 			<td class="field"><?php $form->tel($n . '_office_mobilephone', 'long') ?></td>
 		</tr>
 		<tr>
@@ -327,12 +327,16 @@
 			<td class="field">
 				<?php $form->text($n . '_occupation', 'long'); ?>
 				<br>
-				<span class="instruction long">Isilah dengan rinci &ndash; bila wiraswasta, cantumkan bidangnya; bila swasta, cantumkan jabatan dan nama perusahaannya.</span>
+				<span class="instruction long">Isilah dengan rinci &ndash; bila wiraswasta, cantumkan bidangnya; bila swasta, cantumkan nama perusahaannya.</span>
 			</td>
 		</tr>
 		<tr>
 			<td class="label"><?php $form->label($n . '_job_title', 'Pangkat/Golongan ' . $parent) ?></td>
-			<td class="field"><?php $form->text($n . '_job_title', 'long'); ?></td>
+			<td class="field">
+				<?php $form->text($n . '_job_title', 'long'); ?>
+				<br>
+				<span class="instruction long">Isilah dengan rinci &ndash; bila TNI, cantumkan pangkatnya; bila PNS, cantumkan golongannya; bila swasta, cantumkan jabatannya.</span>
+			</td>
 		</tr>
 		<tr>
 			<td class="label"><?php $form->label($n . '_office_name', 'Instansi/Perusahaan ' . $parent) ?></td>
@@ -490,6 +494,7 @@
 	<table class="academics sma subform">
 		<caption>
 			<?php $form->label('grades_y10t1_average', 'Data prestasi', 'required') ?>
+			<span class="instruction">Gunakan skala 0&ndash;100 untuk rata-rata nilai, <em>atau</em> indeks abjad sesuai rapor asli bila tidak ada nilai numerik.</span>
 		</caption>
 		<thead>
 			<tr>
@@ -529,6 +534,7 @@
 	<table class="academics smp subform">
 		<caption>
 			<?php $form->label('grades_y7t1_average', 'Data prestasi', 'required') ?>
+			<span class="instruction">Gunakan skala 0&ndash;100 untuk rata-rata nilai, <em>atau</em> indeks abjad sesuai rapor asli bila tidak ada nilai numerik.</span>
 		</caption>
 		<thead>
 			<tr>
@@ -577,6 +583,7 @@
 	<table class="academics sd subform">
 		<caption>
 			<?php $form->label('grades_y1t1_average', 'Data prestasi', 'required') ?>
+			<span class="instruction">Gunakan skala 0&ndash;100 untuk rata-rata nilai, <em>atau</em> indeks abjad sesuai rapor asli bila tidak ada nilai numerik.</span>
 		</caption>
 		<thead>
 			<tr>
@@ -635,6 +642,16 @@
 </fieldset>
 
 <fieldset class="pane" id="kegiatan">
+	<?php $levels = array(
+		'' => '(Tingkat)',
+		'school' => 'Sekolah',
+		'neighborhood' => 'RT/RW',
+		'district' => 'Kecamatan',
+		'city' => 'Kabupaten/Kota',
+		'province' => 'Provinsi',
+		'national' => 'Nasional',
+		'international' => 'Internasional'
+	); ?>
 	<legend>Kegiatan</legend>
 	<!-- poin 15-19 -->
 	<h1>Organisasi</h1>
@@ -723,16 +740,7 @@
 			<tr class="notempty">
 				<td class="name"><?php $s->text('championship', 'short') ?></td>
 				<td class="kind"><?php $s->text('kind', 'short') ?></td>
-				<td class="level"><?php $s->select('level', array(
-					'' => '(Tingkat)',
-					'school' => 'Sekolah',
-					'neighborhood' => 'RT/RW',
-					'district' => 'Kecamatan',
-					'city' => 'Kabupaten/Kota',
-					'province' => 'Provinsi',
-					'national' => 'Nasional',
-					'international' => 'Internasional'
-				), 'short')?></td>
+				<td class="level"><?php $s->select('level', $levels, 'short')?></td>
 				<td class="achv"><?php $s->text('achievement', 'short') ?></td>
 				<td class="year"><?php $s->select_year('year', date('Y') - 12, date('Y')) ?></td>
 			</tr>
@@ -743,16 +751,7 @@
 			<tr>
 				<td class="name"><?php $s->text('championship', 'short') ?></td>
 				<td class="kind"><?php $s->text('kind', 'short') ?></td>
-				<td class="level"><?php $s->select('level', array(
-					'' => '(Tingkat)',
-					'school' => 'Sekolah',
-					'neighborhood' => 'RT/RW',
-					'district' => 'Kecamatan',
-					'city' => 'Kabupaten/Kota',
-					'province' => 'Provinsi',
-					'national' => 'Nasional',
-					'international' => 'Internasional'
-				), 'short')?></td>
+				<td class="level"><?php $s->select('level', $levels, 'short')?></td>
 				<td class="achv"><?php $s->text('achievement', 'short') ?></td>
 				<td class="year"><?php $s->select_year('year', date('Y') - 12, date('Y')) ?></td>
 			</tr>
@@ -777,6 +776,7 @@
 		<thead>
 			<tr>
 				<th class="chmp">Kejuaraan</th>
+				<th class="level">Tingkat</th>
 				<th class="achv">Pencapaian</th>
 				<th class="year">Tahun</th>
 			</tr>
@@ -787,6 +787,7 @@
 			?>
 			<tr class="notempty">
 				<td class="chmp"><?php $s->text('championship', 'short') ?></td>
+				<td class="level"><?php $s->select('level', $levels, 'short')?></td>
 				<td class="achv"><?php $s->text('achievement', 'short') ?></td>
 				<td class="year"><?php $s->select_year('year', date('Y') - 12, date('Y')) ?></td>
 			</tr>
@@ -796,6 +797,7 @@
 			$s->make_subform("applicant_sports_achievements[$i]"); ?>
 			<tr>
 				<td class="chmp"><?php $s->text('championship', 'short') ?></td>
+				<td class="level"><?php $s->select('level', $levels, 'short')?></td>
 				<td class="achv"><?php $s->text('achievement', 'short') ?></td>
 				<td class="year"><?php $s->select_year('year', date('Y') - 12, date('Y')) ?></td>
 			</tr>
@@ -810,6 +812,7 @@
 		<thead>
 			<tr>
 				<th class="chmp">Kegiatan</th>
+				<th class="level">Tingkat</th>
 				<th class="achv">Prestasi</th>
 				<th class="year">Tahun</th>
 			</tr>
@@ -820,6 +823,7 @@
 			?>
 			<tr class="notempty">
 				<td class="chmp"><?php $s->text('activity', 'short') ?></td>
+				<td class="level"><?php $s->select('level', $levels, 'short')?></td>
 				<td class="achv"><?php $s->text('achievement', 'short') ?></td>
 				<td class="year"><?php $s->select_year('year', date('Y') - 12, date('Y')) ?></td>
 			</tr>
@@ -829,6 +833,7 @@
 			$s->make_subform("applicant_other_achievements[$i]"); ?>
 			<tr>
 				<td class="chmp"><?php $s->text('activity', 'short') ?></td>
+				<td class="level"><?php $s->select('level', $levels, 'short')?></td>
 				<td class="achv"><?php $s->text('achievement', 'short') ?></td>
 				<td class="year"><?php $s->select_year('year', date('Y') - 12, date('Y')) ?></td>
 			</tr>
@@ -842,6 +847,7 @@
 		<thead>
 			<tr>
 				<th class="ngo">Nama dan bidang tempat bekerja/magang</th>
+				<th class="level">Tingkat</th>
 				<th class="ngo">Tugas dan tanggung jawab yang dijalankan</th>
 				<th class="period">Tahun dan lama&nbsp;bekerja</th>
 			</tr>
@@ -852,6 +858,7 @@
 			?>
 			<tr class="notempty">
 				<td class="ngo"><?php $s->text('organization', 'short') ?></td>
+				<td class="level"><?php $s->select('level', $levels, 'short')?></td>
 				<td class="ngo"><?php $s->text('position', 'short') ?></td>
 				<td class="period"><?php $form->text('period') ?></td>
 			</tr>
@@ -861,6 +868,7 @@
 			$s->make_subform("applicant_work_experiences[$i]"); ?>
 			<tr>
 				<td class="ngo"><?php $s->text('organization', 'short') ?></td>
+				<td class="level"><?php $s->select('level', $levels, 'short')?></td>
 				<td class="ngo"><?php $s->text('position', 'short') ?></td>
 				<td class="period"><?php $form->text('period') ?></td>
 			</tr>
@@ -872,9 +880,10 @@
 <fieldset class="pane" id="travel">
 	<legend>Riwayat Perjalanan</legend>
 	<h1>Pernahkah Adik melawat/berpergian dalam jangka pendek ke luar negeri?</h1>
-	<table class="form-table">
+	<p class="single-bool"><?php $form->checkbox('short_term_travel_has') ?> <?php $form->label('short_term_travel_has', 'Pernah') ?></p>
+	<table class="form-table" data-toggle="short_term_travel_has">
 		<tr>
-			<td class="label"><?php $form->label('short_term_travel_destination', 'Jika pernah, ke mana?') ?></td>
+			<td class="label"><?php $form->label('short_term_travel_destination', 'Ke mana?') ?></td>
 			<td class="field"><?php $form->text('short_term_travel_destination', 'long') ?></td>
 		</tr>
 		<tr>
@@ -887,9 +896,10 @@
 		</tr>
 	</table>
 	<h1>Pernahkah Adik tinggal di luar negeri?</h1>
-	<table class="form-table">
+	<p class="single-bool"><?php $form->checkbox('long_term_travel_has') ?> <?php $form->label('long_term_travel_has', 'Pernah') ?></p>
+	<table class="form-table" data-toggle="long_term_travel_has">
 		<tr>
-			<td class="label"><?php $form->label('long_term_travel_destination', 'Jika pernah, ke mana?') ?></td>
+			<td class="label"><?php $form->label('long_term_travel_destination', 'Ke mana?') ?></td>
 			<td class="field"><?php $form->text('long_term_travel_destination', 'long') ?></td>
 		</tr>
 		<tr>
@@ -910,7 +920,8 @@
 <fieldset class="pane" id="reference">
 	<legend>Referensi</legend>
 	<h1>Adakah di antara keluarga besar Adik yang pernah mengikuti program pertukaran yang diselenggarakan oleh Bina Antarbudaya/AFS?</h1>
-	<table class="form-table">
+	<p class="single-bool"><?php $form->checkbox('relative_returnee_exists') ?> <?php $form->label('relative_returnee_exists', 'Pernah') ?></p>
+	<table class="form-table" data-toggle="relative_returnee_exists">
 		<tr>
 			<td class="label"><?php $form->label('relative_returnee_name', 'Nama') ?></td>
 			<td class="field"><?php $form->text('relative_returnee_name', 'long') ?></td>
@@ -923,7 +934,7 @@
 			<td class="label"><?php $form->label('relative_returnee_program', 'Program') ?></td>
 			<td class="field">
 			<?php $form->text('relative_returnee_program', 'medium');
-			$form->select('relative_returnee_program_type', array('sending' => 'Sending', 'hosting' => 'Hosting'), 'short') ?></td>
+			$form->select('relative_returnee_program_type', array(' ' => '', 'sending' => 'Sending', 'hosting' => 'Hosting'), 'short') ?></td>
 		</tr>
 		<tr>
 			<td class="label"><?php $form->label('relative_returnee_destination', 'Tujuan (sending)/Asal (hosting)') ?></td>
@@ -935,7 +946,16 @@
 		</tr>
 	</table>
 	<h1>Pernahkah Adik atau keluarga Adik berpartisipasi dalam kegiatan Bina Antarbudaya/AFS sebelumnya?</h1>
-	<table class="form-table">
+	<p class="single-bool"><?php $form->checkbox('past_binabud_has') ?> <?php $form->label('past_binabud_has', 'Pernah') ?></p>
+	<table class="form-table" data-toggle="past_binabud_has">
+		<tr>
+			<td class="label"><?php $form->label('past_binabud_activities_who', 'Nama') ?></td>
+			<td class="field"><?php $form->text('past_binabud_activities_who', 'long')  ?></td>
+		</tr>
+		<tr>
+			<td class="label"><?php $form->label('past_binabud_activities_relationship', 'Hubungan dengan Adik') ?></td>
+			<td class="field"><?php $form->text('past_binabud_activities_relationship', 'long')  ?></td>
+		</tr>
 		<tr>
 			<td class="label"><?php $form->label('past_binabud_activities', 'Kegiatan') ?></td>
 			<td class="field"><?php $form->text('past_binabud_activities', 'long')  ?></td>
@@ -948,7 +968,7 @@
 	
 	<h1>Referensi</h1>
 	<p class="field">
-		<?php $form->label('referrer', 'Dari mana Adik mengetahui program kami?') ?><br>
+		<?php $form->label('referrer', 'Dari mana Adik mengetahui program kami?', 'required') ?><br>
 		<?php $form->textarea('referrer');  ?>
 	</p>
 	<p class="field">
@@ -1100,7 +1120,7 @@
 	<p class="finalize-checkbox">
 		<input type="checkbox" name="finalize" value="true" id="finalize"> <label for="finalize"><strong>Saya mengerti.</strong></label>
 	</p>
-	<p>
+	<p data-toggle="finalize">
 		<button type="submit" id="finalize-button">Finalisasi</button>
 	</p>
 </fieldset>

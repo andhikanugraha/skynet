@@ -262,7 +262,7 @@ $(document).ready(function(){
 			toggleFinalizeButton();
 		});
 
-	$('#foto, #countryprefs')
+	$('#foto')
 		.bind('activate', function() {
 			$('.form-page-nav.below').hide();
 		})
@@ -338,23 +338,33 @@ $(document).ready(function(){
 	$('input[type=file]').change(function() { $(this).parents('form').submit() });
 	
 	// Country Preference Ordering
-	$('#country-pref-td select').change(function() {
-		t = $(this);
-		v = t.val();
-		p = t.data('prev-value');
-		t.data('prev-value', v);
-		siblings = $('select', t.parents('li').siblings());
-		// enable all options
-		siblings.each(function() {
-			$('option[value=' + p + ']', this).removeAttr('disabled');
+	$.fn.reserveCountry = function()  {
+		this.each(function() {
+			t = $(this);
+			v = t.val();
+			p = t.data('prev-value');
+			t.data('prev-value', v);
+			siblings = $('select', t.parents('li').siblings());
+			// enable all options
+			siblings.each(function() {
+				$('option[value=' + p + ']', this).removeAttr('disabled');
+			});
+
+			// disable options with the same value as this one, except if it's empty
+			if (v) siblings.each(function() {
+				$('option[value=' + v + ']', this).attr('disabled', 'disabled');
+			});
 		});
 		
-		// disable options with the same value as this one, except if it's empty
-		if (v) siblings.each(function() {
-			$('option[value=' + v + ']', this).attr('disabled', 'disabled');
+		return this;
+	};
+
+	$('#country-pref-td select')
+		.reserveCountry()
+		.change(function() {
+			$(this).reserveCountry();
 		});
-	});
-	
+
 	afscheck = function(d) {
 		if ($('#program_afs').prop('checked'))
 			$(".form-nav a[href='#countryprefs']").slideDown();
@@ -363,4 +373,21 @@ $(document).ready(function(){
 	}
 	afscheck();
 	$('#program_afs').change(afscheck);
+
+	$('*[data-toggle]').each(function() {
+		t = $(this);
+		trigger = t.attr('data-toggle');
+
+		if ($('#' + trigger).prop('checked'))
+			t.show();
+		else
+			t.hide();
+
+		$('#' + trigger).change(function() {
+			if ($(this).prop('checked'))
+				$('*[data-toggle=' + this.id + ']').fadeIn();
+			else
+				$('*[data-toggle=' + this.id + ']').hide();
+		});
+	});
 });
