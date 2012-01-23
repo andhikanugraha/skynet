@@ -509,10 +509,18 @@ class ApplicantController extends AppController {
 				if (isset($_FILES['picture']) && $_FILES['picture']['tmp_name']) {
 					$file = $_FILES['picture'];
 					$pic = new Picture;
-					$pic->upload_original($file);
-					$this->session['picture'] = $pic;
-			
-					$this->http_redirect(array('controller' => 'applicant', 'action' => 'crop_picture'));
+					$try = $pic->upload_original($file);
+
+					if ($try) { // Upload success
+						$pic->save();
+
+						$this->session['picture_id'] = $pic->id;
+
+						$this->http_redirect(array('controller' => 'applicant', 'action' => 'crop_picture'));
+					}
+					else {
+						$error = $pic->upload_error;
+					}
 
 					exit;
 				}
@@ -753,23 +761,34 @@ class ApplicantController extends AppController {
 
 		$this->check_expiry();
 
-		if (!$this->session['picture'])
+		if (!$this->session['picture_id'])
 			$this->http_redirect(array('controller' => 'applicant', 'action' => 'form'));
-		else
-			$this['picture'] = $this->session['picture'];
+		else {
+			$picture_id = $this->session['picture_id'];
+			$picture = Picture::find($picture_id);
+
+			if (!$picture)
+				$this->http_redirect(array('controller' => 'applicant', 'action' => 'form'));
+			else
+				$this['picture'] = $picture;
+		}
 
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			extract($_POST);
 			$params = compact('width', 'height', 'x', 'y');
-			$pic = $this->session['picture'];
+			$pic = $picture;
 			$crop = $pic->process($params);
 			if ($crop) {
-				// crop success!
-				$user_id = $this->session->user->id;
-				$applicant = Applicant::find_by_user($user_id);
+				// Crop success!
+				$applicant = $this->applicant;
+				
+				// Delete the existing picture
+				$applicant->picture->destroy();
+
+				// Link the new picture
 				$pic->applicant_id = $applicant->id;
 				$pic->save();
-				unset($this->session['picture']);
+				unset($this->session['picture_id']);
 
 				// back to the form
 				$this->http_redirect(array('controller' => 'applicant', 'action' => 'form'));
@@ -777,6 +796,7 @@ class ApplicantController extends AppController {
 			else {
 				$this->session['error'] = 'Pengunggahan foto gagal.';
 			}
+
 			exit;
 		}
 	}

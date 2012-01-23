@@ -73,8 +73,6 @@ class Picture extends HeliumRecord {
 		$this->original_filename = $filename;
 		$this->format = $ext;
 
-		$this->save();
-
 		return true;
 	}
 
@@ -227,7 +225,20 @@ class Picture extends HeliumRecord {
 	public function get_thumbnail_url() {
 		return $this->public_path . '/' . $this->thumbnail_filename;
 	}
-	
+
+	public function delete_files() {
+		$vars = array('original_filename', 'cropped_filename', 'thumbnail_filename');
+		foreach ($vars as $var) {
+			$file = $this->upload_path . '/' . $this->$var;
+			if (file_exists($file))
+				@unlink($file);
+		}
+	}
+
+	public function before_destroy() {
+		$this->delete_files();
+	}
+
 	public function __wakeup() {
 		parent::__wakeup();
 		$this->init();
