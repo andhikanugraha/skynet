@@ -47,6 +47,23 @@
 		<p><?php $messages = array('not_found' => 'Peserta tidak ditemukan.', 'applicant_finalized' => 'Peserta sudah melakukan finalisasi.', 'forbidden' => 'Anda tidak boleh mengakses laman ini.'); echo $messages[$error]; ?></p>
 	</div>
 
+	<?php elseif ($upload_error): ?>
+	<div class="message error">
+		<header>
+			<h1>Upload Foto Gagal</h1>
+		</header>
+		<p><?php
+			switch ($upload_error) {
+				case 'invalid_format':
+					echo 'Format foto salah. Gunakan foto berbentuk JPG, PNG, atau GIF.';
+					break;
+				default:
+					echo 'Cobalah sekali lagi.';
+			}
+		?></p>
+		<p class="hide"><a href="#">Sembunyikan pesan ini</a></p>
+	</div>
+
 	<?php elseif ($errors): ?>
 	<div class="message error">
 		<header>

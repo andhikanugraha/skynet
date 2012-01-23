@@ -446,6 +446,7 @@ class ApplicantController extends AppController {
 			$picture = $this['picture'] = $pictures->first();
 
 			$this['new'] = $this->session->flash('just_logged_in');
+			$this['upload_error'] = $this->session->flash('upload_error');
 			$this['errors'] = $this->session->flash('form_errors');
 			$this['incomplete'] = $this->session->flash('incomplete');
 			$this['notice'] = $this->session->flash('notice');
@@ -517,12 +518,12 @@ class ApplicantController extends AppController {
 						$this->session['picture_id'] = $pic->id;
 
 						$this->http_redirect(array('controller' => 'applicant', 'action' => 'crop_picture'));
+
+						exit;
 					}
 					else {
-						$error = $pic->upload_error;
+						$this->session['upload_error'] = $pic->upload_error;
 					}
-
-					exit;
 				}
 
 				// finalization process
