@@ -74,6 +74,7 @@
 			<li><?php echo $error; ?></li>
 			<?php endforeach; ?>
 		</ul>
+		<script>console.log('Skynet: Finalization failed because the following fields were not filled in:', <?php echo json_encode ($incomplete) ?>)</script>
 		<p><a href="#" onclick="$(this.parentNode.parentNode).slideUp()">Sembunyikan pesan ini</a></p>
 	</div>
 
