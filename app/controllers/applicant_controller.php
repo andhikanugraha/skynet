@@ -36,7 +36,7 @@ class ApplicantController extends AppController {
 	public function expired() {}
 
 	/**
-	 *
+	 * @deprecated
 	 */
 	private function require_finalized() {
 		if (!$this->applicant->finalized && Helium::conf('production'))
@@ -512,7 +512,8 @@ class ApplicantController extends AppController {
 					$pic->upload_original($file);
 					$this->session['picture'] = $pic;
 			
-					Gatotkaca::redirect(array('controller' => 'applicant', 'action' => 'crop_picture'));
+					$this->http_redirect(array('controller' => 'applicant', 'action' => 'crop_picture'));
+
 					exit;
 				}
 
@@ -524,7 +525,7 @@ class ApplicantController extends AppController {
 					$try = $applicant->finalize();
 					if ($try) {
 						$applicant->save();
-						Gatotkaca::redirect(array('controller' => 'applicant', 'action' => 'finalized'));
+						$this->http_redirect(array('controller' => 'applicant', 'action' => 'finalized'));
 					}
 					else {
 						$errors = $applicant->validation_errors;
@@ -753,7 +754,7 @@ class ApplicantController extends AppController {
 		$this->check_expiry();
 
 		if (!$this->session['picture'])
-			Gatotkaca::redirect(array('controller' => 'applicant', 'action' => 'form'));
+			$this->http_redirect(array('controller' => 'applicant', 'action' => 'form'));
 		else
 			$this['picture'] = $this->session['picture'];
 
@@ -771,7 +772,7 @@ class ApplicantController extends AppController {
 				unset($this->session['picture']);
 
 				// back to the form
-				Gatotkaca::redirect(array('controller' => 'applicant', 'action' => 'form'));
+				$this->http_redirect(array('controller' => 'applicant', 'action' => 'form'));
 			}
 			else {
 				$this->session['error'] = 'Pengunggahan foto gagal.';
@@ -847,7 +848,7 @@ class ApplicantController extends AppController {
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	public function transcript() {
 		$this->require_role('applicant');
