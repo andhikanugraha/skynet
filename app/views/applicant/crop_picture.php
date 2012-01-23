@@ -29,9 +29,16 @@ $(document).ready(function () {
 
 	rx = o.width() / $('#pic').width();
 	ry = o.height() / $('#pic').height();
+	
+	x1 = Math.floor($('#pic').width() / 4);
+	y1 = Math.floor($('#pic').height() / 4);
+	hw = Math.ceil($('#pic').width() / 2);
+	hh = Math.ceil($('#pic').height() / 2);
+	x2 = x1 + hw;
+	y2 = y1 + hh;
 
 	$('#pic').imgAreaSelect({
-		x1: $('#pic').width() / 4 , y1: $('#pic').height() / 4, x2: $('#pic').width() * 0.75, y2: ($('#pic').height() / 4) + (2 * $('#pic').width() / 3),
+		x1: x1, y1: y1, x2: x2, y2: y2,
 		aspectRatio: '3:4',
 		handles: true,
 		onSelectEnd: function (img, selection) {
