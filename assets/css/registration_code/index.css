@@ -1,13 +1,54 @@
-.container header h1 {
-	margin: 30px 0;
+.content .container section.batches {
+	width: 620px;
+	margin-right: 20px;
+	float: left;
+}
+.content .container section.batches header {
+	padding: 15px 0 30px;
+}
+.content .container section.batches table {
+	width: 630px;
+	margin: 0 -10px;
+	border-collapse: collapse;
 }
 
-dl.batches dt {
-	float: left;
-	font-weight: 600;
-	color: #000;
+.content .container section.batches table td {
+	padding: 5px 0;
+	border-bottom: 1px solid #d9ebf6;
 }
-dl.batches dd {
-	margin-left: 160px;
-	margin-bottom: 15px;
+.content .container section.batches table th {
+	color: #457b9c;
+	text-align: left;
+	padding: 5px 0;
+	border-bottom: 1px solid #B6CEE5;
+}
+.content .container section.batches table th.number {
+	visibility: hidden;
+}
+.content .container section.batches table tr:hover td {
+	background: #f2f6fa;
+}
+
+.content .container section.batches table .number {
+	width: 5%;
+	padding-left: 10px;
+	padding-right: 5px;
+}
+
+.content .container section.help {
+	width: 300px;
+	float: left;
+}
+.content .container section.help header {
+	display: none;
+}
+
+.content .container section.batches.verbose {
+	width: 940px;
+	margin-right: 0;
+}
+.content .container section.batches.verbose table {
+	width: 100%;
+	margin: 0 -10px;
+	border-collapse: collapse;
 }

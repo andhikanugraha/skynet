@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * RegistrationCode
  *
@@ -25,6 +24,7 @@ class RegistrationCode extends HeliumRecord {
 
 	public function init() {
 		$this->belongs_to('chapter');
+		$this->belongs_to('registration_code_batch');
 	}
 
 	public function defaults() {

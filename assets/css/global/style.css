@@ -428,3 +428,15 @@ p.more a:after, p.edit a:after {
 p.more a:hover, p.edit a:hover {
 	color: #007ac2;
 }
+
+/* Help */
+dl.help {
+	line-height: 1.5;
+}
+dl.help dt {
+	margin-top: 10px;
+	margin-bottom: 2px;
+	color: #000;
+	font-weight: 600;
+}
+

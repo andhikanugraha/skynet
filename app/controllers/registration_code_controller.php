@@ -10,66 +10,56 @@ class RegistrationCodeController extends AppController {
 	public function index() {
 		$this->require_role('chapter_admin');
 
-		$db = Helium::db();
-		$query = "SELECT chapter_id, chapter_code, chapter_name, chapter_timezone, expires_on FROM registration_codes LEFT JOIN chapters ON registration_codes.chapter_id = chapters.id";
-
-		if (!$this->session->user->capable_of('admin'))
-			$query .= $db->prepare(" WHERE chapter_id='%s'", $this->session->user->chapter_id);
-
-		$query .= " GROUP BY expires_on, chapter_id ORDER BY chapter_id ASC, expires_on DESC";
-		$batches = $db->get_results($query);
-		if (!$batches)
-			$batches = array();
-
-		array_walk($batches, function (&$el) {
-			$wib = new HeliumDateTime($el->expires_on);
-			$el->expires_on = clone $wib;
-			$el->expires_on->setTimezone($el->chapter_timezone);
-			$el->view_link = PathsComponent::build_url(array('controller' => 'registration_code', 'action' => 'view', 'chapter_id' => $el->chapter_id, 'expires_on' => (string) $wib));
-		});
+		$chapter = $this->request->get_relevant_chapter(true);
 		
-		if ($this->user->capable_of('national_admin'))
-			$chapter = false;
-		else
-			$chapter = $this->user->chapter;
-		
-		$this['chapter'] = $chapter;
-		
-		$this['batches'] = $batches;
+		if (!$chapter)
+			$error = 'forbidden';
+
+		if (!$error) {
+			$batches = $chapter->registration_code_batches;
+			$this['chapter'] = $chapter;
+			$this['batches'] = $batches;
+		}
 	}
 	
+	/**
+	 * View, as a webpage, a batch of registration codes.
+	 */
 	public function view() {
-		$this->require_role('chadmin');
+		$this->require_role('chapter_admin');
 		$chapter_id = $this->params['chapter_id'];
+		$batch_id = $this->params['batch_id'];
 		$expires_on = $this->params['expires_on'];
 		
 		$user = $this->session->user;
 		
-		if (!$chapter_id || !$expires_on) {
+		if (!isset($batch_id)) {
 			$error = 'incomplete_request';
 		}
 		
-		if (!$error && !$user->capable_of('admin') && $chapter_id != $this->session->user->chapter_id) {
-			$error = 'access_forbidden';
-		}
-		
 		if (!$error) {
-			$chapter = Chapter::find($chapter_id);
-			if (!$chapter)
+			$batch = RegistrationCodeBatch::find($batch_id);
+			if (!$batch)
 				$error = 'not_found';
+			else
+				$chapter = $batch->chapter;
+		}
+
+		// TODO: Revise
+		if (!$error && !$this->user->has_access_to($batch)) {
+			$error = 'forbidden';
 		}
 
 		if (!$error) {
-			$codes = RegistrationCode::find();
-			$codes->narrow(array('chapter_id' => $chapter_id, 'expires_on' => $expires_on));
+			$codes = $batch->registration_codes;
 			if (!$codes->count_all())
 				$error = 'no_codes_found';
 		}
-		
+
 		if (!$error) {
 			$this['codes'] = $codes;
 			$this['chapter_name'] = $chapter->chapter_name;
-			$exp = new HeliumDateTime($expires_on);
+			$exp = new HeliumDateTime($batch->expires_on);
 			$exp->setTimezone($chapter->chapter_timezone);
 			$this['expires_on'] = $exp;
 			$this['timezone'] = __($chapter->chapter_timezone);
@@ -78,6 +68,11 @@ class RegistrationCodeController extends AppController {
 			$this['error'] = $error;
 		}
 	}
+
+	/**
+	 * Output as a printable PDF a batch of registration codes.
+	 */
+	public function view_pdf() {}
 
 	public function issue() {
 		$this->require_role('chadmin');
@@ -112,11 +107,25 @@ class RegistrationCodeController extends AppController {
 				for ($i = 1; $i <= $number_of_codes; $i++) {
 					$codes[] = RegistrationCode::generate_token();
 				}
+				
+				// Program year
+				// TODO: Override by setting (not Helium::conf)
+				$program_year = 2014;
+				
+				// Create a new batch
+				$batch = new RegistrationCodeBatch;
+				$batch->chapter_id = $chapter_id;
+				$batch->expires_on = $expires_on;
+				$batch->code_count = $number_of_codes;
+				$batch->program_year = $program_year;
+				$batch->save();
+				
+				$batch_id = $batch->id;
 
-				$sql = 'INSERT INTO registration_codes (token, chapter_id, expires_on, availability) VALUES ';
+				$sql = 'INSERT INTO registration_codes (token, chapter_id, expires_on, availability, program_year, registration_code_batch_id) VALUES ';
 				$expires_on = (string) $expires_on;
 				foreach ($codes as $i => $code) {
-					$sql .= " ('$code', '$chapter_id', '$expires_on', 1)";
+					$sql .= " ('$code', '$chapter_id', '$expires_on', 1, '$program_year', '$batch_id')";
 					if ($i < (count($codes) - 1))
 						$sql .= ',';
 				}
@@ -129,7 +138,7 @@ class RegistrationCodeController extends AppController {
 				$action = 'view';
 				$controller = 'registration_code';
 				$expires_on = (string) $expires_on;
-				$this->http_redirect(compact('controller', 'action', 'chapter_id', 'expires_on'));
+				$this->http_redirect(compact('controller', 'action', 'batch_id'));
 			}
 		}
 
