@@ -60,6 +60,33 @@ class User extends HeliumRecord {
 	}
 
 	/**
+	 * Check whether user has access to a record
+	 *
+	 * This method returns true if the user has access to a chapter-related object,
+	 * such as a Chapter or Applicant. A user is said to have access to the object
+	 * if the user is either a national admin or belongs to the same chapter
+	 * as the object.
+	 *
+	 * @param HeliumRecord $object The object to look up.
+	 * @return bool True if the user has access to the object, false otherwise.
+	 */
+	public function has_access_to(HeliumRecord $object) {
+		if ($this->capable_of('national_admin'))
+			return true;
+		elseif (!$this->capable_of('chapter_staff'))
+			return false;
+		else {
+			switch (get_class($object)) {
+				case 'Chapter':
+					return ($this->chapter_id == $object->id);
+				case 'Applicant':
+				default:
+					return ($this->chapter_id == $object->chapter_id);
+			}
+		}
+	}
+
+	/**
 	 *
 	 */
 	public function get_landing_page() {
