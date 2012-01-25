@@ -1,7 +1,11 @@
 <?php
 
 abstract class AppController extends HeliumController {
-	public $components = array('cookies', 'sessions', 'auth', 'links', 'locale', 'paths', 'fx');
+	public $components = array('cookies', 'sessions', 'auth', 'links', 'locale', 'paths', 'request', 'fx');
+
+	/**
+	 * Template functions
+	 */
 
 	protected function header($title = '') {
 		$this['page_title'] = $title;
